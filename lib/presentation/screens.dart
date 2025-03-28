@@ -1,0 +1,19 @@
+// This file is used to export all the screens in the app.
+export 'package:milmujeres_app/presentation/screens/dashboard_screen.dart';
+export 'package:milmujeres_app/presentation/screens/welcome_screen.dart';
+export 'package:milmujeres_app/presentation/screens/login_screen.dart';
+export 'package:milmujeres_app/presentation/screens/register_screen.dart';
+export 'package:milmujeres_app/presentation/screens/profile_screen.dart';
+export 'package:milmujeres_app/presentation/screens/office_screen.dart';
+export 'package:milmujeres_app/presentation/screens/contact_us_screen.dart';
+export 'package:milmujeres_app/presentation/screens/donate_screen.dart';
+export 'package:milmujeres_app/presentation/screens/consulate_screen.dart';
+export 'package:milmujeres_app/presentation/screens/reference_screen.dart';
+export 'package:milmujeres_app/presentation/screens/complaint_screen.dart';
+export 'package:milmujeres_app/presentation/screens/suggestion_screen.dart';
+export 'package:milmujeres_app/presentation/screens/grievance_screen.dart';
+export 'package:milmujeres_app/presentation/screens/password_recovery_screen.dart';
+export 'package:milmujeres_app/presentation/screens/deposit_screen.dart';
+export 'package:milmujeres_app/presentation/screens/case_stage_screen.dart';
+export 'package:milmujeres_app/presentation/screens/event_screen.dart';
+export 'package:milmujeres_app/presentation/screens/upload_document_screen.dart';
