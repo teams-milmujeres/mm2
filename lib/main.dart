@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:milmujeres_app/config/router/app_router.dart';
+import 'package:milmujeres_app/config/config.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
@@ -27,6 +27,7 @@ class MaterialAppWidget extends StatelessWidget {
       routerConfig: onBoardingRouter(context),
       debugShowCheckedModeBanner: false,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
+      theme: AppTheme().lightTheme,
     );
   }
 }
