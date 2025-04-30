@@ -225,7 +225,7 @@
   "contact_to_request" : "Contact Mil Mujeres to request your registration or activate \n \n your account at 202 808 3311.",
   "have_an_account" : "Do you have an account?",
   "forgot_password" : "Forgot password?",
-  "mm_about_txt" : "Mil Mujeres is a non-profit organization that was founded in 2007 to address the growing need for bilingual legal services for the Latino community in the United States with an emphasis on helping survivors of violent crime, including domestic violence, sexual assault, and assault, \n \n In the last fourteen years, we have helped more than five thousand people with our legal services and more than twenty thousand people with our information services throughout the national territory.",
+  "mm_about_txt" : "Mil Mujeres is a non-profit organization that was founded in 2007 to address the growing need for bilingual legal services for the Latino community in the United States with an emphasis on helping survivors of violent crime, including domestic violence, sexual assault, and assault, \n \n In the last years, we have helped more than five thousand people with our legal services and more than twenty thousand people with our information services throughout the national territory.",
   "already_have_an_account" : "Already have an account!",
   "dont_have_an_account" : "Don't have an account?",
   "please_login_necessary" : "Please login necessary.",
@@ -255,7 +255,7 @@
   "your_case_is_in_evaluation" : "Your case is in an evaluation process. At the end of this stage, we will contact you and you will see more information",
   "internet_error": "You have no internet connection. Please check your connection.",
   "visit_events" : "For more events or details, visit the events section.",
-  "donations_text": "Your donations will provide important support for the purpose of defending the rights of immigrants and the protection of victims of domestic violence and gender-based crimes.",
+  "mm_donate_txt": "Your donations will provide important support for the purpose of defending the rights of immigrants and the protection of victims of domestic violence and gender-based crimes.",
 
   "@_VALIDATIONS": {},
   "is_required" : "{item} is required",

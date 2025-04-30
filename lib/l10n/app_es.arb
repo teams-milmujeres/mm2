@@ -225,7 +225,7 @@
   "contact_to_request" : "Contacta con Mil Mujeres para solicitar tu registro o activar  \n \n tu cuenta al 202 808 3311.",
   "have_an_account" : "¿Tiene usted una cuenta?",
   "forgot_password" : "¿Olvidó su contraseña?",
-  "mm_about_txt" : "Mil Mujeres es una organización sin fines de lucro que se fundó en 2007 para abordar la creciente necesidad de servicios legales bilingües para la comunidad latina en los Estados Unidos con énfasis en ayudar a sobrevivientes de delitos violentos, incluida la violencia doméstica, la agresión sexual y la agresión. \n \n En los últimos catorce años hemos ayudado a más de cinco mil personas con nuestros servicios legales ya más de veinte mil personas con nuestros servicios de información en todo el territorio nacional.",
+  "mm_about_txt" : "Mil Mujeres es una organización sin fines de lucro que se fundó en 2007 para abordar la creciente necesidad de servicios legales bilingües para la comunidad latina en los Estados Unidos con énfasis en ayudar a sobrevivientes de delitos violentos, incluida la violencia doméstica, la agresión sexual y la agresión. \n \n En los últimos años hemos ayudado a más de cinco mil personas con nuestros servicios legales ya más de veinte mil personas con nuestros servicios de información en todo el territorio nacional.",
   "already_have_an_account" : "¡Ya tienes una cuenta!",
   "dont_have_an_account" : "¿No tienes una cuenta?",
   "please_login_necessary" : "El inicio de sessión es necesario.",
@@ -255,7 +255,7 @@
   "your_case_is_in_evaluation" : "Su caso esta en un proceso de evaluacion, al finalizar esta etapa, lo contactaremos y visualizara mas informacion",
   "internet_error": "No tiene conexión a internet. Por favor, verifica tu conexión.",
   "visit_events": "Para mas eventos o detalles, visita la sección de eventos.",
-  "donations_text": "Tus donaciones proveerán un apoyo importante en el propósito de defender los derechos de los inmigrantes y la protección de las víctimas de violencia doméstica y crímenes de género.",
+  "mm_donate_txt": "Tus donaciones proveerán un apoyo importante en el propósito de defender los derechos de los inmigrantes y la protección de las víctimas de violencia doméstica y crímenes de género.",
 
 
   "@_VALIDATIONS": {},

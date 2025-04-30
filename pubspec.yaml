@@ -7,36 +7,31 @@ environment:
   sdk: ^3.7.0
 
 dependencies:
-  # Use for show images in carousel
   bloc: ^9.0.0
   carousel_slider: ^5.0.0
+  dio: ^5.8.0+1
   equatable: ^2.0.7
   flutter:
     sdk: flutter
-  # Use for manage .env file
   flutter_bloc: ^9.1.0
   flutter_dotenv: ^5.2.1
-  # Use for manage languages and localizations
   flutter_localizations:
     sdk: flutter
-  # Use for manage navigation and routing
+  flutter_secure_storage: ^9.2.4
   go_router: ^14.8.1
-  # Use for manage fonts and styles
   google_fonts: ^6.2.1
   intl: any
-  # Use for responsive design
   responsive_framework: ^1.5.1
 
 dev_dependencies:
+  flutter_lints: ^5.0.0
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
 
 flutter:
   generate: true
   uses-material-design: true
   assets:
     - .env
-    - assets/l10n/
     - assets/images/banners/
     - assets/images/
