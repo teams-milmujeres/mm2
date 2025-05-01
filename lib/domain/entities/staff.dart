@@ -20,6 +20,7 @@ class StaffMember {
   final int userId;
   final DateTime upd;
   final int id;
+  final String? imageUrl;
 
   StaffMember({
     required this.name,
@@ -28,6 +29,7 @@ class StaffMember {
     required this.userId,
     required this.upd,
     required this.id,
+    this.imageUrl,
   });
 
   StaffMember copyWith({
@@ -37,6 +39,7 @@ class StaffMember {
     int? userId,
     DateTime? upd,
     int? id,
+    String? imageUrl,
   }) => StaffMember(
     name: name ?? this.name,
     role: role ?? this.role,
@@ -44,6 +47,7 @@ class StaffMember {
     userId: userId ?? this.userId,
     upd: upd ?? this.upd,
     id: id ?? this.id,
+    imageUrl: imageUrl ?? this.imageUrl,
   );
 
   factory StaffMember.fromJson(Map<String, dynamic> json) => StaffMember(

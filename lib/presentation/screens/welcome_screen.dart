@@ -1,6 +1,8 @@
 // import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:milmujeres_app/data/helpers/launch_url.dart';
 import 'package:milmujeres_app/domain/entities/language_model.dart';
 import 'package:milmujeres_app/domain/entities/staff.dart';
 import 'package:milmujeres_app/presentation/bloc/locale/language_bloc.dart';
@@ -8,6 +10,7 @@ import 'package:milmujeres_app/presentation/bloc/locale/language_bloc.dart';
 // import 'package:responsive_framework/responsive_framework.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:milmujeres_app/presentation/bloc/staff/staff_bloc.dart';
+import 'package:responsive_grid/responsive_grid.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -31,6 +34,10 @@ class WelcomeScreen extends StatelessWidget {
                   ContainerDonate(),
                   const SizedBox(height: 20),
                   ContainerStaff(),
+                  const SizedBox(height: 20),
+                  ContainerSocialButtons(),
+                  const SizedBox(height: 20),
+                  const ContainerFooter(),
                 ],
               ),
             ),
@@ -61,9 +68,22 @@ class _CustomAppBarState extends State<CustomAppBar> {
       surfaceTintColor: Colors.transparent,
       shadowColor: Colors.transparent,
       title: Text('Mil Mujeres'),
+      leading: IconButton(
+        icon: const Icon(Icons.menu),
+        onPressed: () {
+          // Mostrar menú lateral
+        },
+      ),
       actions: [
         _CustomDropDownUnderlineWelcome(),
-        IconButton(onPressed: () {}, icon: const Icon(Icons.favorite)),
+        IconButton(
+          onPressed: () async {
+            await UrlLauncherHelper.launchURL(
+              url: 'https://givebutter.com/KI0Y2G',
+            );
+          },
+          icon: const Icon(Icons.favorite),
+        ),
         IconButton(
           icon: const Icon(Icons.person),
           onPressed: () {
@@ -91,29 +111,8 @@ class _CustomDropDownUnderlineWelcomeState
       child: BlocBuilder<LanguageBloc, LanguageState>(
         builder: (context, state) {
           return DropdownButton<String>(
-            value: state.selectedLanguage.value.languageCode, // Idioma actual
-            items: [
-              DropdownMenuItem(
-                value: "en",
-                child: Row(
-                  children: const [
-                    Icon(Icons.language, color: Colors.blue),
-                    SizedBox(width: 10),
-                    Text('English'),
-                  ],
-                ),
-              ),
-              DropdownMenuItem(
-                value: "es",
-                child: Row(
-                  children: const [
-                    Icon(Icons.language, color: Colors.red),
-                    SizedBox(width: 10),
-                    Text('Español'),
-                  ],
-                ),
-              ),
-            ],
+            value: state.selectedLanguage.value.languageCode,
+            items: _buildLanguageItems(),
             onChanged: (String? value) {
               if (value != null &&
                   value != state.selectedLanguage.value.languageCode) {
@@ -130,6 +129,21 @@ class _CustomDropDownUnderlineWelcomeState
         },
       ),
     );
+  }
+
+  List<DropdownMenuItem<String>> _buildLanguageItems() {
+    return Language.values.map((lang) {
+      return DropdownMenuItem(
+        value: lang.value.languageCode,
+        child: Row(
+          children: [
+            Icon(Icons.language, color: lang.color),
+            const SizedBox(width: 10),
+            Text(lang.text),
+          ],
+        ),
+      );
+    }).toList();
   }
 }
 
@@ -191,7 +205,11 @@ class ContainerDonate extends StatelessWidget {
                 color: Theme.of(context).colorScheme.primary,
               ),
               style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-              onPressed: () {},
+              onPressed: () async {
+                await UrlLauncherHelper.launchURL(
+                  url: 'https://givebutter.com/KI0Y2G',
+                );
+              },
               label: Text(
                 AppLocalizations.of(context)!.donate,
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
@@ -211,63 +229,297 @@ class ContainerStaff extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: BlocBuilder<StaffBloc, StaffState>(
-        bloc: StaffBloc()..add(StaffFetchEvent()),
-        builder: (context, state) {
-          switch (state.runtimeType) {
-            case StaffInitial:
-            case StaffLoading:
-              return const Center(child: CircularProgressIndicator());
+    final translate = AppLocalizations.of(context)!;
 
-            case StaffSuccess:
-              final staff = (state as StaffSuccess).staff;
-              return SingleChildScrollView(
-                child: Column(
-                  children: [
-                    _buildTeamSection('Executive Team', staff.executiveTeam),
-                    _buildTeamSection('Legal Team', staff.legalTeam),
-                  ],
-                ),
-              );
+    return BlocBuilder<StaffBloc, StaffState>(
+      bloc: StaffBloc()..add(StaffFetchEvent()),
+      builder: (context, state) {
+        switch (state.runtimeType) {
+          case const (StaffInitial):
+          case const (StaffLoading):
+            return const Center(child: CircularProgressIndicator());
 
-            case StaffError:
-              final error = (state as StaffError).errorMessage;
-              return Center(child: Text('Error: $error'));
+          case const (StaffSuccess):
+            final staff = (state as StaffSuccess).staff;
+            return SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _buildTeamSection(
+                    context,
+                    translate.executive_team,
+                    staff.executiveTeam,
+                  ),
+                  _buildTeamSection(
+                    context,
+                    translate.legal_team,
+                    staff.legalTeam,
+                  ),
+                ],
+              ),
+            );
 
-            default:
-              return const SizedBox.shrink();
-          }
-        },
-      ),
+          case const (StaffError):
+            final error = (state as StaffError).errorMessage;
+            return Center(child: Text('Error: $error'));
+
+          default:
+            return const SizedBox.shrink();
+        }
+      },
     );
   }
 
-  Widget _buildTeamSection(String title, List<StaffMember> team) {
+  Widget _buildTeamSection(
+    BuildContext context,
+    String title,
+    List<StaffMember> team,
+  ) {
+    final isSmallScreen = MediaQuery.of(context).size.width < 400;
+    final double avatarRadius = isSmallScreen ? 40 : 60;
+
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
           child: Text(
             title,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.headlineLarge,
           ),
         ),
-        ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(), // Importante
-          itemCount: team.length,
-          itemBuilder: (context, index) {
-            final member = team[index];
-            return ListTile(
-              leading: const CircleAvatar(child: Icon(Icons.person)),
-              title: Text(member.name),
-              subtitle: Text(member.role),
-            );
-          },
+        ResponsiveGridRow(
+          children: [
+            for (int i = 0; i < team.length; i++) ...[
+              ResponsiveGridCol(
+                xs:
+                    team[i].staffOrder == 0
+                        ? 12
+                        : (i == (team.length - 1) && i % 2 != 0)
+                        ? 12
+                        : 6,
+                sm:
+                    team[i].staffOrder == 0
+                        ? 12
+                        : (i == (team.length - 1) && i % 2 != 0)
+                        ? 12
+                        : 6,
+                md:
+                    team[i].staffOrder == 0
+                        ? 12
+                        : (i == (team.length - 1) && i % 2 != 0)
+                        ? 12
+                        : 6,
+                child: _buildStaffItem(context, team[i], avatarRadius),
+              ),
+            ],
+          ],
         ),
       ],
+    );
+  }
+
+  Widget _buildStaffItem(
+    BuildContext context,
+    StaffMember member,
+    double avatarRadius,
+  ) {
+    return Container(
+      alignment: Alignment.center,
+      margin: const EdgeInsets.all(10),
+      child: Column(
+        children: [
+          CircleAvatar(
+            radius: avatarRadius,
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            backgroundImage:
+                member.imageUrl != null ? NetworkImage(member.imageUrl!) : null,
+            child:
+                member.imageUrl == null
+                    ? Icon(
+                      Icons.person_outline,
+                      size: avatarRadius * 0.8,
+                      color: Colors.white,
+                    )
+                    : null,
+          ),
+          const SizedBox(height: 10),
+          Text(
+            member.name,
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 5),
+          Text(
+            _getTranslatedRole(member.role, context),
+            style: Theme.of(context).textTheme.bodyMedium,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Función auxiliar para traducir los roles
+  static String _getTranslatedRole(String role, BuildContext context) {
+    final translate = AppLocalizations.of(context)!;
+    switch (role) {
+      case 'executive_director':
+        return translate.executive_director;
+      case 'national_deputy_director':
+        return translate.national_deputy_director;
+      case 'financial_manager':
+        return translate.financial_manager;
+      case 'human_resources_manager':
+        return translate.human_resources_manager;
+      case 'information_technology_coordinator':
+        return translate.information_technology_coordinator;
+      case 'public_relations_coordinator':
+        return translate.public_relations_coordinator;
+      case 'corporate_communications_coordinator':
+        return translate.corporate_communications_coordinator;
+      case 'legal_director':
+        return translate.legal_director;
+      case 'senior_attorney':
+        return translate.senior_attorney;
+      default:
+        return "";
+    }
+  }
+}
+
+class ContainerSocialButtons extends StatelessWidget {
+  const ContainerSocialButtons({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final translate = AppLocalizations.of(context)!;
+
+    final socialButtons = [
+      _SocialButtonData(
+        url: 'https://www.facebook.com/milmujeres.org/',
+        icon: FontAwesomeIcons.facebookF,
+      ),
+      _SocialButtonData(
+        url: 'https://twitter.com/milmujeres',
+        icon: FontAwesomeIcons.twitter,
+      ),
+      _SocialButtonData(
+        url: 'https://www.instagram.com/milmujeres/?hl=en',
+        icon: FontAwesomeIcons.instagram,
+      ),
+      _SocialButtonData(
+        url: 'https://www.youtube.com/channel/UCL8B6nm7i4nKMUNZ-AL77Vw',
+        icon: FontAwesomeIcons.youtube,
+      ),
+      _SocialButtonData(
+        url: 'https://www.milmujeres.org/',
+        icon: FontAwesomeIcons.earthAmericas,
+      ),
+      _SocialButtonData(
+        url: 'https://www.tiktok.com/@milmujeres?_t=8fUmrHYkLSQ&_r=1',
+        icon: FontAwesomeIcons.tiktok,
+      ),
+    ];
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              translate.follow_us,
+              style: Theme.of(
+                context,
+              ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children:
+                  socialButtons
+                      .map((button) => _buildSocialButton(context, button))
+                      .toList(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSocialButton(BuildContext context, _SocialButtonData button) {
+    return Expanded(
+      flex: 1,
+      child: IconButton(
+        icon: FaIcon(
+          button.icon,
+          color: Theme.of(context).colorScheme.primary,
+          size: 25,
+        ),
+        onPressed: () => UrlLauncherHelper.launchURL(url: button.url),
+        style: ElevatedButton.styleFrom(
+          // foregroundColor: Theme.of(context).colorScheme.primary,
+          backgroundColor: Colors.white,
+          shape: const CircleBorder(),
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        ),
+      ),
+    );
+  }
+}
+
+class _SocialButtonData {
+  final String url;
+  final IconData icon;
+
+  _SocialButtonData({required this.url, required this.icon});
+}
+
+class ContainerFooter extends StatelessWidget {
+  const ContainerFooter({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Theme.of(context).colorScheme.primary,
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Mil Mujeres',
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  '© ${DateTime.now().year} Mil Mujeres. All rights reserved.',
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(color: Colors.white),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+          ],
+        ),
+      ),
     );
   }
 }

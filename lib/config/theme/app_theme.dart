@@ -12,13 +12,13 @@ class AppTheme {
     ).copyWith(
       headlineLarge: GoogleFonts.poppins(
         // Título grande
-        fontSize: 20,
+        fontSize: 24,
         fontWeight: FontWeight.normal,
-        color: Colors.black,
+        color: colorPrimary,
       ),
       titleMedium: GoogleFonts.poppins(
         // Subtítulo o título secundario
-        fontSize: 18,
+        fontSize: 14,
         fontWeight: FontWeight.normal,
         color: Colors.black87,
       ),
@@ -30,7 +30,7 @@ class AppTheme {
       ),
       bodyMedium: GoogleFonts.poppins(
         // Texto secundario
-        fontSize: 12,
+        fontSize: 14,
         color: Colors.black54,
       ),
       labelLarge: GoogleFonts.poppins(
@@ -61,6 +61,9 @@ class AppTheme {
       ),
       dropdownMenuTheme: DropdownMenuThemeData(
         textStyle: customTextTheme.bodyMedium,
+      ),
+      iconButtonTheme: IconButtonThemeData(
+        style: IconButton.styleFrom(foregroundColor: colorPrimary),
       ),
     );
   }
