@@ -49,6 +49,7 @@ class AppTheme {
       textTheme: customTextTheme,
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
+          foregroundColor: Colors.white,
           textStyle: customTextTheme.labelLarge,
           backgroundColor: colorPrimary,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -64,6 +65,33 @@ class AppTheme {
       ),
       iconButtonTheme: IconButtonThemeData(
         style: IconButton.styleFrom(foregroundColor: colorPrimary),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        labelStyle: customTextTheme.bodyMedium,
+        hintStyle: customTextTheme.bodyMedium,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(color: colorPrimary),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(color: colorPrimary),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(color: colorPrimary),
+        ),
+      ),
+      drawerTheme: DrawerThemeData(
+        backgroundColor: Colors.white,
+        scrimColor: Colors.black54,
+        elevation: 16,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(16),
+            bottomRight: Radius.circular(16),
+          ),
+        ),
       ),
     );
   }
