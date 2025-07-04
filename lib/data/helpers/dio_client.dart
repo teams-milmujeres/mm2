@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:milmujeres_app/data/data.dart';
 
+enum ApiResult { success, connectionError, otherError }
+
 class DioClient {
   static final String _baseUrl = AppConfig.baseUrl;
 
@@ -13,5 +15,24 @@ class DioClient {
   void addInterceptor(Interceptor interceptor) {
     dio.interceptors.add(AuthInterceptor(dio: dio));
     dio.interceptors.add(interceptor);
+  }
+
+  Future<ApiResult> fetchData() async {
+    try {
+      final response = await dio.get('');
+      if (response.statusCode == 200) {
+        return ApiResult.success;
+      } else {
+        return ApiResult.otherError;
+      }
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.unknown ||
+          e.type == DioExceptionType.receiveTimeout) {
+        return ApiResult.connectionError;
+      } else {
+        return ApiResult.otherError;
+      }
+    }
   }
 }
