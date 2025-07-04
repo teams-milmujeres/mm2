@@ -2,11 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:milmujeres_app/data/helpers/launch_url.dart';
 import 'package:milmujeres_app/domain/entities/language_model.dart';
 import 'package:milmujeres_app/domain/entities/staff.dart';
 import 'package:milmujeres_app/presentation/bloc/locale/language_bloc.dart';
-// import 'package:milmujeres_app/widgets/widgets.dart';
+import 'package:milmujeres_app/widgets/widgets.dart';
 // import 'package:responsive_framework/responsive_framework.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:milmujeres_app/presentation/bloc/staff/staff_bloc.dart';
@@ -18,28 +19,23 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const CustomDrawer(),
+      appBar: CustomAppBar(),
       body: LayoutBuilder(
         builder: (context, constraints) {
-          return Scaffold(
-            appBar: CustomAppBar(),
-            body: SingleChildScrollView(
-              child: Column(
-                children: [
-                  // const SizedBox(height: 20),
-                  // const CarrouselWidget(),
-                  // const SizedBox(height: 20),
-                  // const AboutComponent(),
-                  ContainerAbout(),
-                  const SizedBox(height: 20),
-                  ContainerDonate(),
-                  const SizedBox(height: 20),
-                  ContainerStaff(),
-                  const SizedBox(height: 20),
-                  ContainerSocialButtons(),
-                  const SizedBox(height: 20),
-                  const ContainerFooter(),
-                ],
-              ),
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                ContainerAbout(),
+                const SizedBox(height: 20),
+                ContainerDonate(),
+                const SizedBox(height: 20),
+                ContainerStaff(),
+                const SizedBox(height: 20),
+                ContainerSocialButtons(),
+                const SizedBox(height: 20),
+                const ContainerFooter(),
+              ],
             ),
           );
         },
@@ -68,12 +64,17 @@ class _CustomAppBarState extends State<CustomAppBar> {
       surfaceTintColor: Colors.transparent,
       shadowColor: Colors.transparent,
       title: Text('Mil Mujeres'),
-      leading: IconButton(
-        icon: const Icon(Icons.menu),
-        onPressed: () {
-          // Mostrar menú lateral
+      leading: Builder(
+        builder: (BuildContext context) {
+          return IconButton(
+            icon: const Icon(Icons.menu),
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+          );
         },
       ),
+      bottom: PreferredSize(preferredSize: Size.zero, child: Container()),
       actions: [
         _CustomDropDownUnderlineWelcome(),
         IconButton(
@@ -87,7 +88,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
         IconButton(
           icon: const Icon(Icons.person),
           onPressed: () {
-            // Mostrar menú lateral
+            context.pushNamed('login');
           },
         ),
       ],
@@ -133,11 +134,19 @@ class _CustomDropDownUnderlineWelcomeState
 
   List<DropdownMenuItem<String>> _buildLanguageItems() {
     return Language.values.map((lang) {
+      final languageCode = lang.value.languageCode.toUpperCase();
+      final flagUrl = 'http://127.0.0.1:8000/api/country_flag/$languageCode';
+
       return DropdownMenuItem(
         value: lang.value.languageCode,
         child: Row(
           children: [
-            Icon(Icons.language, color: lang.color),
+            Image.network(
+              flagUrl,
+              width: 24,
+              height: 16,
+              errorBuilder: (_, __, ___) => const Icon(Icons.flag),
+            ),
             const SizedBox(width: 10),
             Text(lang.text),
           ],
