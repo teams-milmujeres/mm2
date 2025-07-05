@@ -13,6 +13,8 @@ class TryToken extends AuthEvent {
   TryToken({required this.token, this.bd = false});
 }
 
+class CheckToken extends AuthEvent {}
+
 class LogoutRequested extends AuthEvent {}
 
 class ReadPreferencesRequested extends AuthEvent {

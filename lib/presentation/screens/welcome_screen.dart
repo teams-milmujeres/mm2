@@ -12,6 +12,7 @@ import 'package:milmujeres_app/widgets/widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:milmujeres_app/presentation/bloc/staff/staff_bloc.dart';
 import 'package:responsive_grid/responsive_grid.dart';
+import 'package:milmujeres_app/presentation/bloc/auth/auth_bloc.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -44,28 +45,20 @@ class WelcomeScreen extends StatelessWidget {
   }
 }
 
-class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
-  @override
-  final Size preferredSize;
-
-  const CustomAppBar({super.key})
-    : preferredSize = const Size.fromHeight(kToolbarHeight);
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const CustomAppBar({super.key});
 
   @override
-  State<CustomAppBar> createState() => _CustomAppBarState();
-}
-
-class _CustomAppBarState extends State<CustomAppBar> {
-  String selectedLocale = "en"; // Idioma predeterminado
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       surfaceTintColor: Colors.transparent,
       shadowColor: Colors.transparent,
-      title: Text('Mil Mujeres'),
+      title: const Text('Mil Mujeres'),
       leading: Builder(
-        builder: (BuildContext context) {
+        builder: (context) {
           return IconButton(
             icon: const Icon(Icons.menu),
             onPressed: () {
@@ -85,14 +78,53 @@ class _CustomAppBarState extends State<CustomAppBar> {
           },
           icon: const Icon(Icons.favorite),
         ),
-        IconButton(
-          icon: const Icon(Icons.person),
-          onPressed: () {
-            context.pushNamed('login');
+        BlocBuilder<AuthBloc, AuthState>(
+          builder: (context, state) {
+            if (state is AuthAuthenticated) {
+              final initials = _getInitials(state.user.firstName);
+              return _userAvatarWithMenu(initials, context);
+            }
+
+            return IconButton(
+              icon: const Icon(Icons.person),
+              onPressed: () {
+                context.pushNamed('login');
+              },
+            );
           },
         ),
       ],
     );
+  }
+
+  Widget _userAvatarWithMenu(String initials, BuildContext context) {
+    return PopupMenuButton<String>(
+      onSelected: (value) {
+        if (value == 'profile') {
+          context.pushNamed('profile');
+        } else if (value == 'logout') {
+          context.read<AuthBloc>().add(LogoutRequested());
+        }
+      },
+      itemBuilder:
+          (_) => const [
+            PopupMenuItem(value: 'profile', child: Text('Ver perfil')),
+            PopupMenuItem(value: 'logout', child: Text('Cerrar sesión')),
+          ],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: CircleAvatar(
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          child: Text(initials, style: const TextStyle(color: Colors.white)),
+        ),
+      ),
+    );
+  }
+
+  String _getInitials(String name) {
+    final names = name.trim().split(' ');
+    if (names.length == 1) return names.first[0].toUpperCase();
+    return (names[0][0] + names[1][0]).toUpperCase();
   }
 }
 
@@ -174,7 +206,7 @@ class ContainerAbout extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton.icon(
               icon: const Icon(Icons.contact_page, color: Colors.white),
-              onPressed: () {},
+              onPressed: () => context.pushNamed('/contact_us'),
               label: Text(
                 AppLocalizations.of(context)!.contact_us,
                 style: Theme.of(context).textTheme.labelLarge,

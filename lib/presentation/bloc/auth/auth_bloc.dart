@@ -17,6 +17,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc() : super(AuthInitial()) {
     on<LoginRequested>(_onLoginRequested);
     on<TryToken>(_onTryToken);
+    on<CheckToken>(_onCheckToken);
     on<LogoutRequested>(_onLogoutRequested);
     on<ReadPreferencesRequested>(_onReadPreferencesRequested);
     on<SetPreferenceRequested>(_onSetPreferenceRequested);
@@ -73,6 +74,27 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
       emit(AuthAuthenticated(_user!, _token!));
     } catch (e) {
+      emit(AuthUnauthenticated());
+    }
+  }
+
+  Future<void> _onCheckToken(CheckToken event, Emitter<AuthState> emit) async {
+    final token = await _secureStorage.read(key: 'token');
+    final bd = await _secureStorage.read(key: 'b') == 'true';
+
+    if (token != null && token.isNotEmpty) {
+      try {
+        final response = await client.dio.get(
+          '/user',
+          queryParameters: {"b": bd},
+          options: Options(headers: {'Authorization': 'Bearer $token'}),
+        );
+        final user = User.fromJson(response.data);
+        emit(AuthAuthenticated(user, token));
+      } catch (e) {
+        emit(AuthUnauthenticated());
+      }
+    } else {
       emit(AuthUnauthenticated());
     }
   }
