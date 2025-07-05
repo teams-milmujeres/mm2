@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:milmujeres_app/presentation/bloc/auth/auth_bloc.dart';
 
 // Screens
 import 'package:milmujeres_app/presentation/screens.dart';
@@ -20,7 +22,11 @@ GoRouter onBoardingRouter(BuildContext context) => GoRouter(
     GoRoute(
       path: '/login',
       name: 'login',
-      builder: (context, state) => const LoginScreen(),
+      builder:
+          (context, state) => BlocProvider(
+            create: (_) => AuthBloc(),
+            child: const LoginScreen(),
+          ),
     ),
     GoRoute(
       path: '/register',
