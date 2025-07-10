@@ -20,6 +20,11 @@ final List<NavigationOption> navigationOptions = [
     labelBuilder: (context) => 'Inicio',
   ),
   NavigationOption(
+    route: '/login',
+    icon: Icons.login,
+    labelBuilder: (context) => AppLocalizations.of(context)!.login,
+  ),
+  NavigationOption(
     route: '/dashboard',
     icon: Icons.dashboard,
     labelBuilder: (context) => AppLocalizations.of(context)!.dashboard,
@@ -51,12 +56,13 @@ final List<NavigationOption> navigationOptions = [
   ),
   NavigationOption(
     route: '/references',
-    icon: Icons.book,
-    labelBuilder: (context) => AppLocalizations.of(context)!.references,
+    icon: Icons.handshake_outlined,
+    labelBuilder:
+        (context) => AppLocalizations.of(context)!.alliances_references,
   ),
   NavigationOption(
     route: '/contact_us',
-    icon: Icons.contact_mail,
+    icon: Icons.chat_bubble_outline,
     labelBuilder: (context) => AppLocalizations.of(context)!.contact_us,
   ),
   NavigationOption(
@@ -74,19 +80,19 @@ final List<NavigationOption> navigationOptions = [
     icon: Icons.lightbulb,
     labelBuilder: (context) => AppLocalizations.of(context)!.suggestions,
   ),
-  NavigationOption(
-    route: '/grievances',
-    icon: Icons.warning,
-    labelBuilder: (context) => AppLocalizations.of(context)!.grievances,
-  ),
+  // NavigationOption(
+  //   route: '/grievances',
+  //   icon: Icons.warning,
+  //   labelBuilder: (context) => AppLocalizations.of(context)!.grievances,
+  // ),
   NavigationOption(
     route: '/deposits',
-    icon: Icons.account_balance_wallet,
+    icon: Icons.payments,
     labelBuilder: (context) => AppLocalizations.of(context)!.deposits_refunds,
   ),
   NavigationOption(
     route: '/caases_stage',
-    icon: Icons.folder,
+    icon: Icons.turn_right,
     labelBuilder: (context) => AppLocalizations.of(context)!.caases_stage,
   ),
 ];
