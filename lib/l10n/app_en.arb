@@ -218,6 +218,7 @@
   "instructions": "Instructions",
   "view_instructions": "View Instructions",
   "document_type": "Document Type",
+  "donate_message": "Help us help more people!",
 
   "@_MESSAGES": {},
   "error_try_again_later" : "Error try again later.",
