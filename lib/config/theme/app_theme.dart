@@ -93,6 +93,10 @@ class AppTheme {
           ),
         ),
       ),
+      appBarTheme: AppBarTheme(
+        surfaceTintColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+      ),
     );
   }
 }

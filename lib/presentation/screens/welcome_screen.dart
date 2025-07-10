@@ -206,7 +206,7 @@ class ContainerAbout extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton.icon(
               icon: const Icon(Icons.contact_page, color: Colors.white),
-              onPressed: () => context.pushNamed('/contact_us'),
+              onPressed: () => context.push('/contact_us'),
               label: Text(
                 AppLocalizations.of(context)!.contact_us,
                 style: Theme.of(context).textTheme.labelLarge,
