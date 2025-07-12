@@ -101,12 +101,13 @@ class LoginScreen extends StatelessWidget {
                           isLoading
                               ? null
                               : () async {
+                                final authBloc = context.read<AuthBloc>();
                                 final username = usernameController.text.trim();
                                 final password = passwordController.text;
                                 final deviceName = await getDeviceName();
                                 final platform = getPlatform();
 
-                                context.read<AuthBloc>().add(
+                                authBloc.add(
                                   LoginRequested({
                                     'username': username,
                                     'password': password,
@@ -115,6 +116,7 @@ class LoginScreen extends StatelessWidget {
                                   }),
                                 );
                               },
+
                       icon: const Icon(Icons.check),
                       label:
                           isLoading

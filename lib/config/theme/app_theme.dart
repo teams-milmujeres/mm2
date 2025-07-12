@@ -97,6 +97,14 @@ class AppTheme {
         surfaceTintColor: Colors.transparent,
         shadowColor: Colors.transparent,
       ),
+      tabBarTheme: TabBarTheme(
+        labelColor: colorPrimary,
+        unselectedLabelColor: Colors.black54,
+        indicatorSize: TabBarIndicatorSize.tab,
+        indicatorColor: colorPrimary,
+        labelStyle: customTextTheme.titleMedium,
+        unselectedLabelStyle: customTextTheme.bodyMedium,
+      ),
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:milmujeres_app/data/data.dart';
 import 'package:milmujeres_app/data/helpers/launch_url.dart';
 import 'package:milmujeres_app/domain/entities/language_model.dart';
 import 'package:milmujeres_app/domain/entities/staff.dart';
@@ -167,14 +168,15 @@ class _CustomDropDownUnderlineWelcomeState
   List<DropdownMenuItem<String>> _buildLanguageItems() {
     return Language.values.map((lang) {
       final languageCode = lang.value.languageCode.toUpperCase();
-      final flagUrl = 'http://127.0.0.1:8000/api/country_flag/$languageCode';
+      final flagUrl = 'country_flag/$languageCode';
+      final client = DioClient();
 
       return DropdownMenuItem(
         value: lang.value.languageCode,
         child: Row(
           children: [
             Image.network(
-              flagUrl,
+              client.buildImageUrl(flagUrl),
               width: 24,
               height: 16,
               errorBuilder: (_, __, ___) => const Icon(Icons.flag),
@@ -265,50 +267,71 @@ class ContainerDonate extends StatelessWidget {
   }
 }
 
-class ContainerStaff extends StatelessWidget {
+class ContainerStaff extends StatefulWidget {
   const ContainerStaff({super.key});
+
+  @override
+  State<ContainerStaff> createState() => _ContainerStaffState();
+}
+
+class _ContainerStaffState extends State<ContainerStaff> {
+  late final StaffBloc _staffBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _staffBloc = StaffBloc()..add(StaffFetchEvent());
+  }
+
+  @override
+  void dispose() {
+    _staffBloc.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final translate = AppLocalizations.of(context)!;
 
-    return BlocBuilder<StaffBloc, StaffState>(
-      bloc: StaffBloc()..add(StaffFetchEvent()),
-      builder: (context, state) {
-        switch (state.runtimeType) {
-          case const (StaffInitial):
-          case const (StaffLoading):
-            return const Center(child: CircularProgressIndicator());
+    return BlocProvider.value(
+      value: _staffBloc,
+      child: BlocBuilder<StaffBloc, StaffState>(
+        builder: (context, state) {
+          switch (state.runtimeType) {
+            case const (StaffInitial):
+            case const (StaffLoading):
+              return const Center(child: CircularProgressIndicator());
 
-          case const (StaffSuccess):
-            final staff = (state as StaffSuccess).staff;
-            return SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _buildTeamSection(
-                    context,
-                    translate.executive_team,
-                    staff.executiveTeam,
-                  ),
-                  _buildTeamSection(
-                    context,
-                    translate.legal_team,
-                    staff.legalTeam,
-                  ),
-                ],
-              ),
-            );
+            case const (StaffSuccess):
+              final staff = (state as StaffSuccess).staff;
+              return SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _buildTeamSection(
+                      context,
+                      translate.executive_team,
+                      staff.executiveTeam,
+                    ),
+                    _buildTeamSection(
+                      context,
+                      translate.legal_team,
+                      staff.legalTeam,
+                    ),
+                  ],
+                ),
+              );
 
-          case const (StaffError):
-            final error = (state as StaffError).errorMessage;
-            return Center(child: Text('Error: $error'));
+            case const (StaffError):
+              final error = (state as StaffError).errorMessage;
+              return Center(child: Text('Error: $error'));
 
-          default:
-            return const SizedBox.shrink();
-        }
-      },
+            default:
+              return const SizedBox.shrink();
+          }
+        },
+      ),
     );
   }
 

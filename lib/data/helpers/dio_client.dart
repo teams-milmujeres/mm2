@@ -35,4 +35,8 @@ class DioClient {
       }
     }
   }
+
+  String buildImageUrl(String path) {
+    return Uri.parse(AppConfig.baseUrl).resolve('api/$path').toString();
+  }
 }

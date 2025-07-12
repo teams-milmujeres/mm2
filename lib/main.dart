@@ -8,6 +8,7 @@ import 'package:milmujeres_app/presentation/bloc/locale/language_bloc.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
   runApp(const MainApp());
 }

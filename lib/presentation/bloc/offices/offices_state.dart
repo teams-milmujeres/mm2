@@ -8,7 +8,6 @@ class OfficesLoading extends OfficesState {}
 
 class OfficesSuccess extends OfficesState {
   final List<Office> offices;
-
   OfficesSuccess(this.offices);
 }
 

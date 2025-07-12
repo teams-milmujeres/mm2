@@ -40,12 +40,16 @@ class OfficesBloc extends Bloc<OfficesEvent, OfficesState> {
         final data = response.data;
         final offices = await Future.wait(
           (data as List).map((item) async {
-            final office = Office.fromJson(item['data']);
+            final office = Office.fromFullJson(item);
 
             final imageUrl = await _checkImage(office.id);
             return office.copyWith(imageUrl: imageUrl);
           }),
         );
+
+        print("Total oficinas cargadas: ${offices.length}");
+        print(offices.map((e) => e.name).toList());
+
         emit(OfficesSuccess(offices));
       } else {
         emit(OfficesError(errorMessage: 'Failed to load offices'));
