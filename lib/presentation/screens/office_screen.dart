@@ -425,13 +425,15 @@ class _ReferenceTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final client = DioClient();
+    final translation = AppLocalizations.of(context)!;
 
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
         _buildCardGridSection(
+          translation: translation,
           context,
-          title: 'Consulados',
+          title: translation.consulates,
           items: office.consulates,
           getId: (e) => e.id,
           getLogo: (e) => e.logo,
@@ -440,8 +442,9 @@ class _ReferenceTab extends StatelessWidget {
         ),
         const SizedBox(height: 24),
         _buildListTileSection(
+          translation: translation,
           context,
-          title: 'Referencias',
+          title: translation.references,
           items: office.references,
           getId: (e) => e.id,
           getLogo: (e) => e.logo,
@@ -450,8 +453,9 @@ class _ReferenceTab extends StatelessWidget {
         ),
         const SizedBox(height: 24),
         _buildCardGridSection(
+          translation: translation,
           context,
-          title: 'Alianzas',
+          title: translation.alliances,
           items: office.alliances,
           getId: (e) => e.id,
           getLogo: (e) => e.logo,
@@ -471,6 +475,7 @@ class _ReferenceTab extends StatelessWidget {
     required bool Function(T) getLogo,
     required String Function(T) getLabel,
     required String Function(int) logoPathBuilder,
+    required AppLocalizations translation,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -481,7 +486,7 @@ class _ReferenceTab extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         if (items.isEmpty)
-          const Text('No hay elementos disponibles.')
+          Text(translation.no_elements)
         else
           ListView.builder(
             shrinkWrap: true,
@@ -519,6 +524,7 @@ class _ReferenceTab extends StatelessWidget {
     required bool Function(T) getLogo,
     required String Function(T) getLabel,
     required String Function(int) logoPathBuilder,
+    required AppLocalizations translation,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -529,7 +535,7 @@ class _ReferenceTab extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         if (items.isEmpty)
-          const Text('No hay elementos disponibles.')
+          Text(translation.no_elements)
         else
           GridView.builder(
             shrinkWrap: true,
@@ -605,9 +611,10 @@ class _MapTab extends StatelessWidget {
   Widget build(BuildContext context) {
     final lat = office.lat;
     final lon = office.lon;
+    final translation = AppLocalizations.of(context)!;
 
     if (lat == null || lon == null) {
-      return const Center(child: Text('Ubicación no disponible.'));
+      return Center(child: Text(translation.error_try_again_later));
     }
 
     final coords = LatLng(lat, lon);

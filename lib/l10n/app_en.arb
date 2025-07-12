@@ -219,6 +219,9 @@
   "view_instructions": "View Instructions",
   "document_type": "Document Type",
   "donate_message": "Help us help more people!",
+  "error_coordinates": "Error loading coordinates",
+  "no_elements": "No elements avalaible",
+
 
   "@_MESSAGES": {},
   "error_try_again_later" : "Error try again later.",
