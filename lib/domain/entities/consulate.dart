@@ -1,3 +1,4 @@
+import 'package:milmujeres_app/domain/entities/consulate_country.dart';
 import 'package:milmujeres_app/domain/entities/country.dart';
 import 'package:milmujeres_app/domain/entities/state.dart';
 
@@ -13,6 +14,7 @@ class Consulate {
     required this.state,
     required this.country,
     required this.logo,
+    required this.consulateCountry,
   });
 
   int id;
@@ -25,18 +27,22 @@ class Consulate {
   Statee state;
   Country country;
   bool logo;
+  ConsulateCountry consulateCountry;
 
   factory Consulate.fromJson(Map<String, dynamic> json) => Consulate(
-    id: json['id'],
+    id: json['id'] ?? 0,
     consulate: json['consulate'] ?? '',
-    email: json['email'],
-    contacts: json['contacts'],
-    phone: json['phone'],
-    responsable: json['responsable'],
-    city: json['city'],
-    state: Statee.fromJson(json['state']),
-    country: Country.fromJson(json['country']),
+    email: json['email'] ?? '',
+    contacts: json['contacts'] ?? '',
+    phone: json['phone'] ?? '',
+    responsable: json['responsable'] ?? '',
+    city: json['city'] ?? '',
+    state: Statee.fromJson(json['state'] ?? {}),
+    country: Country.fromJson(json['country'] ?? {}),
     logo: (json['logo'] ?? 0) == 1,
+    consulateCountry: ConsulateCountry.fromJson(
+      json['consulate_country'] ?? {},
+    ),
   );
 
   Map<dynamic, dynamic> toJson() => {
@@ -50,5 +56,6 @@ class Consulate {
     state: 'state',
     country: 'country',
     logo: 'logo',
+    consulateCountry: 'consulate_country',
   };
 }

@@ -58,7 +58,8 @@ GoRouter onBoardingRouter(BuildContext context) => GoRouter(
       name: 'consulates',
       // builder: (context, state) => const ConsulateScreen(),
       pageBuilder:
-          (context, state) => buildPageTransition(const ConsulateScreen()),
+          (context, state) =>
+              buildPageTransition(const ConsulateOfficeScreen()),
     ),
     GoRoute(
       path: '/references',
