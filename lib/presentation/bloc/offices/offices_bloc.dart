@@ -47,8 +47,8 @@ class OfficesBloc extends Bloc<OfficesEvent, OfficesState> {
           }),
         );
 
-        print("Total oficinas cargadas: ${offices.length}");
-        print(offices.map((e) => e.name).toList());
+        // print("Total oficinas cargadas: ${offices.length}");
+        // print(offices.map((e) => e.name).toList());
 
         emit(OfficesSuccess(offices));
       } else {

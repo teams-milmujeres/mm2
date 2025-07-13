@@ -143,7 +143,7 @@ class _OfficeCarouselScreenState extends State<OfficeCarouselScreen> {
     final translation = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Oficinas')),
+      appBar: AppBar(title: Text(translation.offices)),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
