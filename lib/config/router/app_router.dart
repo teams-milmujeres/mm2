@@ -73,7 +73,7 @@ GoRouter onBoardingRouter(BuildContext context) => GoRouter(
       name: 'complaints',
       // builder: (context, state) => const ComplaintScreen(),
       pageBuilder:
-          (context, state) => buildPageTransition(const ComplaintScreen()),
+          (context, state) => buildPageTransition(const ComplaintsScreen()),
     ),
     GoRoute(
       path: '/suggestions',

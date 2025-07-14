@@ -39,6 +39,5 @@ class ContactUs {
     'name': name,
     'email': email,
     'user_id': userId,
-    'create_new_assignment': true, // si también necesitas esto
   };
 }

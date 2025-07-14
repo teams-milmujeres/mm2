@@ -104,7 +104,6 @@ class CustomDrawer extends StatelessWidget {
                       '/consulates',
                       '/contact_us',
                       '/donate',
-                      '/complaints',
                     ].contains(opt.route),
                   )
                   .map(
