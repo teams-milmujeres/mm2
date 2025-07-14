@@ -137,7 +137,7 @@ class LoginScreen extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    // Acción de registro
+                    context.pushNamed('register');
                   },
                   icon: const Icon(Icons.person_add),
                   label: Text(translate.register),

@@ -13,11 +13,13 @@ class User {
     required this.firstName,
     this.locale,
     this.middleName,
+    this.userName,
     this.dob,
     this.emails = const [],
     this.address = const [],
     this.phones = const [],
     this.email = '',
+    this.phone,
     this.avatar,
     this.countryOfBirthId,
     this.citizenshipId,
@@ -28,11 +30,13 @@ class User {
   String firstName;
   dynamic locale;
   dynamic middleName;
+  dynamic userName;
   DateTime? dob;
   List<Email> emails;
   List<Address> address;
   List<Phone> phones;
   String email;
+  dynamic phone;
   dynamic avatar;
   dynamic countryOfBirthId;
   dynamic citizenshipId;
@@ -44,6 +48,7 @@ class User {
     locale: json["locale"],
     middleName: json["middlename"],
     dob: json["dob"] != null ? DateTime.tryParse(json["dob"]) : null,
+    userName: json["username"],
     emails:
         json["emails"] != null
             ? List<Email>.from(json["emails"].map((x) => Email.fromJson(x)))
@@ -59,6 +64,7 @@ class User {
             ? List<Phone>.from(json["phones"].map((x) => Phone.fromJson(x)))
             : [],
     email: json["email"] ?? '',
+    phone: json["phone"] ?? '',
     avatar: json["avatar"],
     countryOfBirthId: json["country_of_birth_id"],
     citizenshipId: json["citizenship_id"],
@@ -78,6 +84,7 @@ class User {
     "address": address.map((x) => x.toJson()).toList(),
     "phones": phones.map((x) => x.toJson()).toList(),
     "email": email,
+    "phone": phone,
     "avatar": avatar,
     "country_of_birth_id": countryOfBirthId,
     "citizenship_id": citizenshipId,
