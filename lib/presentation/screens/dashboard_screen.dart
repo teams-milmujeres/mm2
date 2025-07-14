@@ -16,10 +16,10 @@ class DashboardScreen extends StatelessWidget {
                 '/profile',
                 '/events',
                 '/upload_document',
-                '/complaints',
-                '/contact_us',
                 '/deposits',
                 '/caases_stage',
+                '/complaints',
+                '/contact_us',
               ].contains(opt.route),
             )
             .toList();

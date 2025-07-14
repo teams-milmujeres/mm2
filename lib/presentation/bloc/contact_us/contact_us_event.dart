@@ -2,7 +2,7 @@ part of 'contact_us_bloc.dart';
 
 sealed class ContactUsEvent {}
 
-class SubmitContactUs extends ContactUsEvent {
+class SubmitContactUsEvent extends ContactUsEvent {
   final ContactUs contact;
-  SubmitContactUs(this.contact);
+  SubmitContactUsEvent(this.contact);
 }

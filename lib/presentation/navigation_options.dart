@@ -60,6 +60,21 @@ final List<NavigationOption> navigationOptions = [
     labelBuilder:
         (context) => AppLocalizations.of(context)!.alliances_references,
   ),
+  // NavigationOption(
+  //   route: '/grievances',
+  //   icon: Icons.warning,
+  //   labelBuilder: (context) => AppLocalizations.of(context)!.grievances,
+  // ),
+  NavigationOption(
+    route: '/deposits',
+    icon: Icons.payments,
+    labelBuilder: (context) => AppLocalizations.of(context)!.deposits_refunds,
+  ),
+  NavigationOption(
+    route: '/caases_stage',
+    icon: Icons.turn_right,
+    labelBuilder: (context) => AppLocalizations.of(context)!.caases_stage,
+  ),
   NavigationOption(
     route: '/contact_us',
     icon: Icons.chat_bubble_outline,
@@ -79,20 +94,5 @@ final List<NavigationOption> navigationOptions = [
     route: '/suggestions',
     icon: Icons.lightbulb,
     labelBuilder: (context) => AppLocalizations.of(context)!.suggestions,
-  ),
-  // NavigationOption(
-  //   route: '/grievances',
-  //   icon: Icons.warning,
-  //   labelBuilder: (context) => AppLocalizations.of(context)!.grievances,
-  // ),
-  NavigationOption(
-    route: '/deposits',
-    icon: Icons.payments,
-    labelBuilder: (context) => AppLocalizations.of(context)!.deposits_refunds,
-  ),
-  NavigationOption(
-    route: '/caases_stage',
-    icon: Icons.turn_right,
-    labelBuilder: (context) => AppLocalizations.of(context)!.caases_stage,
   ),
 ];

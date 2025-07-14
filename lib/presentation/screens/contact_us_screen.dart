@@ -107,7 +107,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
           userId: userId,
         );
 
-        context.read<ContactUsBloc>().add(SubmitContactUs(contact));
+        context.read<ContactUsBloc>().add(SubmitContactUsEvent(contact));
       }
     });
   }

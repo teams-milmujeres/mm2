@@ -74,7 +74,7 @@ class _ComplaintsScreenState extends State<ComplaintsScreen> {
         );
 
         if (authState is AuthAuthenticated) {
-          final token = authState.token; // Este campo no está expuesto todavía
+          final token = authState.token;
           context.read<ComplaintsBloc>().add(SubmitComplaint(complaint, token));
         }
       }
@@ -110,9 +110,7 @@ class _ComplaintsScreenState extends State<ComplaintsScreen> {
     return BlocProvider(
       create: (_) => ComplaintsBloc(),
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(translate.complaints),
-        ), // Traducción personalizada si aplica
+        appBar: AppBar(title: Text(translate.complaints)),
         body: BlocConsumer<ComplaintsBloc, ComplaintsState>(
           listener: (context, state) {
             if (state is ComplaintsSucess) {

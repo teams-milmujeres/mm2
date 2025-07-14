@@ -7,11 +7,11 @@ part 'contact_us_state.dart';
 
 class ContactUsBloc extends Bloc<ContactUsEvent, ContactUsState> {
   ContactUsBloc() : super(ContactUsInitial()) {
-    on<SubmitContactUs>(_onSubmitContactUs); // ← Aquí se conecta bien
+    on<SubmitContactUsEvent>(_onSubmitContactUs); // ← Aquí se conecta bien
   }
 
   Future<void> _onSubmitContactUs(
-    SubmitContactUs event,
+    SubmitContactUsEvent event,
     Emitter<ContactUsState> emit,
   ) async {
     emit(ContactUsLoading());
