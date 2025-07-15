@@ -221,7 +221,8 @@
   "donate_message": "Help us help more people!",
   "error_coordinates": "Error loading coordinates",
   "no_elements": "No elements avalaible",
-
+  "services": "Services",
+  "location": "Location",
 
   "@_MESSAGES": {},
   "error_try_again_later" : "Error try again later.",

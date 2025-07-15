@@ -34,7 +34,7 @@ class _EventScreenState extends State<EventScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final translate = AppLocalizations.of(context)!;
+    final translation = AppLocalizations.of(context)!;
 
     return BlocProvider.value(
       value: _eventsBloc,
@@ -44,15 +44,15 @@ class _EventScreenState extends State<EventScreen> {
           builder: (context, state) {
             return Scaffold(
               appBar: AppBar(
-                title: Text(translate.events),
+                title: Text(translation.events),
                 bottom: TabBar(
                   indicatorSize: TabBarIndicatorSize.tab,
                   tabs: [
-                    Tab(text: translate.news),
-                    Tab(text: translate.events),
+                    Tab(text: translation.news),
+                    Tab(text: translation.events),
                     Tab(
                       child: Text(
-                        translate.upcoming_events,
+                        translation.upcoming_events,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
@@ -73,7 +73,7 @@ class _EventScreenState extends State<EventScreen> {
                     _buildUpcomingEvents(context, state),
                   ],
                 ),
-                _ => Center(child: Text(translate.no_elements)),
+                _ => Center(child: Text(translation.no_elements)),
               },
             );
           },

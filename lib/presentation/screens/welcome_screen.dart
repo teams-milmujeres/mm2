@@ -291,7 +291,7 @@ class _ContainerStaffState extends State<ContainerStaff> {
 
   @override
   Widget build(BuildContext context) {
-    final translate = AppLocalizations.of(context)!;
+    final translation = AppLocalizations.of(context)!;
 
     return BlocProvider.value(
       value: _staffBloc,
@@ -311,12 +311,12 @@ class _ContainerStaffState extends State<ContainerStaff> {
                   children: [
                     _buildTeamSection(
                       context,
-                      translate.executive_team,
+                      translation.executive_team,
                       staff.executiveTeam,
                     ),
                     _buildTeamSection(
                       context,
-                      translate.legal_team,
+                      translation.legal_team,
                       staff.legalTeam,
                     ),
                   ],
@@ -430,26 +430,26 @@ class _ContainerStaffState extends State<ContainerStaff> {
 
   // Función auxiliar para traducir los roles
   static String _getTranslatedRole(String role, BuildContext context) {
-    final translate = AppLocalizations.of(context)!;
+    final translation = AppLocalizations.of(context)!;
     switch (role) {
       case 'executive_director':
-        return translate.executive_director;
+        return translation.executive_director;
       case 'national_deputy_director':
-        return translate.national_deputy_director;
+        return translation.national_deputy_director;
       case 'financial_manager':
-        return translate.financial_manager;
+        return translation.financial_manager;
       case 'human_resources_manager':
-        return translate.human_resources_manager;
+        return translation.human_resources_manager;
       case 'information_technology_coordinator':
-        return translate.information_technology_coordinator;
+        return translation.information_technology_coordinator;
       case 'public_relations_coordinator':
-        return translate.public_relations_coordinator;
+        return translation.public_relations_coordinator;
       case 'corporate_communications_coordinator':
-        return translate.corporate_communications_coordinator;
+        return translation.corporate_communications_coordinator;
       case 'legal_director':
-        return translate.legal_director;
+        return translation.legal_director;
       case 'senior_attorney':
-        return translate.senior_attorney;
+        return translation.senior_attorney;
       default:
         return "";
     }
@@ -461,7 +461,7 @@ class ContainerSocialButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final translate = AppLocalizations.of(context)!;
+    final translation = AppLocalizations.of(context)!;
 
     final socialButtons = [
       _SocialButtonData(
@@ -498,7 +498,7 @@ class ContainerSocialButtons extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              translate.follow_us,
+              translation.follow_us,
               style: Theme.of(
                 context,
               ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),

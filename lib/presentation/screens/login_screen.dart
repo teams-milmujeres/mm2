@@ -15,7 +15,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextEditingController usernameController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
-    final translate = AppLocalizations.of(context)!;
+    final translation = AppLocalizations.of(context)!;
 
     String getPlatform() {
       if (kIsWeb) return 'web';
@@ -41,13 +41,13 @@ class LoginScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text(translate.login)),
+      appBar: AppBar(title: Text(translation.login)),
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthAuthenticated) {
             ScaffoldMessenger.of(
               context,
-            ).showSnackBar(SnackBar(content: Text(translate.login)));
+            ).showSnackBar(SnackBar(content: Text(translation.login)));
             context.go('/'); // o la ruta que necesites
           }
 
@@ -68,7 +68,7 @@ class LoginScreen extends StatelessWidget {
               ),
               const SizedBox(height: 25),
               Text(
-                translate.contact_to_request,
+                translation.contact_to_request,
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
               ),
@@ -76,7 +76,7 @@ class LoginScreen extends StatelessWidget {
               TextField(
                 controller: usernameController,
                 decoration: InputDecoration(
-                  labelText: translate.email_or_phone_number,
+                  labelText: translation.email_or_phone_number,
                   border: const OutlineInputBorder(),
                 ),
                 keyboardType: TextInputType.text,
@@ -85,7 +85,7 @@ class LoginScreen extends StatelessWidget {
               TextField(
                 controller: passwordController,
                 decoration: InputDecoration(
-                  labelText: translate.password,
+                  labelText: translation.password,
                   border: const OutlineInputBorder(),
                 ),
                 obscureText: true,
@@ -127,7 +127,7 @@ class LoginScreen extends StatelessWidget {
                                   strokeWidth: 2,
                                 ),
                               )
-                              : Text(translate.login),
+                              : Text(translation.login),
                     ),
                   );
                 },
@@ -140,7 +140,7 @@ class LoginScreen extends StatelessWidget {
                     context.pushNamed('register');
                   },
                   icon: const Icon(Icons.person_add),
-                  label: Text(translate.register),
+                  label: Text(translation.register),
                 ),
               ),
               const SizedBox(height: 16),
@@ -148,7 +148,7 @@ class LoginScreen extends StatelessWidget {
                 onPressed: () {
                   context.pushNamed('password_recovery');
                 },
-                child: Text(translate.forgot_password),
+                child: Text(translation.forgot_password),
               ),
             ],
           ),

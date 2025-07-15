@@ -55,7 +55,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
   }
 
   void _validateAndSubmit(BuildContext context) {
-    final translate = AppLocalizations.of(context)!;
+    final translation = AppLocalizations.of(context)!;
 
     setState(() {
       nameError = null;
@@ -65,28 +65,28 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
 
       if (!isAuthenticated) {
         if (nameController.text.trim().isEmpty) {
-          nameError = translate.is_required(translate.name);
+          nameError = translation.is_required(translation.name);
         } else if (nameController.text.length < 2) {
-          nameError = translate.fewest_characters(translate.two);
+          nameError = translation.fewest_characters(translation.two);
         }
 
         if (emailController.text.trim().isEmpty) {
-          emailError = translate.is_required(translate.email);
+          emailError = translation.is_required(translation.email);
         } else if (!RegExp(
           r"^[\w.+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
         ).hasMatch(emailController.text)) {
-          emailError = translate.enter_valid(translate.email);
+          emailError = translation.enter_valid(translation.email);
         }
       }
 
       if (subjectController.text.trim().isEmpty) {
-        subjectError = translate.is_required(translate.subject);
+        subjectError = translation.is_required(translation.subject);
       }
 
       if (messageController.text.trim().isEmpty) {
-        messageError = translate.is_required(translate.message);
+        messageError = translation.is_required(translation.message);
       } else if (messageController.text.length < 5) {
-        messageError = translate.fewest_characters('5');
+        messageError = translation.fewest_characters('5');
       }
       if (nameError == null &&
           emailError == null &&
@@ -136,12 +136,12 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final translate = AppLocalizations.of(context)!;
+    final translation = AppLocalizations.of(context)!;
 
     return BlocProvider(
       create: (_) => ContactUsBloc(),
       child: Scaffold(
-        appBar: AppBar(title: Text(translate.contact_us)),
+        appBar: AppBar(title: Text(translation.contact_us)),
         body: BlocConsumer<ContactUsBloc, ContactUsState>(
           listener: (context, state) {
             if (state is ContactUsSuccess) {
@@ -191,24 +191,24 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
 
                   if (!isAuthenticated)
                     _buildTextField(
-                      label: translate.name,
+                      label: translation.name,
                       controller: nameController,
                       errorText: nameError,
                     ),
                   if (!isAuthenticated)
                     _buildTextField(
-                      label: translate.email,
+                      label: translation.email,
                       controller: emailController,
                       errorText: emailError,
                     ),
 
                   _buildTextField(
-                    label: translate.subject,
+                    label: translation.subject,
                     controller: subjectController,
                     errorText: subjectError,
                   ),
                   _buildTextField(
-                    label: translate.message,
+                    label: translation.message,
                     controller: messageController,
                     errorText: messageError,
                     maxLines: 5,
@@ -218,7 +218,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                   isLoading
                       ? const CircularProgressIndicator()
                       : RoundedButtonLarge(
-                        text: translate.send,
+                        text: translation.send,
                         press: () => _validateAndSubmit(context),
                         icon: Icons.send,
                       ),

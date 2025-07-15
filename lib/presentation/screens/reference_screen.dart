@@ -299,6 +299,7 @@ class AllianceDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final translation = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final imageUrl =
         alliance.logo
@@ -338,51 +339,51 @@ class AllianceDetailScreen extends StatelessWidget {
           if (alliance.address?.isNotEmpty == true)
             _ItemTile(
               icon: Icons.location_on,
-              label: 'Dirección',
+              label: translation.address,
               value: alliance.address!,
             ),
           if (alliance.city?.isNotEmpty == true)
             _ItemTile(
               icon: Icons.location_city,
-              label: 'Ciudad',
+              label: translation.city,
               value: alliance.city!,
             ),
           if (alliance.phone?.isNotEmpty == true)
             _ItemTile(
               icon: Icons.phone,
-              label: 'Teléfono',
+              label: translation.phone,
               value: alliance.phone!,
             ),
           if (alliance.email?.isNotEmpty == true)
             _ItemTile(
               icon: Icons.email,
-              label: 'Email',
+              label: translation.email,
               value: alliance.email!,
             ),
           if (alliance.contact?.isNotEmpty == true)
             _ItemTile(
               icon: Icons.person,
-              label: 'Contacto',
+              label: translation.contact,
               value: alliance.contact!,
             ),
+
           if (alliance.services?.isNotEmpty == true)
             _ItemTile(
               icon: Icons.miscellaneous_services,
-              label: 'Servicios',
+              label: translation.services,
               value: alliance.services!,
             ),
-
           if (alliance.website?.isNotEmpty == true)
             ListTile(
               leading: const Icon(Icons.link),
-              title: const Text('Sitio web'),
+              title: Text(translation.website),
               subtitle: Text(alliance.website!),
               onTap: () => _launchUrl(alliance.website!),
             ),
 
           ListTile(
             leading: const Icon(Icons.map),
-            title: const Text('Ubicación'),
+            title: Text(translation.location),
             subtitle: Text('${alliance.state.name}, ${alliance.country.name}'),
           ),
         ],
@@ -405,6 +406,7 @@ class ReferenceDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final translation = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final imageUrl =
         reference.logo
@@ -444,45 +446,45 @@ class ReferenceDetailScreen extends StatelessWidget {
           if (reference.address?.isNotEmpty == true)
             _ItemTile(
               icon: Icons.location_on,
-              label: 'Dirección',
+              label: translation.address,
               value: reference.address!,
             ),
           if (reference.city?.isNotEmpty == true)
             _ItemTile(
               icon: Icons.location_city,
-              label: 'Ciudad',
+              label: translation.city,
               value: reference.city!,
             ),
           if (reference.phone?.isNotEmpty == true)
             _ItemTile(
               icon: Icons.phone,
-              label: 'Teléfono',
+              label: translation.phone,
               value: reference.phone!,
             ),
           if (reference.email?.isNotEmpty == true)
             _ItemTile(
               icon: Icons.email,
-              label: 'Email',
+              label: translation.email,
               value: reference.email!,
             ),
           if (reference.contacts?.isNotEmpty == true)
             _ItemTile(
               icon: Icons.person,
-              label: 'Contacto',
+              label: translation.contacts,
               value: reference.contacts!,
             ),
 
           if (reference.website?.isNotEmpty == true)
             ListTile(
               leading: const Icon(Icons.link),
-              title: const Text('Sitio web'),
+              title: Text(translation.website),
               subtitle: Text(reference.website!),
               onTap: () => _launchUrl(reference.website!),
             ),
 
           ListTile(
             leading: const Icon(Icons.map),
-            title: const Text('Ubicación'),
+            title: Text(translation.location),
             subtitle: Text(
               '${reference.state.name}, ${reference.country.name}',
             ),

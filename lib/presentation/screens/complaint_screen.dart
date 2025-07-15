@@ -43,20 +43,20 @@ class _ComplaintsScreenState extends State<ComplaintsScreen> {
   }
 
   void _validateAndSubmit(BuildContext context) {
-    final translate = AppLocalizations.of(context)!;
+    final translation = AppLocalizations.of(context)!;
 
     setState(() {
       subjectError = null;
       messageError = null;
 
       if (subjectController.text.trim().isEmpty) {
-        subjectError = translate.is_required(translate.subject);
+        subjectError = translation.is_required(translation.subject);
       }
 
       if (messageController.text.trim().isEmpty) {
-        messageError = translate.is_required(translate.message);
+        messageError = translation.is_required(translation.message);
       } else if (messageController.text.length < 5) {
-        messageError = translate.fewest_characters('5');
+        messageError = translation.fewest_characters('5');
       }
 
       if (subjectError == null && messageError == null) {
@@ -105,12 +105,12 @@ class _ComplaintsScreenState extends State<ComplaintsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final translate = AppLocalizations.of(context)!;
+    final translation = AppLocalizations.of(context)!;
 
     return BlocProvider(
       create: (_) => ComplaintsBloc(),
       child: Scaffold(
-        appBar: AppBar(title: Text(translate.complaints)),
+        appBar: AppBar(title: Text(translation.complaints)),
         body: BlocConsumer<ComplaintsBloc, ComplaintsState>(
           listener: (context, state) {
             if (state is ComplaintsSucess) {
@@ -159,12 +159,12 @@ class _ComplaintsScreenState extends State<ComplaintsScreen> {
                   const SizedBox(height: 30),
 
                   _buildTextField(
-                    label: translate.subject,
+                    label: translation.subject,
                     controller: subjectController,
                     errorText: subjectError,
                   ),
                   _buildTextField(
-                    label: translate.message,
+                    label: translation.message,
                     controller: messageController,
                     errorText: messageError,
                     maxLines: 5,
@@ -174,7 +174,7 @@ class _ComplaintsScreenState extends State<ComplaintsScreen> {
                   isLoading
                       ? const CircularProgressIndicator()
                       : RoundedButtonLarge(
-                        text: translate.send,
+                        text: translation.send,
                         press: () => _validateAndSubmit(context),
                         icon: Icons.send,
                       ),
