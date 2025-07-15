@@ -223,6 +223,7 @@
   "no_elements": "No elements avalaible",
   "services": "Services",
   "location": "Location",
+  "insecure": "Insecure",
 
   "@_MESSAGES": {},
   "error_try_again_later" : "Error try again later.",

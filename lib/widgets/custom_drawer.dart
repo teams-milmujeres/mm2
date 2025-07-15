@@ -65,41 +65,6 @@ class CustomDrawer extends StatelessWidget {
                   ),
                 ),
               ),
-              //_drawerItem(context, Icons.home, 'Inicio', '/'),
-              // _drawerItem(context, Icons.login, translation.login, '/login'),
-
-              // _drawerItem(context, Icons.event, translation.events, '/events'),
-              // _drawerItem(
-              //   context,
-              //   Icons.location_city,
-              //   translation.offices,
-              //   '/offices',
-              // ),
-              // _drawerItem(
-              //   context,
-              //   Icons.flag,
-              //   translation.consulates,
-              //   '/consulates',
-              // ),
-              // _drawerItem(
-              //   context,
-              //   Icons.contact_mail,
-              //   translation.contact_us,
-              //   '/contact_us',
-              // ),
-              // _drawerItem(
-              //   context,
-              //   Icons.favorite,
-              //   translation.donate,
-              //   '/donate',
-              // ),
-
-              // _drawerItem(
-              //   context,
-              //   Icons.report,
-              //   translation.complaints,
-              //   '/complaints',
-              // ),
               ...navigationOptions
                   .where(
                     (opt) => [

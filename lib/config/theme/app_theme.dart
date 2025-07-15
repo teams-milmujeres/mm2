@@ -16,6 +16,12 @@ class AppTheme {
         fontWeight: FontWeight.normal,
         color: colorPrimary,
       ),
+      headlineMedium: GoogleFonts.poppins(
+        // Título secundario
+        fontSize: 20,
+        fontWeight: FontWeight.normal,
+        color: colorPrimary,
+      ),
       titleMedium: GoogleFonts.poppins(
         // Subtítulo o título secundario
         fontSize: 14,

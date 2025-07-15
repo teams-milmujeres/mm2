@@ -223,6 +223,7 @@
   "no_elements": "No hay elementos disponibles",
   "services": "Servicios",
   "location": "Locacion",
+  "insecure": "Inseguro",
 
   "@_MESSAGES": {},
   "error_try_again_later" : "Error inténtelo nuevamente más tarde.",
