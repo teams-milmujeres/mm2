@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:milmujeres_app/data/data.dart';
 import 'package:milmujeres_app/domain/entities/reference.dart';
 
@@ -9,6 +10,7 @@ class ReferencesBloc extends Bloc<ReferencesEvent, ReferencesState> {
   ReferencesBloc() : super(ReferencesInitial()) {
     on<GetReferencesEvent>(_onGetReferencesEvent);
     on<GetReferenceByIdEvent>(_onGetReferenceByIdEvent);
+    on<FindReferencesEvent>(_onFindReferencesEvent);
   }
 
   Future<void> _onGetReferencesEvent(
@@ -50,6 +52,32 @@ class ReferencesBloc extends Bloc<ReferencesEvent, ReferencesState> {
         emit(ReferencesSuccess([reference]));
       } else {
         emit(ReferencesError('Failed to load reference'));
+      }
+    } catch (e) {
+      emit(ReferencesError(e.toString()));
+    }
+  }
+
+  Future<void> _onFindReferencesEvent(
+    FindReferencesEvent event,
+    Emitter<ReferencesState> emit,
+  ) async {
+    emit(ReferencesLoading());
+    try {
+      final client = DioClient();
+      final response = await client.dio.post(
+        '/find_reference',
+        data: {'search': event.query},
+        options: Options(headers: {'Authorization': 'Bearer ${event.token}'}),
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        final data = response.data;
+        final references =
+            (data as List).map((item) => Reference.fromJson(item)).toList();
+        emit(ReferencesSuccess(references));
+      } else {
+        emit(ReferencesError('Failed to load references'));
       }
     } catch (e) {
       emit(ReferencesError(e.toString()));

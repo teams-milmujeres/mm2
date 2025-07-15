@@ -30,14 +30,20 @@ class CustomDrawer extends StatelessWidget {
                     ),
                   ),
                 ),
-                ...navigationOptions.map(
-                  (option) => _drawerItem(
-                    context,
-                    option.icon,
-                    option.labelBuilder(context),
-                    option.route,
-                  ),
-                ),
+                ...navigationOptions
+                    .where(
+                      (option) =>
+                          option.route != '/login' &&
+                          option.route != '/register',
+                    )
+                    .map(
+                      (option) => _drawerItem(
+                        context,
+                        option.icon,
+                        option.labelBuilder(context),
+                        option.route,
+                      ),
+                    ),
               ],
             ),
           );

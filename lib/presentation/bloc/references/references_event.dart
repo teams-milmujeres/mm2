@@ -9,3 +9,10 @@ class GetReferenceByIdEvent extends ReferencesEvent {
 
   GetReferenceByIdEvent(this.id);
 }
+
+class FindReferencesEvent extends ReferencesEvent {
+  final String query;
+  final String token;
+
+  FindReferencesEvent(this.query, this.token);
+}
