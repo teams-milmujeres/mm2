@@ -7,6 +7,7 @@ import 'package:milmujeres_app/data/data.dart';
 import 'package:milmujeres_app/domain/entities/office.dart';
 import 'package:milmujeres_app/presentation/bloc/offices/offices_bloc.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:milmujeres_app/presentation/screens.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class OfficeScreen extends StatefulWidget {
@@ -439,6 +440,10 @@ class _ReferenceTab extends StatelessWidget {
           getLogo: (e) => e.logo,
           getLabel: (e) => e.consulate,
           logoPathBuilder: (id) => client.buildImageUrl('consulate_logo/$id'),
+          getRoute:
+              (e) => MaterialPageRoute(
+                builder: (_) => ConsulateDetailsScreen(consulate: e),
+              ),
         ),
         const SizedBox(height: 24),
         _buildListTileSection(
@@ -450,6 +455,10 @@ class _ReferenceTab extends StatelessWidget {
           getLogo: (e) => e.logo,
           getLabel: (e) => e.organization,
           logoPathBuilder: (id) => client.buildImageUrl('reference_logo/$id'),
+          getRoute:
+              (e) => MaterialPageRoute(
+                builder: (_) => ReferenceDetailScreen(reference: e),
+              ),
         ),
         const SizedBox(height: 24),
         _buildCardGridSection(
@@ -461,6 +470,10 @@ class _ReferenceTab extends StatelessWidget {
           getLogo: (e) => e.logo,
           getLabel: (e) => e.organization,
           logoPathBuilder: (id) => client.buildImageUrl('alliance_logo/$id'),
+          getRoute:
+              (e) => MaterialPageRoute(
+                builder: (_) => AllianceDetailScreen(alliance: e),
+              ),
         ),
       ],
     );
@@ -476,6 +489,7 @@ class _ReferenceTab extends StatelessWidget {
     required String Function(T) getLabel,
     required String Function(int) logoPathBuilder,
     required AppLocalizations translation,
+    required Route Function(T) getRoute,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -501,7 +515,7 @@ class _ReferenceTab extends StatelessWidget {
                           as ImageProvider;
 
               return GestureDetector(
-                // onTap: () => Navigator.push(context, getRoute(item)),
+                onTap: () => Navigator.push(context, getRoute(item)),
                 child: Card(
                   child: ListTile(
                     leading: CircleAvatar(backgroundImage: logo),
@@ -525,6 +539,7 @@ class _ReferenceTab extends StatelessWidget {
     required String Function(T) getLabel,
     required String Function(int) logoPathBuilder,
     required AppLocalizations translation,
+    required Route Function(T) getRoute,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -556,7 +571,7 @@ class _ReferenceTab extends StatelessWidget {
                           as ImageProvider;
 
               return GestureDetector(
-                // onTap: () => Navigator.push(context, getRoute(item)),
+                onTap: () => Navigator.push(context, getRoute(item)),
                 child: Card(
                   elevation: 2,
                   child: Column(
