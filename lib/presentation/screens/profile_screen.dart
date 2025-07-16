@@ -67,31 +67,51 @@ class ProfileScreen extends StatelessWidget {
                   //],
                 ),
                 body: SingleChildScrollView(
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(25.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Avatar con iniciales
                       Center(
-                        child: CircleAvatar(
-                          radius: MediaQuery.of(context).size.width * 0.2,
-                          backgroundColor:
-                              Theme.of(context).colorScheme.primary,
-                          child: Text(
-                            '${user.firstName[0].toUpperCase()}${user.lastName[0].toUpperCase()}',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 50,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CircleAvatar(
+                              radius: MediaQuery.of(context).size.width * 0.2,
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.primary,
+                              child: Text(
+                                '${user.firstName[0].toUpperCase()}${user.lastName[0].toUpperCase()}',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 50,
+                                ),
+                              ),
                             ),
-                          ),
+                            SizedBox(height: 16),
+                            Text(
+                              user.email,
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                            SizedBox(height: 8),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  '${translation.username}: ',
+                                  style: Theme.of(context).textTheme.titleMedium
+                                      ?.copyWith(fontWeight: FontWeight.bold),
+                                ),
+                                Text(user.userName),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
-                      const SizedBox(height: 16),
-
-                      // Título Información fuera de la Card
+                      const SizedBox(height: 20),
                       Text(
-                        translation.information,
+                        translation.basic_information,
                         style: Theme.of(context).textTheme.headlineMedium,
                       ),
                       const SizedBox(height: 8),
@@ -108,17 +128,7 @@ class ProfileScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               _buildItem(translation.name, fullName, context),
-                              _buildItem(
-                                translation.email,
-                                user.email,
-                                context,
-                              ),
-                              if (user.userName?.isNotEmpty == true)
-                                _buildItem(
-                                  translation.username,
-                                  user.userName!,
-                                  context,
-                                ),
+
                               if (user.dob != null)
                                 _buildItem(
                                   translation.date_birth,
@@ -159,9 +169,6 @@ class ProfileScreen extends StatelessWidget {
                           children:
                               user.emails.map((email) {
                                 return Card(
-                                  color:
-                                      Colors
-                                          .red[50], // Siempre rojo por defecto
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
                                   ),
@@ -182,12 +189,7 @@ class ProfileScreen extends StatelessWidget {
                                           email.note.toString(),
                                           context,
                                         ),
-                                      _buildItem(
-                                        translation.insecure,
-                                        translation.yes,
-                                        context,
-                                        valueColor: Colors.red,
-                                      ),
+
                                       SizedBox(height: 10),
                                     ],
                                   ),
@@ -205,7 +207,7 @@ class ProfileScreen extends StatelessWidget {
                               user.phones.map((phone) {
                                 final isUnsafe = phone.unsafe;
                                 return Card(
-                                  color: isUnsafe ? Colors.red[50] : null,
+                                  color: isUnsafe ? Colors.red[100] : null,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
                                   ),
