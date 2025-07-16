@@ -27,3 +27,9 @@ class SetPreferenceRequested extends AuthEvent {
   final String value;
   SetPreferenceRequested(this.preference, this.value);
 }
+
+class EditProfileRequested extends AuthEvent {
+  final String userId;
+  final Map<String, dynamic> userData;
+  EditProfileRequested(this.userId, this.userData);
+}

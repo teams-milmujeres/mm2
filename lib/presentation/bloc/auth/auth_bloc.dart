@@ -21,6 +21,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<LogoutRequested>(_onLogoutRequested);
     on<ReadPreferencesRequested>(_onReadPreferencesRequested);
     on<SetPreferenceRequested>(_onSetPreferenceRequested);
+    on<EditProfileRequested>(_onEditProfileRequested);
   }
 
   Future<void> _onLoginRequested(
@@ -43,8 +44,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           value: bd.toString(),
         ); // ← aquí el cambio
         add(TryToken(token: token, bd: bd));
-        print('Token: $token');
-        print('BD: $bd');
+        // print('Token: $token');
+        // print('BD: $bd');
       } else {
         if (!data['verified']) {
           emit(AuthFailure(data['message']));
@@ -59,6 +60,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _onTryToken(TryToken event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
+
     try {
       final response = await client.dio.get(
         '/user',
@@ -73,7 +75,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       await _secureStorage.write(key: 'client_id', value: _user!.id.toString());
 
       emit(AuthAuthenticated(_user!, _token!));
-    } catch (e) {
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 401) {
+        emit(
+          AuthFailure("Sesión expirada. Por favor vuelve a iniciar sesión."),
+        );
+      } else {
+        emit(AuthFailure("Error al validar el usuario. Intenta más tarde."));
+      }
+      emit(AuthUnauthenticated());
+    } catch (_) {
+      emit(AuthFailure("Error inesperado. Intenta nuevamente."));
       emit(AuthUnauthenticated());
     }
   }
@@ -89,12 +101,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           queryParameters: {"b": bd},
           options: Options(headers: {'Authorization': 'Bearer $token'}),
         );
+
         final user = User.fromJson(response.data);
         emit(AuthAuthenticated(user, token));
-      } catch (e) {
+      } on DioException catch (e) {
+        if (e.response?.statusCode == 401) {
+          emit(AuthFailure("Tu sesión ha expirado."));
+        } else {
+          emit(AuthFailure("No se pudo verificar la sesión."));
+        }
+        emit(AuthUnauthenticated());
+      } catch (_) {
+        emit(AuthFailure("Error inesperado al validar sesión."));
         emit(AuthUnauthenticated());
       }
     } else {
+      emit(AuthFailure("No hay sesión activa."));
       emit(AuthUnauthenticated());
     }
   }
@@ -130,5 +152,38 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     await _secureStorage.write(key: event.preference, value: event.value);
+  }
+
+  Future<void> _onEditProfileRequested(
+    EditProfileRequested event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(AuthLoading());
+
+    final bd = await _secureStorage.read(key: 'b') == 'true';
+
+    try {
+      // Enviar los datos actualizados
+      await client.dio.post(
+        '/user_c/${event.userId}',
+        data: event.userData,
+        queryParameters: {'b': bd},
+        options: Options(headers: {'Authorization': 'Bearer $_token'}),
+      );
+
+      // Volver a obtener el usuario actualizado
+      final response = await client.dio.get(
+        '/user',
+        queryParameters: {"b": bd},
+        options: Options(headers: {'Authorization': 'Bearer $_token'}),
+      );
+
+      _user = User.fromJson(response.data);
+      emit(AuthAuthenticated(_user!, _token!));
+    } catch (e) {
+      emit(
+        AuthFailure("No se pudo actualizar la información. Intenta más tarde."),
+      );
+    }
   }
 }

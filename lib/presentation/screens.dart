@@ -4,6 +4,7 @@ export 'package:milmujeres_app/presentation/screens/welcome_screen.dart';
 export 'package:milmujeres_app/presentation/screens/login_screen.dart';
 export 'package:milmujeres_app/presentation/screens/register_screen.dart';
 export 'package:milmujeres_app/presentation/screens/profile_screen.dart';
+export 'package:milmujeres_app/presentation/screens/profile_edit_screen.dart';
 export 'package:milmujeres_app/presentation/screens/office_screen.dart';
 export 'package:milmujeres_app/presentation/screens/contact_us_screen.dart';
 export 'package:milmujeres_app/presentation/screens/donate_screen.dart';

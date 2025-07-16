@@ -5,6 +5,7 @@ import 'package:milmujeres_app/domain/entities/country.dart';
 import 'package:milmujeres_app/presentation/bloc/auth/auth_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:milmujeres_app/presentation/bloc/countries/countries_bloc.dart';
+import 'package:milmujeres_app/presentation/screens.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -53,18 +54,19 @@ class ProfileScreen extends StatelessWidget {
               }
 
               return Scaffold(
-                appBar: AppBar(
-                  title: Text(translation.profile),
-                  // actions: [
-                  //   IconButton(
-                  //     icon: const Icon(Icons.edit),
-                  //     tooltip: translation.edit,
-                  //     onPressed: () {
-                  //       // Abre tu pantalla de edición
-                  //       // Navigator.pushNamed(context, '/editProfile');
-                  //     },
-                  //   ),
-                  //],
+                appBar: AppBar(title: Text(translation.profile)),
+                floatingActionButton: FloatingActionButton(
+                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EditProfileScreen(user: user),
+                      ),
+                    );
+                  },
+                  child: const Icon(Icons.edit),
                 ),
                 body: SingleChildScrollView(
                   padding: const EdgeInsets.all(25.0),
