@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:milmujeres_app/data/data.dart';
 import 'package:milmujeres_app/domain/entities/address.dart';
 import 'package:milmujeres_app/domain/entities/email.dart';
@@ -32,9 +33,7 @@ class EditProfileScreen extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder:
-                      (_) =>
-                          EditBasicScreen(translation: translation, user: user),
+                  builder: (_) => EditBasicScreen(translation: translation),
                 ),
               );
             },
@@ -102,14 +101,9 @@ class EditProfileScreen extends StatelessWidget {
 
 // Pantalla relacionada a la informacion basica, solo se edita
 class EditBasicScreen extends StatefulWidget {
-  const EditBasicScreen({
-    super.key,
-    required this.translation,
-    required this.user,
-  });
+  const EditBasicScreen({super.key, required this.translation});
 
   final AppLocalizations translation;
-  final User user;
 
   @override
   State<EditBasicScreen> createState() => _EditBasicScreenState();
@@ -120,14 +114,30 @@ class _EditBasicScreenState extends State<EditBasicScreen> {
   late final TextEditingController middleNameController;
   late final TextEditingController lastNameController;
   late final CountriesBloc countriesBloc;
+  late User user;
+  late final TextEditingController birthDateController;
+  DateTime? selectedBirthDate;
+
+  bool initialized = false;
 
   @override
   void initState() {
     super.initState();
-    firstNameController = TextEditingController(text: widget.user.firstName);
-    middleNameController = TextEditingController(text: widget.user.middleName);
-    lastNameController = TextEditingController(text: widget.user.lastName);
     countriesBloc = CountriesBloc()..add(GetCountriesAndCitizenships());
+  }
+
+  void initializeControllers(User currentUser) {
+    if (initialized) return;
+    user = currentUser;
+    firstNameController = TextEditingController(text: user.firstName);
+    middleNameController = TextEditingController(text: user.middleName);
+    lastNameController = TextEditingController(text: user.lastName);
+    birthDateController = TextEditingController(
+      text: user.dob != null ? DateFormat('yyyy-MM-dd').format(user.dob!) : '',
+    );
+    selectedBirthDate = user.dob;
+
+    initialized = true;
   }
 
   @override
@@ -136,84 +146,173 @@ class _EditBasicScreenState extends State<EditBasicScreen> {
     firstNameController.dispose();
     middleNameController.dispose();
     lastNameController.dispose();
+    birthDateController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: countriesBloc,
-      child: BlocBuilder<CountriesBloc, CountriesState>(
-        builder: (context, state) {
-          if (state is CountriesLoading) {
-            return const Scaffold(
-              body: Center(child: CircularProgressIndicator()),
-            );
-          }
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, authState) {
+        if (authState is! AuthAuthenticated) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
 
-          if (state is CountriesError) {
-            return Scaffold(body: Center(child: Text(state.message)));
-          }
+        initializeControllers(authState.user);
 
-          if (state is CountriesSucess) {
-            return Scaffold(
-              appBar: AppBar(title: Text(widget.translation.basic_information)),
-              body: ListView(
-                padding: const EdgeInsets.all(25.0),
-                children: [
-                  EditableField(
-                    label: widget.translation.first_name,
-                    controller: firstNameController,
-                  ),
-                  const SizedBox(height: 12),
-                  EditableField(
-                    label: widget.translation.middle_name,
-                    controller: middleNameController,
-                  ),
-                  const SizedBox(height: 12),
-                  EditableField(
-                    label: widget.translation.last_name,
-                    controller: lastNameController,
-                  ),
-                  const SizedBox(height: 12),
-                  EditableDropdownField(
-                    label: widget.translation.country_birth,
-                    value: widget.user.countryOfBirthId,
-                    entries:
-                        state.countries
-                            .map((e) => MapEntry(e.id, e.name))
-                            .toList(),
-                    onChanged: (value) => widget.user.countryOfBirthId = value,
-                  ),
-                  const SizedBox(height: 12),
-                  EditableDropdownField(
-                    label: widget.translation.citizenship,
-                    value: widget.user.citizenshipId,
-                    entries:
-                        state.citizenships
-                            .map((e) => MapEntry(e.id, e.name))
-                            .toList(),
-                    onChanged: (value) => widget.user.citizenshipId = value,
-                  ),
-                  const SizedBox(height: 24),
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      widget.user.firstName = firstNameController.text.trim();
-                      widget.user.middleName = middleNameController.text.trim();
-                      widget.user.lastName = lastNameController.text.trim();
+        return BlocProvider.value(
+          value: countriesBloc,
+          child: BlocBuilder<CountriesBloc, CountriesState>(
+            builder: (context, state) {
+              if (state is CountriesLoading) {
+                return const Scaffold(
+                  body: Center(child: CircularProgressIndicator()),
+                );
+              }
+
+              if (state is CountriesError) {
+                return Scaffold(body: Center(child: Text(state.message)));
+              }
+
+              if (state is CountriesSucess) {
+                return BlocListener<AuthBloc, AuthState>(
+                  listener: (context, state) {
+                    if (state is AuthAuthenticated) {
                       Navigator.pop(context);
-                    },
-                    icon: const Icon(Icons.save),
-                    label: Text(AppLocalizations.of(context)!.save),
-                  ),
-                ],
-              ),
-            );
-          }
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(widget.translation.information_updated),
+                        ),
+                      );
+                    } else if (state is AuthFailure) {
+                      ScaffoldMessenger.of(
+                        context,
+                      ).showSnackBar(SnackBar(content: Text(state.message)));
+                    }
+                  },
+                  child: Scaffold(
+                    appBar: AppBar(
+                      title: Text(widget.translation.basic_information),
+                    ),
+                    body: ListView(
+                      padding: const EdgeInsets.all(25.0),
+                      children: [
+                        EditableField(
+                          label: widget.translation.first_name,
+                          controller: firstNameController,
+                        ),
+                        const SizedBox(height: 12),
+                        EditableField(
+                          label: widget.translation.middle_name,
+                          controller: middleNameController,
+                        ),
+                        const SizedBox(height: 12),
+                        EditableField(
+                          label: widget.translation.last_name,
+                          controller: lastNameController,
+                        ),
+                        const SizedBox(height: 12),
+                        EditableDropdownField(
+                          label: widget.translation.country_birth,
+                          value: user.countryOfBirthId,
+                          entries:
+                              state.countries
+                                  .map((e) => MapEntry(e.id, e.name))
+                                  .toList(),
+                          onChanged: (value) => user.countryOfBirthId = value,
+                        ),
+                        const SizedBox(height: 12),
+                        TextField(
+                          controller: birthDateController,
+                          readOnly: true,
+                          decoration: InputDecoration(
+                            labelText: widget.translation.date_birth,
+                            border: const OutlineInputBorder(),
+                            suffixIcon: const Icon(Icons.calendar_today),
+                          ),
+                          onTap: () async {
+                            final now = DateTime.now();
+                            final initialDate =
+                                selectedBirthDate ?? DateTime(now.year - 18);
+                            final pickedDate = await showDatePicker(
+                              context: context,
+                              initialDate: initialDate,
+                              firstDate: DateTime(1900),
+                              lastDate: now,
+                            );
 
-          return const SizedBox.shrink();
-        },
-      ),
+                            if (pickedDate != null) {
+                              setState(() {
+                                selectedBirthDate = pickedDate;
+                                birthDateController.text = DateFormat(
+                                  'yyyy-MM-dd',
+                                ).format(pickedDate);
+                                user.dob = pickedDate;
+                              });
+                            }
+                          },
+                        ),
+
+                        const SizedBox(height: 12),
+                        EditableDropdownField(
+                          label: widget.translation.citizenship,
+                          value: user.citizenshipId,
+                          entries:
+                              state.citizenships
+                                  .map((e) => MapEntry(e.id, e.name))
+                                  .toList(),
+                          onChanged: (value) => user.citizenshipId = value,
+                        ),
+                        const SizedBox(height: 24),
+                        ElevatedButton.icon(
+                          onPressed: () {
+                            user.firstName = firstNameController.text.trim();
+                            user.middleName = middleNameController.text.trim();
+                            user.lastName = lastNameController.text.trim();
+                            user.dob = selectedBirthDate;
+
+                            context.read<AuthBloc>().add(
+                              EditProfileRequested(user.id.toString(), {
+                                'firstname': user.firstName,
+                                'middlename': user.middleName,
+                                'lastname': user.lastName,
+                                'country_of_birth_id': user.countryOfBirthId,
+                                'dob':
+                                    user.dob != null
+                                        ? DateFormat(
+                                          'yyyy-MM-dd',
+                                        ).format(user.dob!)
+                                        : null,
+                                'citizenship_id': user.citizenshipId,
+                                'client_id': user.id,
+                                'client': getPlatform(),
+                              }),
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  widget.translation.information_updated,
+                                ),
+                              ),
+                            );
+                            Navigator.pop(context);
+                          },
+                          icon: const Icon(Icons.save),
+                          label: Text(AppLocalizations.of(context)!.save),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }
+
+              return const SizedBox.shrink();
+            },
+          ),
+        );
+      },
     );
   }
 }
