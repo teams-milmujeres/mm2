@@ -290,6 +290,19 @@ class EditEmailsScreen extends StatelessWidget {
                     onPressed: () {
                       final updatedEmails = [...user.emails]..removeAt(index);
 
+                      if (updatedEmails.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              AppLocalizations.of(
+                                context,
+                              )!.at_least_one_required,
+                            ),
+                          ),
+                        );
+                        return;
+                      }
+
                       context.read<AuthBloc>().add(
                         EditProfileRequested(user.id.toString(), {
                           'emails':
@@ -422,6 +435,19 @@ class EditPhonesScreen extends StatelessWidget {
                     icon: const Icon(Icons.delete, color: Colors.red),
                     onPressed: () {
                       final updatedPhones = [...user.phones]..removeAt(index);
+
+                      if (updatedPhones.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              AppLocalizations.of(
+                                context,
+                              )!.at_least_one_required,
+                            ),
+                          ),
+                        );
+                        return;
+                      }
                       context.read<AuthBloc>().add(
                         EditProfileRequested(user.id.toString(), {
                           'phones':
@@ -583,6 +609,19 @@ class EditAddressesScreen extends StatelessWidget {
                     onPressed: () {
                       final updatedAddresses = [...user.addresses]
                         ..removeAt(index);
+
+                      if (updatedAddresses.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              AppLocalizations.of(
+                                context,
+                              )!.at_least_one_required,
+                            ),
+                          ),
+                        );
+                        return;
+                      }
                       context.read<AuthBloc>().add(
                         EditProfileRequested(user.id.toString(), {
                           'address':
@@ -713,7 +752,6 @@ class _GenericEditModalState<T> extends State<GenericEditModal<T>> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(translation.information_updated)),
           );
-          Navigator.pop(context); // cerrar modal
         } else if (state is AuthFailure) {
           ScaffoldMessenger.of(
             context,
@@ -776,7 +814,15 @@ class _GenericEditModalState<T> extends State<GenericEditModal<T>> {
                             return e;
                           }).toList();
 
-                  Navigator.of(context).pop();
+                  // ✅ Validar que no quede vacía
+                  if (updatedList.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(translation.at_least_one_required),
+                      ),
+                    );
+                    return;
+                  }
 
                   context.read<AuthBloc>().add(
                     EditProfileRequested(user.id.toString(), {
@@ -791,6 +837,8 @@ class _GenericEditModalState<T> extends State<GenericEditModal<T>> {
                       'client': getPlatform(),
                     }),
                   );
+
+                  Navigator.of(context).pop();
                 }
               },
               child: Text(translation.save),

@@ -224,6 +224,7 @@
   "services": "Servicios",
   "location": "Locacion",
   "insecure": "Inseguro",
+  "at_least_one_required": "Al menos uno requerido",
 
   "@_MESSAGES": {},
   "error_try_again_later" : "Error inténtelo nuevamente más tarde.",
