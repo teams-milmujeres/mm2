@@ -30,7 +30,7 @@ class ProfileScreen extends StatelessWidget {
               String? countryName;
               String? citizenshipName;
 
-              if (countriesState is CountriesLoaded) {
+              if (countriesState is CountriesSucess) {
                 if (user.countryOfBirthId != null) {
                   countryName =
                       countriesState.countries

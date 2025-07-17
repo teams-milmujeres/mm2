@@ -35,7 +35,7 @@ class CountriesBloc extends Bloc<CountriesEvent, CountriesState> {
                 .map((item) => Citizenship.fromJson(item))
                 .toList();
 
-        emit(CountriesLoaded(countries: countries, citizenships: citizenships));
+        emit(CountriesSucess(countries: countries, citizenships: citizenships));
       } else {
         emit(CountriesError('Error: respuesta inválida del servidor'));
       }

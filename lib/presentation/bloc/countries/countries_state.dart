@@ -6,11 +6,11 @@ class CountriesInitial extends CountriesState {}
 
 class CountriesLoading extends CountriesState {}
 
-class CountriesLoaded extends CountriesState {
+class CountriesSucess extends CountriesState {
   final List<Country> countries;
   final List<Citizenship> citizenships;
 
-  CountriesLoaded({required this.countries, required this.citizenships});
+  CountriesSucess({required this.countries, required this.citizenships});
 }
 
 class CountriesError extends CountriesState {

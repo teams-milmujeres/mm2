@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:milmujeres_app/domain/entities/user.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:milmujeres_app/presentation/bloc/countries/countries_bloc.dart';
 
 class EditProfileScreen extends StatelessWidget {
   final User user;
@@ -24,31 +26,87 @@ class EditProfileScreen extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder:
-                      (_) => EditSectionScreen(
-                        title: translation.basic_information,
-                        fields: [
-                          EditableField(
-                            label: translation.name,
-                            controller: TextEditingController(
-                              text: user.firstName,
-                            ),
-                          ),
-                          EditableField(
-                            label: translation.name,
-                            controller: TextEditingController(
-                              text: user.middleName,
-                            ),
-                          ),
-                          EditableField(
-                            label: translation.name,
-                            controller: TextEditingController(
-                              text: user.lastName,
-                            ),
-                          ),
-                        ],
-                        onSave: () {
-                          Navigator.pop(context);
-                        },
+                      (_) => BlocProvider(
+                        create:
+                            (context) =>
+                                CountriesBloc()
+                                  ..add(GetCountriesAndCitizenships()),
+
+                        child: BlocBuilder<CountriesBloc, CountriesState>(
+                          builder: (context, state) {
+                            if (state is CountriesLoading) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            } else if (state is CountriesError) {
+                              return Center(child: Text(state.message));
+                            } else if (state is CountriesSucess) {
+                              return EditSectionScreen(
+                                title: translation.basic_information,
+                                fields: [
+                                  EditableField(
+                                    label: translation.first_name,
+                                    controller: TextEditingController(
+                                      text: user.firstName,
+                                    ),
+                                  ),
+                                  SizedBox(height: 12),
+                                  EditableField(
+                                    label: translation.middle_name,
+                                    controller: TextEditingController(
+                                      text: user.middleName,
+                                    ),
+                                  ),
+                                  SizedBox(height: 12),
+                                  EditableField(
+                                    label: translation.last_name,
+                                    controller: TextEditingController(
+                                      text: user.lastName,
+                                    ),
+                                  ),
+                                  SizedBox(height: 12),
+
+                                  const SizedBox(height: 12),
+                                  EditableDropdownField(
+                                    label: translation.country_birth,
+                                    value: user.countryOfBirthId,
+                                    items:
+                                        state.countries.map((country) {
+                                          return DropdownMenuItem(
+                                            value: country.id,
+                                            child: Text(country.name),
+                                          );
+                                        }).toList(),
+                                    onChanged:
+                                        (value) =>
+                                            user.countryOfBirthId = value,
+                                  ),
+
+                                  const SizedBox(height: 12),
+
+                                  EditableDropdownField(
+                                    label: translation.citizenship,
+                                    value: user.citizenshipId,
+                                    items:
+                                        state.citizenships.map((citizenship) {
+                                          return DropdownMenuItem(
+                                            value: citizenship.id,
+                                            child: Text(citizenship.name),
+                                          );
+                                        }).toList(),
+                                    onChanged:
+                                        (value) => user.citizenshipId = value,
+                                  ),
+                                ],
+                                onSave: () {
+                                  Navigator.pop(context);
+                                },
+                              );
+                            } else {
+                              return SizedBox.shrink();
+                            }
+                          },
+                        ),
                       ),
                 ),
               );
@@ -117,23 +175,62 @@ class EditProfileScreen extends StatelessWidget {
   }
 }
 
-class EditableField {
+class EditableField extends StatelessWidget {
   final String label;
   final TextEditingController controller;
-  final bool multiline;
-  final bool isRequired;
 
-  EditableField({
+  const EditableField({
+    super.key,
     required this.label,
     required this.controller,
-    this.multiline = false,
-    this.isRequired = true,
   });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: controller,
+      decoration: InputDecoration(labelText: label),
+    );
+  }
+}
+
+class EditableDropdownField extends StatelessWidget {
+  final String label;
+  final int? value;
+  final List<DropdownMenuItem<int>> items;
+  final ValueChanged<int?> onChanged;
+
+  const EditableDropdownField({
+    super.key,
+    required this.label,
+    required this.value,
+    required this.items,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownMenu<int?>(
+      label: Text(label),
+      initialSelection: value,
+      dropdownMenuEntries:
+          items
+              .map(
+                (item) => DropdownMenuEntry<int?>(
+                  value: item.value,
+                  label:
+                      item.child is Text ? (item.child as Text).data ?? '' : '',
+                ),
+              )
+              .toList(),
+      onSelected: onChanged,
+    );
+  }
 }
 
 class EditSectionScreen extends StatelessWidget {
   final String title;
-  final List<EditableField> fields;
+  final List<Widget> fields;
   final VoidCallback onSave;
 
   const EditSectionScreen({
@@ -145,38 +242,20 @@ class EditSectionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final translation = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(title: Text(title)),
-      body: Padding(
+      body: ListView(
         padding: const EdgeInsets.all(16),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
-              child: ListView.separated(
-                itemCount: fields.length,
-                separatorBuilder: (_, __) => const SizedBox(height: 16),
-                itemBuilder: (context, index) {
-                  final field = fields[index];
-                  return TextField(
-                    controller: field.controller,
-                    maxLines: field.multiline ? null : 1,
-                    decoration: InputDecoration(
-                      labelText: field.label,
-                      border: const OutlineInputBorder(),
-                    ),
-                  );
-                },
-              ),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton.icon(
-              onPressed: onSave,
-              icon: const Icon(Icons.save),
-              label: Text(MaterialLocalizations.of(context).saveButtonLabel),
-            ),
-          ],
-        ),
+        children: [
+          ...fields,
+          const SizedBox(height: 24),
+          ElevatedButton.icon(
+            onPressed: onSave,
+            icon: const Icon(Icons.save),
+            label: Text(translation.save),
+          ),
+        ],
       ),
     );
   }
@@ -191,6 +270,54 @@ class EditEmailsScreen extends StatelessWidget {
     final translation = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(title: Text(translation.emails)),
+      floatingActionButton: FloatingActionButton(
+        foregroundColor: Theme.of(context).colorScheme.onPrimary,
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        onPressed: () {
+          String newEmail = '';
+          String newNote = '';
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            builder:
+                (_) => Padding(
+                  padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom + 16,
+                    left: 16,
+                    right: 16,
+                    top: 24,
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextField(
+                        decoration: InputDecoration(
+                          labelText: translation.email,
+                        ),
+                        onChanged: (value) => newEmail = value,
+                      ),
+                      const SizedBox(height: 10),
+                      TextField(
+                        decoration: InputDecoration(
+                          labelText: translation.note,
+                        ),
+                        onChanged: (value) => newNote = value,
+                      ),
+                      const SizedBox(height: 10),
+                      ElevatedButton(
+                        onPressed: () {
+                          // TODO: lógica para agregar nuevo email a user.emails
+                          Navigator.pop(context);
+                        },
+                        child: Text(translation.save),
+                      ),
+                    ],
+                  ),
+                ),
+          );
+        },
+        child: const Icon(Icons.add),
+      ),
       body: ListView.builder(
         padding: const EdgeInsets.all(16),
         itemCount: user.emails.length,
@@ -267,6 +394,66 @@ class EditPhonesScreen extends StatelessWidget {
     final translation = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(title: Text(translation.phones)),
+      floatingActionButton: FloatingActionButton(
+        foregroundColor: Theme.of(context).colorScheme.onPrimary,
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            builder:
+                (_) => StatefulBuilder(
+                  builder: (context, setModalState) {
+                    final phoneController = TextEditingController();
+                    bool isUnsafe = false;
+
+                    return Padding(
+                      padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom + 16,
+                        left: 16,
+                        right: 16,
+                        top: 24,
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          TextField(
+                            controller: phoneController,
+                            decoration: InputDecoration(
+                              labelText: translation.phone,
+                            ),
+                            keyboardType: TextInputType.phone,
+                          ),
+                          SwitchListTile(
+                            title: Text(translation.unsafe),
+                            value: isUnsafe,
+                            onChanged: (value) {
+                              setModalState(() => isUnsafe = value);
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          ElevatedButton(
+                            onPressed: () {
+                              final newPhone = phoneController.text.trim();
+                              if (newPhone.isNotEmpty) {
+                                // Aquí deberías llamar a tu lógica para agregar el nuevo teléfono
+                                // Ejemplo (si estuvieras usando BLoC o similar):
+                                // context.read<AuthBloc>().add(AddPhoneRequested(newPhone, isUnsafe));
+
+                                Navigator.pop(context);
+                              }
+                            },
+                            child: Text(translation.save),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+          );
+        },
+        child: const Icon(Icons.add),
+      ),
       body: ListView.builder(
         padding: const EdgeInsets.all(16),
         itemCount: user.phones.length,
@@ -278,7 +465,7 @@ class EditPhonesScreen extends StatelessWidget {
               leading: const Icon(Icons.phone_android),
               title: Text(phone.phone),
               subtitle: Text(
-                phone.unsafe ? translation.insecure : translation.unsafe,
+                '${translation.insecure}: ${phone.unsafe ? translation.yes : translation.no}',
                 style: TextStyle(
                   color: phone.unsafe ? Colors.red : Colors.green,
                 ),
@@ -294,31 +481,43 @@ class EditPhonesScreen extends StatelessWidget {
                   context: context,
                   isScrollControlled: true,
                   builder:
-                      (_) => Padding(
-                        padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).viewInsets.bottom + 16,
-                          left: 16,
-                          right: 16,
-                          top: 24,
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            TextField(
-                              controller: TextEditingController(
-                                text: phone.phone,
-                              ),
-                              decoration: InputDecoration(
-                                labelText: translation.phone,
-                              ),
+                      (_) => StatefulBuilder(
+                        builder: (context, setModalState) {
+                          return Padding(
+                            padding: EdgeInsets.only(
+                              bottom:
+                                  MediaQuery.of(context).viewInsets.bottom + 16,
+                              left: 16,
+                              right: 16,
+                              top: 24,
                             ),
-                            const SizedBox(height: 10),
-                            ElevatedButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: Text(translation.save),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                TextField(
+                                  controller: TextEditingController(
+                                    text: phone.phone,
+                                  ),
+                                  decoration: InputDecoration(
+                                    labelText: translation.phone,
+                                  ),
+                                ),
+                                SwitchListTile(
+                                  title: Text(translation.unsafe),
+                                  value: phone.unsafe,
+                                  onChanged: (value) {
+                                    setModalState(() => phone.unsafe = value);
+                                  },
+                                ),
+                                const SizedBox(height: 10),
+                                ElevatedButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text(translation.save),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          );
+                        },
                       ),
                 );
               },
@@ -339,6 +538,102 @@ class EditAddressesScreen extends StatelessWidget {
     final translation = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(title: Text(translation.addresses)),
+      floatingActionButton: FloatingActionButton(
+        foregroundColor: Theme.of(context).colorScheme.onPrimary,
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            builder:
+                (_) => StatefulBuilder(
+                  builder: (context, setModalState) {
+                    // Variables locales del modal
+                    final TextEditingController addressController =
+                        TextEditingController();
+                    bool isUnsafe = false;
+
+                    return Padding(
+                      padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom + 16,
+                        left: 16,
+                        right: 16,
+                        top: 24,
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Text(
+                            translation.address,
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                          const SizedBox(height: 16),
+
+                          TextField(
+                            controller: addressController,
+                            decoration: InputDecoration(
+                              labelText: translation.address,
+                              border: const OutlineInputBorder(),
+                            ),
+                          ),
+
+                          const SizedBox(height: 16),
+
+                          SwitchListTile(
+                            title: Text(translation.unsafe),
+                            value: isUnsafe,
+                            onChanged:
+                                (value) =>
+                                    setModalState(() => isUnsafe = value),
+                          ),
+
+                          const SizedBox(height: 16),
+
+                          SwitchListTile(
+                            title: Text(translation.physical_address),
+                            value: false,
+                            onChanged:
+                                (value) =>
+                                    setModalState(() => isUnsafe = value),
+                          ),
+
+                          const SizedBox(height: 16),
+
+                          SwitchListTile(
+                            title: Text(translation.mailing_address),
+                            value: false,
+                            onChanged:
+                                (value) =>
+                                    setModalState(() => isUnsafe = value),
+                          ),
+
+                          const SizedBox(height: 16),
+
+                          ElevatedButton.icon(
+                            icon: const Icon(Icons.save),
+                            onPressed: () {
+                              final newAddress = addressController.text.trim();
+                              if (newAddress.isNotEmpty) {
+                                // Aquí podrías usar Bloc, setState, etc.
+                                // print(
+                                //   'Guardar dirección: $newAddress | Insegura: $isUnsafe',
+                                // );
+                                Navigator.pop(context);
+                              }
+                            },
+                            label: Text(translation.save),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+          );
+        },
+        child: const Icon(Icons.add),
+      ),
+
       body: ListView.builder(
         padding: const EdgeInsets.all(16),
         itemCount: user.address.length,
@@ -377,31 +672,61 @@ class EditAddressesScreen extends StatelessWidget {
                   context: context,
                   isScrollControlled: true,
                   builder:
-                      (_) => Padding(
-                        padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).viewInsets.bottom + 16,
-                          left: 16,
-                          right: 16,
-                          top: 24,
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            TextField(
-                              controller: TextEditingController(
-                                text: address.address,
-                              ),
-                              decoration: InputDecoration(
-                                labelText: translation.address,
-                              ),
+                      (_) => StatefulBuilder(
+                        builder: (context, setModalState) {
+                          return Padding(
+                            padding: EdgeInsets.only(
+                              bottom:
+                                  MediaQuery.of(context).viewInsets.bottom + 16,
+                              left: 16,
+                              right: 16,
+                              top: 24,
                             ),
-                            const SizedBox(height: 10),
-                            ElevatedButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: Text(translation.save),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                TextField(
+                                  controller: TextEditingController(
+                                    text: address.address,
+                                  ),
+                                  decoration: InputDecoration(
+                                    labelText: translation.address,
+                                  ),
+                                ),
+
+                                SwitchListTile(
+                                  title: Text(translation.physical_address),
+                                  value: address.physicalAddress,
+                                  onChanged:
+                                      (value) => setModalState(
+                                        () => address.physicalAddress = value,
+                                      ),
+                                ),
+                                SwitchListTile(
+                                  title: Text(translation.mailing_address),
+                                  value: address.mailingAddress,
+                                  onChanged:
+                                      (value) => setModalState(
+                                        () => address.mailingAddress = value,
+                                      ),
+                                ),
+                                SwitchListTile(
+                                  title: Text(translation.unsafe),
+                                  value: address.unsafe,
+                                  onChanged:
+                                      (value) => setModalState(
+                                        () => address.unsafe = value,
+                                      ),
+                                ),
+                                const SizedBox(height: 10),
+                                ElevatedButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text(translation.save),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          );
+                        },
                       ),
                 );
               },
