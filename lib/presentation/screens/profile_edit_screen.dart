@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:milmujeres_app/domain/entities/user.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:milmujeres_app/presentation/bloc/countries/countries_bloc.dart';
+import 'package:milmujeres_app/widgets/widgets.dart';
 
+// Pantalla de edicion de perfil, muestra las opciones
 class EditProfileScreen extends StatelessWidget {
   final User user;
   const EditProfileScreen({super.key, required this.user});
@@ -15,7 +17,7 @@ class EditProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text(translation.edit_profile)),
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(25.0),
         children: [
           _buildEditCard(
             context,
@@ -26,88 +28,8 @@ class EditProfileScreen extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder:
-                      (_) => BlocProvider(
-                        create:
-                            (context) =>
-                                CountriesBloc()
-                                  ..add(GetCountriesAndCitizenships()),
-
-                        child: BlocBuilder<CountriesBloc, CountriesState>(
-                          builder: (context, state) {
-                            if (state is CountriesLoading) {
-                              return const Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            } else if (state is CountriesError) {
-                              return Center(child: Text(state.message));
-                            } else if (state is CountriesSucess) {
-                              return EditSectionScreen(
-                                title: translation.basic_information,
-                                fields: [
-                                  EditableField(
-                                    label: translation.first_name,
-                                    controller: TextEditingController(
-                                      text: user.firstName,
-                                    ),
-                                  ),
-                                  SizedBox(height: 12),
-                                  EditableField(
-                                    label: translation.middle_name,
-                                    controller: TextEditingController(
-                                      text: user.middleName,
-                                    ),
-                                  ),
-                                  SizedBox(height: 12),
-                                  EditableField(
-                                    label: translation.last_name,
-                                    controller: TextEditingController(
-                                      text: user.lastName,
-                                    ),
-                                  ),
-                                  SizedBox(height: 12),
-
-                                  const SizedBox(height: 12),
-                                  EditableDropdownField(
-                                    label: translation.country_birth,
-                                    value: user.countryOfBirthId,
-                                    items:
-                                        state.countries.map((country) {
-                                          return DropdownMenuItem(
-                                            value: country.id,
-                                            child: Text(country.name),
-                                          );
-                                        }).toList(),
-                                    onChanged:
-                                        (value) =>
-                                            user.countryOfBirthId = value,
-                                  ),
-
-                                  const SizedBox(height: 12),
-
-                                  EditableDropdownField(
-                                    label: translation.citizenship,
-                                    value: user.citizenshipId,
-                                    items:
-                                        state.citizenships.map((citizenship) {
-                                          return DropdownMenuItem(
-                                            value: citizenship.id,
-                                            child: Text(citizenship.name),
-                                          );
-                                        }).toList(),
-                                    onChanged:
-                                        (value) => user.citizenshipId = value,
-                                  ),
-                                ],
-                                onSave: () {
-                                  Navigator.pop(context);
-                                },
-                              );
-                            } else {
-                              return SizedBox.shrink();
-                            }
-                          },
-                        ),
-                      ),
+                      (_) =>
+                          EditBasicScreen(translation: translation, user: user),
                 ),
               );
             },
@@ -175,92 +97,125 @@ class EditProfileScreen extends StatelessWidget {
   }
 }
 
-class EditableField extends StatelessWidget {
-  final String label;
-  final TextEditingController controller;
-
-  const EditableField({
+// Pantalla relacionada a la informacion basica, solo se edita
+class EditBasicScreen extends StatefulWidget {
+  const EditBasicScreen({
     super.key,
-    required this.label,
-    required this.controller,
+    required this.translation,
+    required this.user,
   });
 
+  final AppLocalizations translation;
+  final User user;
+
   @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      decoration: InputDecoration(labelText: label),
-    );
-  }
+  State<EditBasicScreen> createState() => _EditBasicScreenState();
 }
 
-class EditableDropdownField extends StatelessWidget {
-  final String label;
-  final int? value;
-  final List<DropdownMenuItem<int>> items;
-  final ValueChanged<int?> onChanged;
-
-  const EditableDropdownField({
-    super.key,
-    required this.label,
-    required this.value,
-    required this.items,
-    required this.onChanged,
-  });
+class _EditBasicScreenState extends State<EditBasicScreen> {
+  late final TextEditingController firstNameController;
+  late final TextEditingController middleNameController;
+  late final TextEditingController lastNameController;
+  late final CountriesBloc countriesBloc;
 
   @override
-  Widget build(BuildContext context) {
-    return DropdownMenu<int?>(
-      label: Text(label),
-      initialSelection: value,
-      dropdownMenuEntries:
-          items
-              .map(
-                (item) => DropdownMenuEntry<int?>(
-                  value: item.value,
-                  label:
-                      item.child is Text ? (item.child as Text).data ?? '' : '',
-                ),
-              )
-              .toList(),
-      onSelected: onChanged,
-    );
+  void initState() {
+    super.initState();
+    firstNameController = TextEditingController(text: widget.user.firstName);
+    middleNameController = TextEditingController(text: widget.user.middleName);
+    lastNameController = TextEditingController(text: widget.user.lastName);
+    countriesBloc = CountriesBloc()..add(GetCountriesAndCitizenships());
   }
-}
 
-class EditSectionScreen extends StatelessWidget {
-  final String title;
-  final List<Widget> fields;
-  final VoidCallback onSave;
-
-  const EditSectionScreen({
-    super.key,
-    required this.title,
-    required this.fields,
-    required this.onSave,
-  });
+  @override
+  void dispose() {
+    countriesBloc.close();
+    firstNameController.dispose();
+    middleNameController.dispose();
+    lastNameController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final translation = AppLocalizations.of(context)!;
-    return Scaffold(
-      appBar: AppBar(title: Text(title)),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          ...fields,
-          const SizedBox(height: 24),
-          ElevatedButton.icon(
-            onPressed: onSave,
-            icon: const Icon(Icons.save),
-            label: Text(translation.save),
-          ),
-        ],
+    return BlocProvider.value(
+      value: countriesBloc,
+      child: BlocBuilder<CountriesBloc, CountriesState>(
+        builder: (context, state) {
+          if (state is CountriesLoading) {
+            return const Scaffold(
+              body: Center(child: CircularProgressIndicator()),
+            );
+          }
+
+          if (state is CountriesError) {
+            return Scaffold(body: Center(child: Text(state.message)));
+          }
+
+          if (state is CountriesSucess) {
+            return Scaffold(
+              appBar: AppBar(title: Text(widget.translation.basic_information)),
+              body: ListView(
+                padding: const EdgeInsets.all(25.0),
+                children: [
+                  EditableField(
+                    label: widget.translation.first_name,
+                    controller: firstNameController,
+                  ),
+                  const SizedBox(height: 12),
+                  EditableField(
+                    label: widget.translation.middle_name,
+                    controller: middleNameController,
+                  ),
+                  const SizedBox(height: 12),
+                  EditableField(
+                    label: widget.translation.last_name,
+                    controller: lastNameController,
+                  ),
+                  const SizedBox(height: 12),
+                  EditableDropdownField(
+                    label: widget.translation.country_birth,
+                    value: widget.user.countryOfBirthId,
+                    entries:
+                        state.countries
+                            .map((e) => MapEntry(e.id, e.name))
+                            .toList(),
+                    onChanged: (value) => widget.user.countryOfBirthId = value,
+                  ),
+                  const SizedBox(height: 12),
+                  EditableDropdownField(
+                    label: widget.translation.citizenship,
+                    value: widget.user.citizenshipId,
+                    entries:
+                        state.citizenships
+                            .map((e) => MapEntry(e.id, e.name))
+                            .toList(),
+                    onChanged: (value) => widget.user.citizenshipId = value,
+                  ),
+                  const SizedBox(height: 24),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      widget.user.firstName = firstNameController.text.trim();
+                      widget.user.middleName = middleNameController.text.trim();
+                      widget.user.lastName = lastNameController.text.trim();
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(Icons.save),
+                    label: Text(AppLocalizations.of(context)!.save),
+                  ),
+                ],
+              ),
+            );
+          }
+
+          return const SizedBox.shrink();
+        },
       ),
     );
   }
 }
 
+// Pantalla relacionada a los emails, las lista, agregar y editar
 class EditEmailsScreen extends StatelessWidget {
   final User user;
   const EditEmailsScreen({super.key, required this.user});
@@ -281,12 +236,7 @@ class EditEmailsScreen extends StatelessWidget {
             isScrollControlled: true,
             builder:
                 (_) => Padding(
-                  padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewInsets.bottom + 16,
-                    left: 16,
-                    right: 16,
-                    top: 24,
-                  ),
+                  padding: EdgeInsets.all(25.0),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -385,6 +335,7 @@ class EditEmailsScreen extends StatelessWidget {
   }
 }
 
+// Pantalla relacionada a los telefonos, agregar y editar
 class EditPhonesScreen extends StatelessWidget {
   final User user;
   const EditPhonesScreen({super.key, required this.user});
@@ -408,12 +359,7 @@ class EditPhonesScreen extends StatelessWidget {
                     bool isUnsafe = false;
 
                     return Padding(
-                      padding: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).viewInsets.bottom + 16,
-                        left: 16,
-                        right: 16,
-                        top: 24,
-                      ),
+                      padding: EdgeInsets.all(25.0),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -529,6 +475,7 @@ class EditPhonesScreen extends StatelessWidget {
   }
 }
 
+// Pantalla relacionada a las direcciones, las lista, agregar y editar
 class EditAddressesScreen extends StatelessWidget {
   final User user;
   const EditAddressesScreen({super.key, required this.user});
@@ -554,22 +501,11 @@ class EditAddressesScreen extends StatelessWidget {
                     bool isUnsafe = false;
 
                     return Padding(
-                      padding: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).viewInsets.bottom + 16,
-                        left: 16,
-                        right: 16,
-                        top: 24,
-                      ),
+                      padding: EdgeInsets.all(25.0),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          Text(
-                            translation.address,
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                          const SizedBox(height: 16),
-
                           TextField(
                             controller: addressController,
                             decoration: InputDecoration(
