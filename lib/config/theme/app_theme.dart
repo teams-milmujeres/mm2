@@ -48,6 +48,7 @@ class AppTheme {
     );
 
     return ThemeData(
+      useMaterial3: true,
       colorScheme: ColorScheme.fromSeed(
         seedColor: colorPrimary,
         onSurfaceVariant: colorPrimary,
@@ -88,6 +89,7 @@ class AppTheme {
           borderSide: BorderSide(color: colorPrimary),
         ),
       ),
+
       drawerTheme: DrawerThemeData(
         backgroundColor: Colors.white,
         scrimColor: Colors.black54,
