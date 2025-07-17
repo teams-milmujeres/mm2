@@ -14,7 +14,6 @@ class DashboardScreen extends StatelessWidget {
             .where(
               (opt) => [
                 '/profile',
-                '/events',
                 '/upload_document',
                 '/deposits',
                 '/caases_stage',

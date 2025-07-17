@@ -34,7 +34,10 @@ class CustomDrawer extends StatelessWidget {
                     .where(
                       (option) =>
                           option.route != '/login' &&
-                          option.route != '/register',
+                          option.route != '/register' &&
+                          option.route != '/upload_document' &&
+                          option.route != '/deposits' &&
+                          option.route != '/caases_stage',
                     )
                     .map(
                       (option) => _drawerItem(
