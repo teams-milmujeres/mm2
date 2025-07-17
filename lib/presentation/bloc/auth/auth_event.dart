@@ -33,3 +33,15 @@ class EditProfileRequested extends AuthEvent {
   final Map<String, dynamic> userData;
   EditProfileRequested(this.userId, this.userData);
 }
+
+class DeleteItemRequested extends AuthEvent {
+  final int userId;
+  final String type; // 'emails', 'phones', 'address'
+  final int index;
+
+  DeleteItemRequested({
+    required this.userId,
+    required this.type,
+    required this.index,
+  });
+}

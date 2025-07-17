@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:milmujeres_app/data/data.dart';
+import 'package:milmujeres_app/domain/entities/address.dart';
+import 'package:milmujeres_app/domain/entities/email.dart';
+import 'package:milmujeres_app/domain/entities/phone.dart';
 import 'package:milmujeres_app/domain/entities/user.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:milmujeres_app/presentation/bloc/auth/auth_bloc.dart';
 import 'package:milmujeres_app/presentation/bloc/countries/countries_bloc.dart';
 import 'package:milmujeres_app/widgets/widgets.dart';
 
@@ -42,7 +47,7 @@ class EditProfileScreen extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => EditEmailsScreen(user: user)),
+                MaterialPageRoute(builder: (_) => EditEmailsScreen()),
               );
             },
           ),
@@ -54,7 +59,7 @@ class EditProfileScreen extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => EditPhonesScreen(user: user)),
+                MaterialPageRoute(builder: (_) => EditPhonesScreen()),
               );
             },
           ),
@@ -66,9 +71,7 @@ class EditProfileScreen extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (_) => EditAddressesScreen(user: user),
-                ),
+                MaterialPageRoute(builder: (_) => EditAddressesScreen()),
               );
             },
           ),
@@ -215,460 +218,585 @@ class _EditBasicScreenState extends State<EditBasicScreen> {
   }
 }
 
-// Pantalla relacionada a los emails, las lista, agregar y editar
 class EditEmailsScreen extends StatelessWidget {
-  final User user;
-  const EditEmailsScreen({super.key, required this.user});
+  const EditEmailsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final translation = AppLocalizations.of(context)!;
-    return Scaffold(
-      appBar: AppBar(title: Text(translation.emails)),
-      floatingActionButton: FloatingActionButton(
-        foregroundColor: Theme.of(context).colorScheme.onPrimary,
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        onPressed: () {
-          String newEmail = '';
-          String newNote = '';
-          showModalBottomSheet(
-            context: context,
-            isScrollControlled: true,
-            builder:
-                (_) => Padding(
-                  padding: EdgeInsets.all(25.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: translation.email,
+
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        if (state is! AuthAuthenticated) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
+
+        final user = state.user;
+
+        return Scaffold(
+          appBar: AppBar(title: Text(translation.emails)),
+          floatingActionButton: FloatingActionButton(
+            foregroundColor: Theme.of(context).colorScheme.onPrimary,
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                builder:
+                    (_) => GenericEditModal<Email>(
+                      itemKey: 'emails',
+                      getCurrentItems: (user) => user.emails,
+                      title: translation.email,
+                      initialValues: {'email': '', 'note': ''},
+                      originalItem: null,
+                      fields: [
+                        FormFieldConfig(
+                          name: 'email',
+                          label: translation.email,
+                          type: FieldType.text,
                         ),
-                        onChanged: (value) => newEmail = value,
-                      ),
-                      const SizedBox(height: 10),
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: translation.note,
+                        FormFieldConfig(
+                          name: 'note',
+                          label: translation.note,
+                          type: FieldType.text,
                         ),
-                        onChanged: (value) => newNote = value,
-                      ),
-                      const SizedBox(height: 10),
-                      ElevatedButton(
-                        onPressed: () {
-                          // TODO: lógica para agregar nuevo email a user.emails
-                          Navigator.pop(context);
-                        },
-                        child: Text(translation.save),
-                      ),
-                    ],
+                      ],
+                      builder:
+                          (values) => Email(
+                            email: values['email'],
+                            note: values['note'],
+                          ),
+                      onSave: (_) {},
+                    ),
+              );
+            },
+            child: const Icon(Icons.add),
+          ),
+          body: ListView.builder(
+            padding: const EdgeInsets.all(16),
+            itemCount: user.emails.length,
+            itemBuilder: (context, index) {
+              final email = user.emails[index];
+              return Card(
+                margin: const EdgeInsets.only(bottom: 12),
+                child: ListTile(
+                  leading: const Icon(Icons.email_outlined),
+                  title: Text(email.email),
+                  subtitle: email.note != null ? Text(email.note!) : null,
+                  trailing: IconButton(
+                    icon: const Icon(Icons.delete, color: Colors.red),
+                    onPressed: () {
+                      final updatedEmails = [...user.emails]..removeAt(index);
+
+                      context.read<AuthBloc>().add(
+                        EditProfileRequested(user.id.toString(), {
+                          'emails':
+                              updatedEmails.map((e) => e.toJson()).toList(),
+                          'client_id': user.id,
+                          'client': getPlatform(),
+                        }),
+                      );
+                    },
                   ),
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      builder:
+                          (_) => GenericEditModal<Email>(
+                            itemKey: 'emails',
+                            getCurrentItems: (user) => user.emails,
+                            title: translation.email,
+                            initialValues: {
+                              'email': email.email,
+                              'note': email.note ?? '',
+                            },
+                            originalItem: email,
+                            fields: [
+                              FormFieldConfig(
+                                name: 'email',
+                                label: translation.email,
+                                type: FieldType.text,
+                              ),
+                              FormFieldConfig(
+                                name: 'note',
+                                label: translation.note,
+                                type: FieldType.text,
+                              ),
+                            ],
+                            builder:
+                                (values) => Email(
+                                  email: values['email'],
+                                  note: values['note'],
+                                ),
+                            onSave: (_) {},
+                          ),
+                    );
+                  },
                 ),
-          );
-        },
-        child: const Icon(Icons.add),
-      ),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemCount: user.emails.length,
-        itemBuilder: (context, index) {
-          final email = user.emails[index];
-          return Card(
-            margin: const EdgeInsets.only(bottom: 12),
-            child: ListTile(
-              leading: const Icon(Icons.email_outlined),
-              title: Text(email.email),
-              subtitle: email.note != null ? Text(email.note!) : null,
-              trailing: IconButton(
-                icon: const Icon(Icons.delete, color: Colors.red),
-                onPressed: () {
-                  // lógica de eliminación
-                },
-              ),
-              onTap: () {
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  builder:
-                      (_) => Padding(
-                        padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).viewInsets.bottom + 16,
-                          left: 16,
-                          right: 16,
-                          top: 24,
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            TextField(
-                              controller: TextEditingController(
-                                text: email.email,
-                              ),
-                              decoration: InputDecoration(
-                                labelText: translation.email,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            TextField(
-                              controller: TextEditingController(
-                                text: email.note,
-                              ),
-                              decoration: InputDecoration(
-                                labelText: translation.note,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            ElevatedButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: Text(translation.save),
-                            ),
-                          ],
-                        ),
-                      ),
-                );
-              },
-            ),
-          );
-        },
-      ),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }
 
 // Pantalla relacionada a los telefonos, agregar y editar
 class EditPhonesScreen extends StatelessWidget {
-  final User user;
-  const EditPhonesScreen({super.key, required this.user});
+  const EditPhonesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final translation = AppLocalizations.of(context)!;
-    return Scaffold(
-      appBar: AppBar(title: Text(translation.phones)),
-      floatingActionButton: FloatingActionButton(
-        foregroundColor: Theme.of(context).colorScheme.onPrimary,
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        onPressed: () {
-          showModalBottomSheet(
-            context: context,
-            isScrollControlled: true,
-            builder:
-                (_) => StatefulBuilder(
-                  builder: (context, setModalState) {
-                    final phoneController = TextEditingController();
-                    bool isUnsafe = false;
 
-                    return Padding(
-                      padding: EdgeInsets.all(25.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          TextField(
-                            controller: phoneController,
-                            decoration: InputDecoration(
-                              labelText: translation.phone,
-                            ),
-                            keyboardType: TextInputType.phone,
-                          ),
-                          SwitchListTile(
-                            title: Text(translation.unsafe),
-                            value: isUnsafe,
-                            onChanged: (value) {
-                              setModalState(() => isUnsafe = value);
-                            },
-                          ),
-                          const SizedBox(height: 10),
-                          ElevatedButton(
-                            onPressed: () {
-                              final newPhone = phoneController.text.trim();
-                              if (newPhone.isNotEmpty) {
-                                // Aquí deberías llamar a tu lógica para agregar el nuevo teléfono
-                                // Ejemplo (si estuvieras usando BLoC o similar):
-                                // context.read<AuthBloc>().add(AddPhoneRequested(newPhone, isUnsafe));
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        if (state is! AuthAuthenticated) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
 
-                                Navigator.pop(context);
-                              }
-                            },
-                            child: Text(translation.save),
+        final user = state.user;
+
+        return Scaffold(
+          appBar: AppBar(title: Text(translation.phones)),
+          floatingActionButton: FloatingActionButton(
+            foregroundColor: Theme.of(context).colorScheme.onPrimary,
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                builder:
+                    (_) => GenericEditModal<Phone>(
+                      itemKey: 'phones',
+                      getCurrentItems: (user) => user.phones,
+                      title: translation.phone,
+                      initialValues: {'phone': '', 'unsafe': false},
+                      originalItem: null,
+                      fields: [
+                        FormFieldConfig(
+                          name: 'phone',
+                          label: translation.phone,
+                          type: FieldType.text,
+                        ),
+                        FormFieldConfig(
+                          name: 'unsafe',
+                          label: translation.insecure,
+                          type: FieldType.bool,
+                        ),
+                      ],
+                      builder:
+                          (values) => Phone(
+                            phone: values['phone'],
+                            unsafe: values['unsafe'],
                           ),
-                        ],
-                      ),
+                      onSave: (_) {},
+                    ),
+              );
+            },
+            child: const Icon(Icons.add),
+          ),
+          body: ListView.builder(
+            padding: const EdgeInsets.all(16),
+            itemCount: user.phones.length,
+            itemBuilder: (context, index) {
+              final phone = user.phones[index];
+              return Card(
+                margin: const EdgeInsets.only(bottom: 12),
+                child: ListTile(
+                  leading: const Icon(Icons.phone_android),
+                  title: Text(phone.phone),
+                  subtitle: Text(
+                    '${translation.insecure}: ${phone.unsafe ? translation.yes : translation.no}',
+                    style: TextStyle(
+                      color: phone.unsafe ? Colors.red : Colors.green,
+                    ),
+                  ),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.delete, color: Colors.red),
+                    onPressed: () {
+                      final updatedPhones = [...user.phones]..removeAt(index);
+                      context.read<AuthBloc>().add(
+                        EditProfileRequested(user.id.toString(), {
+                          'phones':
+                              updatedPhones.map((e) => e.toJson()).toList(),
+                          'client_id': user.id,
+                          'client': getPlatform(),
+                        }),
+                      );
+                    },
+                  ),
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      builder:
+                          (_) => GenericEditModal<Phone>(
+                            itemKey: 'phones',
+                            getCurrentItems: (user) => user.phones,
+                            title: translation.phone,
+                            initialValues: {
+                              'phone': phone.phone,
+                              'unsafe': phone.unsafe,
+                            },
+                            originalItem: phone,
+                            fields: [
+                              FormFieldConfig(
+                                name: 'phone',
+                                label: translation.phone,
+                                type: FieldType.text,
+                              ),
+                              FormFieldConfig(
+                                name: 'unsafe',
+                                label: translation.insecure,
+                                type: FieldType.bool,
+                              ),
+                            ],
+                            builder:
+                                (values) => Phone(
+                                  phone: values['phone'],
+                                  unsafe: values['unsafe'],
+                                ),
+                            onSave: (_) {},
+                          ),
                     );
                   },
                 ),
-          );
-        },
-        child: const Icon(Icons.add),
-      ),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemCount: user.phones.length,
-        itemBuilder: (context, index) {
-          final phone = user.phones[index];
-          return Card(
-            margin: const EdgeInsets.only(bottom: 12),
-            child: ListTile(
-              leading: const Icon(Icons.phone_android),
-              title: Text(phone.phone),
-              subtitle: Text(
-                '${translation.insecure}: ${phone.unsafe ? translation.yes : translation.no}',
-                style: TextStyle(
-                  color: phone.unsafe ? Colors.red : Colors.green,
-                ),
-              ),
-              trailing: IconButton(
-                icon: const Icon(Icons.delete, color: Colors.red),
-                onPressed: () {
-                  // lógica de eliminación
-                },
-              ),
-              onTap: () {
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  builder:
-                      (_) => StatefulBuilder(
-                        builder: (context, setModalState) {
-                          return Padding(
-                            padding: EdgeInsets.only(
-                              bottom:
-                                  MediaQuery.of(context).viewInsets.bottom + 16,
-                              left: 16,
-                              right: 16,
-                              top: 24,
-                            ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                TextField(
-                                  controller: TextEditingController(
-                                    text: phone.phone,
-                                  ),
-                                  decoration: InputDecoration(
-                                    labelText: translation.phone,
-                                  ),
-                                ),
-                                SwitchListTile(
-                                  title: Text(translation.unsafe),
-                                  value: phone.unsafe,
-                                  onChanged: (value) {
-                                    setModalState(() => phone.unsafe = value);
-                                  },
-                                ),
-                                const SizedBox(height: 10),
-                                ElevatedButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: Text(translation.save),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                );
-              },
-            ),
-          );
-        },
-      ),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }
 
-// Pantalla relacionada a las direcciones, las lista, agregar y editar
+// Pantalla relacionada a las direcciones, las lista, agregar y editarclass
 class EditAddressesScreen extends StatelessWidget {
-  final User user;
-  const EditAddressesScreen({super.key, required this.user});
+  const EditAddressesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final translation = AppLocalizations.of(context)!;
-    return Scaffold(
-      appBar: AppBar(title: Text(translation.addresses)),
-      floatingActionButton: FloatingActionButton(
-        foregroundColor: Theme.of(context).colorScheme.onPrimary,
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        onPressed: () {
-          showModalBottomSheet(
-            context: context,
-            isScrollControlled: true,
-            builder:
-                (_) => StatefulBuilder(
-                  builder: (context, setModalState) {
-                    // Variables locales del modal
-                    final TextEditingController addressController =
-                        TextEditingController();
-                    bool isUnsafe = false;
 
-                    return Padding(
-                      padding: EdgeInsets.all(25.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          TextField(
-                            controller: addressController,
-                            decoration: InputDecoration(
-                              labelText: translation.address,
-                              border: const OutlineInputBorder(),
-                            ),
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        if (state is! AuthAuthenticated) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
+
+        final user = state.user;
+
+        return Scaffold(
+          appBar: AppBar(title: Text(translation.addresses)),
+          floatingActionButton: FloatingActionButton(
+            foregroundColor: Theme.of(context).colorScheme.onPrimary,
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                builder:
+                    (_) => GenericEditModal<Address>(
+                      title: translation.address,
+                      itemKey: 'address',
+                      getCurrentItems: (user) => user.addresses,
+                      originalItem: null,
+                      initialValues: {
+                        'address': '',
+                        'unsafe': false,
+                        'physicalAddress': false,
+                        'mailingAddress': false,
+                      },
+                      fields: [
+                        FormFieldConfig(
+                          name: 'address',
+                          label: translation.address,
+                          type: FieldType.text,
+                        ),
+                        FormFieldConfig(
+                          name: 'unsafe',
+                          label: translation.unsafe,
+                          type: FieldType.bool,
+                        ),
+                        FormFieldConfig(
+                          name: 'physicalAddress',
+                          label: translation.physical_address,
+                          type: FieldType.bool,
+                        ),
+                        FormFieldConfig(
+                          name: 'mailingAddress',
+                          label: translation.mailing_address,
+                          type: FieldType.bool,
+                        ),
+                      ],
+                      builder:
+                          (values) => Address(
+                            address: values['address'],
+                            unsafe: values['unsafe'],
+                            physicalAddress: values['physicalAddress'],
+                            mailingAddress: values['mailingAddress'],
                           ),
-
-                          const SizedBox(height: 16),
-
-                          SwitchListTile(
-                            title: Text(translation.unsafe),
-                            value: isUnsafe,
-                            onChanged:
-                                (value) =>
-                                    setModalState(() => isUnsafe = value),
-                          ),
-
-                          const SizedBox(height: 16),
-
-                          SwitchListTile(
-                            title: Text(translation.physical_address),
-                            value: false,
-                            onChanged:
-                                (value) =>
-                                    setModalState(() => isUnsafe = value),
-                          ),
-
-                          const SizedBox(height: 16),
-
-                          SwitchListTile(
-                            title: Text(translation.mailing_address),
-                            value: false,
-                            onChanged:
-                                (value) =>
-                                    setModalState(() => isUnsafe = value),
-                          ),
-
-                          const SizedBox(height: 16),
-
-                          ElevatedButton.icon(
-                            icon: const Icon(Icons.save),
-                            onPressed: () {
-                              final newAddress = addressController.text.trim();
-                              if (newAddress.isNotEmpty) {
-                                // Aquí podrías usar Bloc, setState, etc.
-                                // print(
-                                //   'Guardar dirección: $newAddress | Insegura: $isUnsafe',
-                                // );
-                                Navigator.pop(context);
-                              }
-                            },
-                            label: Text(translation.save),
-                          ),
-                        ],
+                      onSave: (_) {},
+                    ),
+              );
+            },
+            child: const Icon(Icons.add),
+          ),
+          body: ListView.builder(
+            padding: const EdgeInsets.all(16),
+            itemCount: user.addresses.length,
+            itemBuilder: (context, index) {
+              final address = user.addresses[index];
+              return Card(
+                margin: const EdgeInsets.only(bottom: 12),
+                child: ListTile(
+                  leading: const Icon(Icons.location_on_outlined),
+                  title: Text(address.address),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${translation.physical_address}: ${address.physicalAddress ? translation.yes : translation.no}',
                       ),
+                      Text(
+                        '${translation.mailing_address}: ${address.mailingAddress ? translation.yes : translation.no}',
+                      ),
+                      Text(
+                        '${translation.unsafe}: ${address.unsafe ? translation.yes : translation.no}',
+                        style: TextStyle(
+                          color: address.unsafe ? Colors.red : Colors.green,
+                        ),
+                      ),
+                    ],
+                  ),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.delete, color: Colors.red),
+                    onPressed: () {
+                      final updatedAddresses = [...user.addresses]
+                        ..removeAt(index);
+                      context.read<AuthBloc>().add(
+                        EditProfileRequested(user.id.toString(), {
+                          'address':
+                              updatedAddresses.map((e) => e.toJson()).toList(),
+                          'client_id': user.id,
+                          'client': getPlatform(),
+                        }),
+                      );
+                    },
+                  ),
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      builder:
+                          (_) => GenericEditModal<Address>(
+                            title: translation.address,
+                            itemKey: 'address',
+                            getCurrentItems: (user) => user.addresses,
+                            initialValues: {
+                              'address': address.address,
+                              'unsafe': address.unsafe,
+                              'physicalAddress': address.physicalAddress,
+                              'mailingAddress': address.mailingAddress,
+                            },
+                            originalItem: address,
+                            fields: [
+                              FormFieldConfig(
+                                name: 'address',
+                                label: translation.address,
+                                type: FieldType.text,
+                              ),
+                              FormFieldConfig(
+                                name: 'unsafe',
+                                label: translation.unsafe,
+                                type: FieldType.bool,
+                              ),
+                              FormFieldConfig(
+                                name: 'physicalAddress',
+                                label: translation.physical_address,
+                                type: FieldType.bool,
+                              ),
+                              FormFieldConfig(
+                                name: 'mailingAddress',
+                                label: translation.mailing_address,
+                                type: FieldType.bool,
+                              ),
+                            ],
+                            builder:
+                                (values) => Address(
+                                  address: values['address'],
+                                  unsafe: values['unsafe'],
+                                  physicalAddress: values['physicalAddress'],
+                                  mailingAddress: values['mailingAddress'],
+                                ),
+                            onSave: (_) {},
+                          ),
                     );
                   },
                 ),
-          );
-        },
-        child: const Icon(Icons.add),
-      ),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+}
 
-      body: ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemCount: user.address.length,
-        itemBuilder: (context, index) {
-          final address = user.address[index];
-          return Card(
-            margin: const EdgeInsets.only(bottom: 12),
-            child: ListTile(
-              leading: const Icon(Icons.location_on_outlined),
-              title: Text(address.address),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${translation.physical_address}: ${address.physicalAddress ? translation.yes : translation.no}',
-                  ),
-                  Text(
-                    '${translation.mailing_address}: ${address.mailingAddress ? translation.yes : translation.no}',
-                  ),
-                  Text(
-                    '${translation.unsafe}: ${address.unsafe ? translation.yes : translation.no}',
-                    style: TextStyle(
-                      color: address.unsafe ? Colors.red : Colors.green,
+class GenericEditModal<T> extends StatefulWidget {
+  final String title;
+  final Map<String, dynamic> initialValues;
+  final List<FormFieldConfig> fields;
+  final void Function(T) onSave;
+  final T Function(Map<String, dynamic> values) builder;
+  final String itemKey; // 'emails', 'phones', 'addresses'
+  final List<T> Function(User user) getCurrentItems;
+  final T? originalItem;
+
+  const GenericEditModal({
+    super.key,
+    required this.title,
+    required this.initialValues,
+    required this.fields,
+    required this.onSave,
+    required this.builder,
+    required this.itemKey,
+    required this.getCurrentItems,
+    this.originalItem,
+  });
+
+  @override
+  State<GenericEditModal<T>> createState() => _GenericEditModalState<T>();
+}
+
+class _GenericEditModalState<T> extends State<GenericEditModal<T>> {
+  late Map<String, dynamic> _values;
+  final Map<String, TextEditingController> _controllers = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _values = Map.of(widget.initialValues);
+    for (var field in widget.fields) {
+      if (field.type == FieldType.text) {
+        _controllers[field.name] = TextEditingController(
+          text: _values[field.name]?.toString() ?? '',
+        );
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    for (final controller in _controllers.values) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final translation = AppLocalizations.of(context)!;
+
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state is AuthAuthenticated) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(translation.information_updated)),
+          );
+          Navigator.pop(context); // cerrar modal
+        } else if (state is AuthFailure) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(state.message)));
+        }
+      },
+      child: Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom + 16,
+          left: 16,
+          right: 16,
+          top: 24,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(widget.title, style: Theme.of(context).textTheme.titleLarge),
+            const SizedBox(height: 16),
+            ...widget.fields.map((field) {
+              switch (field.type) {
+                case FieldType.text:
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: TextField(
+                      controller: _controllers[field.name],
+                      decoration: InputDecoration(labelText: field.label),
+                      onChanged: (val) => _values[field.name] = val,
                     ),
-                  ),
-                ],
-              ),
-              trailing: IconButton(
-                icon: const Icon(Icons.delete, color: Colors.red),
-                onPressed: () {
-                  // lógica de eliminación
-                },
-              ),
-              onTap: () {
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  builder:
-                      (_) => StatefulBuilder(
-                        builder: (context, setModalState) {
-                          return Padding(
-                            padding: EdgeInsets.only(
-                              bottom:
-                                  MediaQuery.of(context).viewInsets.bottom + 16,
-                              left: 16,
-                              right: 16,
-                              top: 24,
-                            ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                TextField(
-                                  controller: TextEditingController(
-                                    text: address.address,
-                                  ),
-                                  decoration: InputDecoration(
-                                    labelText: translation.address,
-                                  ),
-                                ),
+                  );
+                case FieldType.bool:
+                  return SwitchListTile(
+                    title: Text(field.label),
+                    value: _values[field.name] ?? false,
+                    onChanged:
+                        (val) => setState(() => _values[field.name] = val),
+                  );
+              }
+            }),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                for (var entry in _controllers.entries) {
+                  _values[entry.key] = entry.value.text.trim();
+                }
 
-                                SwitchListTile(
-                                  title: Text(translation.physical_address),
-                                  value: address.physicalAddress,
-                                  onChanged:
-                                      (value) => setModalState(
-                                        () => address.physicalAddress = value,
-                                      ),
-                                ),
-                                SwitchListTile(
-                                  title: Text(translation.mailing_address),
-                                  value: address.mailingAddress,
-                                  onChanged:
-                                      (value) => setModalState(
-                                        () => address.mailingAddress = value,
-                                      ),
-                                ),
-                                SwitchListTile(
-                                  title: Text(translation.unsafe),
-                                  value: address.unsafe,
-                                  onChanged:
-                                      (value) => setModalState(
-                                        () => address.unsafe = value,
-                                      ),
-                                ),
-                                const SizedBox(height: 10),
-                                ElevatedButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: Text(translation.save),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                );
+                final newItem = widget.builder(_values);
+
+                final authState = context.read<AuthBloc>().state;
+                if (authState is AuthAuthenticated) {
+                  final user = authState.user;
+                  final currentList = widget.getCurrentItems(user);
+
+                  final updatedList =
+                      widget.originalItem == null
+                          ? [...currentList, newItem]
+                          : currentList.map((e) {
+                            if (e == widget.originalItem) {
+                              return newItem;
+                            }
+                            return e;
+                          }).toList();
+
+                  Navigator.of(context).pop();
+
+                  context.read<AuthBloc>().add(
+                    EditProfileRequested(user.id.toString(), {
+                      widget.itemKey:
+                          updatedList.map((e) {
+                            if (e is Email) return e.toJson();
+                            if (e is Phone) return e.toJson();
+                            if (e is Address) return e.toJson();
+                            return {};
+                          }).toList(),
+                      'client_id': user.id,
+                      'client': getPlatform(),
+                    }),
+                  );
+                }
               },
+              child: Text(translation.save),
             ),
-          );
-        },
+          ],
+        ),
       ),
     );
   }

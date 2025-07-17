@@ -239,13 +239,13 @@ class ProfileScreen extends StatelessWidget {
                         ),
 
                       // Direcciones
-                      if (user.address.isNotEmpty)
+                      if (user.addresses.isNotEmpty)
                         _buildCardSectionCustom(
                           title: translation.addresses,
                           icon: Icons.location_on_outlined,
                           context: context,
                           children:
-                              user.address.map((address) {
+                              user.addresses.map((address) {
                                 final isUnsafe = address.unsafe;
                                 return Card(
                                   color: isUnsafe ? Colors.red[50] : null,

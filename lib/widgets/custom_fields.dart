@@ -58,3 +58,17 @@ class EditableDropdownField extends StatelessWidget {
     );
   }
 }
+
+enum FieldType { text, bool }
+
+class FormFieldConfig {
+  final String name;
+  final String label;
+  final FieldType type;
+
+  FormFieldConfig({
+    required this.name,
+    required this.label,
+    required this.type,
+  });
+}

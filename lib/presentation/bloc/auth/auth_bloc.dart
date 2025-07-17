@@ -22,6 +22,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<ReadPreferencesRequested>(_onReadPreferencesRequested);
     on<SetPreferenceRequested>(_onSetPreferenceRequested);
     on<EditProfileRequested>(_onEditProfileRequested);
+    on<DeleteItemRequested>(_onDeleteItemRequested);
   }
 
   Future<void> _onLoginRequested(
@@ -159,7 +160,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     emit(AuthLoading());
-
+    final token = await _secureStorage.read(key: 'token');
     final bd = await _secureStorage.read(key: 'b') == 'true';
 
     try {
@@ -168,18 +169,61 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         '/user_c/${event.userId}',
         data: event.userData,
         queryParameters: {'b': bd},
-        options: Options(headers: {'Authorization': 'Bearer $_token'}),
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
       );
 
       // Volver a obtener el usuario actualizado
       final response = await client.dio.get(
         '/user',
         queryParameters: {"b": bd},
-        options: Options(headers: {'Authorization': 'Bearer $_token'}),
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
       );
 
       _user = User.fromJson(response.data);
-      emit(AuthAuthenticated(_user!, _token!));
+      emit(AuthAuthenticated(_user!, token!));
+    } catch (e) {
+      emit(
+        AuthFailure("No se pudo actualizar la información. Intenta más tarde."),
+      );
+    }
+  }
+
+  Future<void> _onDeleteItemRequested(
+    DeleteItemRequested event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(AuthLoading());
+
+    try {
+      final token = await _secureStorage.read(key: 'token');
+      final bd = await _secureStorage.read(key: 'b') == 'true';
+      final Map<String, dynamic> currentData = _user!.toJson();
+
+      final List updatedList = List.from(currentData[event.type]);
+      updatedList.removeAt(event.index);
+
+      final updatedData = {
+        event.type: updatedList,
+        'client_id': event.userId,
+        'client': getPlatform(), // función para detectar plataforma
+      };
+
+      await client.dio.post(
+        '/user_c/${event.userId}',
+        data: updatedData,
+        queryParameters: {'b': bd},
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+
+      // Refresh user
+      final response = await client.dio.get(
+        '/user',
+        queryParameters: {"b": bd},
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+
+      _user = User.fromJson(response.data);
+      emit(AuthAuthenticated(_user!, token!));
     } catch (e) {
       emit(
         AuthFailure("No se pudo actualizar la información. Intenta más tarde."),

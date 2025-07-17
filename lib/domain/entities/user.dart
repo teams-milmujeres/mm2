@@ -16,7 +16,7 @@ class User {
     this.userName,
     this.dob,
     this.emails = const [],
-    this.address = const [],
+    this.addresses = const [],
     this.phones = const [],
     this.email = '',
     this.phone,
@@ -33,7 +33,7 @@ class User {
   dynamic userName;
   DateTime? dob;
   List<Email> emails;
-  List<Address> address;
+  List<Address> addresses;
   List<Phone> phones;
   String email;
   dynamic phone;
@@ -53,7 +53,7 @@ class User {
         json["emails"] != null
             ? List<Email>.from(json["emails"].map((x) => Email.fromJson(x)))
             : [],
-    address:
+    addresses:
         json["address"] != null
             ? List<Address>.from(
               json["address"].map((x) => Address.fromJson(x)),
@@ -81,7 +81,7 @@ class User {
             ? "${dob!.year.toString().padLeft(4, '0')}-${dob!.month.toString().padLeft(2, '0')}-${dob!.day.toString().padLeft(2, '0')}"
             : null,
     "emails": emails.map((x) => x.toJson()).toList(),
-    "address": address.map((x) => x.toJson()).toList(),
+    "address": addresses.map((x) => x.toJson()).toList(),
     "phones": phones.map((x) => x.toJson()).toList(),
     "email": email,
     "phone": phone,
