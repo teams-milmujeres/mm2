@@ -40,6 +40,11 @@ final List<NavigationOption> navigationOptions = [
     labelBuilder: (context) => AppLocalizations.of(context)!.events,
   ),
   NavigationOption(
+    route: '/mm_actions',
+    icon: Icons.pan_tool,
+    labelBuilder: (context) => 'MM en Acción',
+  ),
+  NavigationOption(
     route: '/upload_document',
     icon: Icons.upload_file,
     labelBuilder: (context) => AppLocalizations.of(context)!.upload_file,

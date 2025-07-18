@@ -124,6 +124,13 @@ GoRouter onBoardingRouter(BuildContext context) => GoRouter(
       pageBuilder:
           (context, state) => buildPageTransition(const UploadDocumentScreen()),
     ),
+    GoRoute(
+      path: '/mm_actions',
+      name: 'mm_actions',
+      // builder: (context, state) => const DocumentScreen(),
+      pageBuilder:
+          (context, state) => buildPageTransition(const MMActionsScreen()),
+    ),
   ],
 );
 

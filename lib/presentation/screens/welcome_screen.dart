@@ -98,6 +98,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   Widget _userAvatarWithMenu(String initials, BuildContext context) {
+    final translation = AppLocalizations.of(context)!;
     return PopupMenuButton<String>(
       onSelected: (value) {
         if (value == 'profile') {
@@ -107,9 +108,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         }
       },
       itemBuilder:
-          (_) => const [
-            PopupMenuItem(value: 'profile', child: Text('Ver perfil')),
-            PopupMenuItem(value: 'logout', child: Text('Cerrar sesión')),
+          (_) => [
+            PopupMenuItem(value: 'profile', child: Text(translation.profile)),
+            PopupMenuItem(value: 'logout', child: Text(translation.logout)),
           ],
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),

@@ -74,6 +74,7 @@ class CustomDrawer extends StatelessWidget {
                       '/login',
                       '/',
                       '/events',
+                      '/mm_actions',
                       '/offices',
                       '/consulates',
                       '/contact_us',
