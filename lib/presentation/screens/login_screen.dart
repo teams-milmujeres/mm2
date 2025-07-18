@@ -8,37 +8,49 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:milmujeres_app/presentation/bloc/auth/auth_bloc.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final TextEditingController usernameController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
-    final translation = AppLocalizations.of(context)!;
+  State<LoginScreen> createState() => _LoginScreenState();
+}
 
-    String getPlatform() {
-      if (kIsWeb) return 'web';
-      return Platform.operatingSystem;
-    }
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  bool obscureText = true;
 
-    Future<String> getDeviceName() async {
-      final deviceInfo = DeviceInfoPlugin();
+  String getPlatform() {
+    if (kIsWeb) return 'web';
+    return Platform.operatingSystem;
+  }
 
-      try {
-        if (Platform.isAndroid) {
-          final androidInfo = await deviceInfo.androidInfo;
-          return androidInfo.model;
-        } else if (Platform.isIOS) {
-          final iosInfo = await deviceInfo.iosInfo;
-          return iosInfo.utsname.machine;
-        } else {
-          return 'unknown';
-        }
-      } catch (e) {
+  void toggleVisibility() {
+    setState(() {
+      obscureText = !obscureText;
+    });
+  }
+
+  Future<String> getDeviceName() async {
+    final deviceInfo = DeviceInfoPlugin();
+    try {
+      if (Platform.isAndroid) {
+        final androidInfo = await deviceInfo.androidInfo;
+        return androidInfo.model;
+      } else if (Platform.isIOS) {
+        final iosInfo = await deviceInfo.iosInfo;
+        return iosInfo.utsname.machine;
+      } else {
         return 'unknown';
       }
+    } catch (e) {
+      return 'unknown';
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final translation = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(title: Text(translation.login)),
@@ -48,7 +60,7 @@ class LoginScreen extends StatelessWidget {
             ScaffoldMessenger.of(
               context,
             ).showSnackBar(SnackBar(content: Text(translation.login)));
-            context.go('/'); // o la ruta que necesites
+            context.go('/');
           }
 
           if (state is AuthFailure) {
@@ -79,16 +91,22 @@ class LoginScreen extends StatelessWidget {
                   labelText: translation.email_or_phone_number,
                   border: const OutlineInputBorder(),
                 ),
-                keyboardType: TextInputType.text,
               ),
               const SizedBox(height: 16),
               TextField(
                 controller: passwordController,
+                obscureText: obscureText,
+                obscuringCharacter: '*',
                 decoration: InputDecoration(
                   labelText: translation.password,
                   border: const OutlineInputBorder(),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      obscureText ? Icons.visibility_off : Icons.visibility,
+                    ),
+                    onPressed: toggleVisibility,
+                  ),
                 ),
-                obscureText: true,
               ),
               const SizedBox(height: 24),
               BlocBuilder<AuthBloc, AuthState>(
@@ -116,11 +134,10 @@ class LoginScreen extends StatelessWidget {
                                   }),
                                 );
                               },
-
                       icon: const Icon(Icons.check),
                       label:
                           isLoading
-                              ? SizedBox(
+                              ? const SizedBox(
                                 height: 16,
                                 width: 16,
                                 child: CircularProgressIndicator(

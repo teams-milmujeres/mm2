@@ -71,6 +71,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         _CustomDropDownUnderlineWelcome(),
         IconButton(
+          tooltip: AppLocalizations.of(context)!.donate,
           onPressed: () async {
             await UrlLauncherHelper.launchURL(
               url: 'https://givebutter.com/KI0Y2G',

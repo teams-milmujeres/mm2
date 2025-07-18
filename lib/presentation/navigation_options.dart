@@ -81,23 +81,23 @@ final List<NavigationOption> navigationOptions = [
     labelBuilder: (context) => AppLocalizations.of(context)!.caases_stage,
   ),
   NavigationOption(
-    route: '/contact_us',
-    icon: Icons.chat_bubble_outline,
-    labelBuilder: (context) => AppLocalizations.of(context)!.contact_us,
-  ),
-  NavigationOption(
     route: '/donate',
     icon: Icons.favorite,
     labelBuilder: (context) => AppLocalizations.of(context)!.donate,
+  ),
+  NavigationOption(
+    route: '/contact_us',
+    icon: Icons.chat_bubble_outline,
+    labelBuilder: (context) => AppLocalizations.of(context)!.contact_us,
   ),
   NavigationOption(
     route: '/complaints',
     icon: Icons.report,
     labelBuilder: (context) => AppLocalizations.of(context)!.complaints,
   ),
-  NavigationOption(
-    route: '/suggestions',
-    icon: Icons.lightbulb,
-    labelBuilder: (context) => AppLocalizations.of(context)!.suggestions,
-  ),
+  // NavigationOption(
+  //   route: '/suggestions',
+  //   icon: Icons.lightbulb,
+  //   labelBuilder: (context) => AppLocalizations.of(context)!.suggestions,
+  // ),
 ];
