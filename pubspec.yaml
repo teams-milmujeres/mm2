@@ -29,7 +29,7 @@ dependencies:
   responsive_framework: ^1.5.1
   responsive_grid: ^2.4.4
   url_launcher: ^6.3.1
-  file_picker: ^6.1.1
+  file_picker: ^10.2.0
   location: ^5.0.0
   shared_preferences: ^2.2.2
   video_player: ^2.10.0
