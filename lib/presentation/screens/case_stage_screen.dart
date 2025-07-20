@@ -11,11 +11,8 @@ class CaseStageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final translation = AppLocalizations.of(context)!;
-    final locale = translation.localeName;
-
     final authState = context.watch<AuthBloc>().state;
 
-    // Validar que el usuario esté autenticado
     if (authState is! AuthAuthenticated) {
       return Scaffold(
         appBar: AppBar(title: Text(translation.caases_stage)),
@@ -41,6 +38,7 @@ class CaseStageScreen extends StatelessWidget {
 
             if (state is CaseStageSuccess) {
               final data = state.stages;
+              final translation = AppLocalizations.of(context)!;
 
               if (data.isEmpty) {
                 return Center(
@@ -55,101 +53,65 @@ class CaseStageScreen extends StatelessWidget {
                   width: double.maxFinite,
                   child: ListView.builder(
                     itemCount: data.length,
-                    itemBuilder: (context, index) {
-                      final item = data[index];
-                      return Card(
-                        elevation: 5,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          side: BorderSide(
-                            color: Theme.of(context).colorScheme.primary,
-                            width: 2,
-                          ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(15),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              _cryptoNameSymbol(item, locale, context),
-                              const SizedBox(height: 10),
-                              Text(
-                                item['note'] != null && item['note'].isNotEmpty
-                                    ? '${translation.status}: ${item['stage_type'][locale == 'es' ? 'name_es' : 'name_en']} / ${item['note']}'
-                                    : '${translation.status}: ${item['stage_type'][locale == 'es' ? 'name_es' : 'name_en']}',
-                                style: const TextStyle(
-                                  color: Colors.black87,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-                              Divider(
-                                color: Theme.of(context).colorScheme.primary,
-                                thickness: 1,
-                              ),
-                              const SizedBox(height: 10),
-                              ...List<Widget>.from(
-                                item['applications'].map<Widget>((application) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(top: 10),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              '${translation.application}: ${application['application']['application_type']['abbrev']}',
-                                              style: const TextStyle(
-                                                color: Colors.black87,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                            Text(
-                                              DateFormat('MM/dd/yyyy').format(
-                                                DateTime.parse(
-                                                  application['date'],
-                                                ),
-                                              ),
-                                              style: const TextStyle(
-                                                color: Colors.black87,
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Text(
-                                          application['note'] != null &&
-                                                  application['note'].isNotEmpty
-                                              ? '${translation.status}: ${application['stage_type'][locale == 'es' ? 'name_es' : 'name_en']} / ${application['note']}'
-                                              : '${translation.status}: ${application['stage_type'][locale == 'es' ? 'name_es' : 'name_en']}',
-                                          style: const TextStyle(
-                                            color: Colors.black87,
-                                            fontSize: 14,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                }),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
+                    itemBuilder:
+                        (context, index) =>
+                            CaseStageItemCard(item: data[index]),
                   ),
                 ),
               );
             }
 
-            return const SizedBox.shrink(); // Estado inicial vacío
+            return const SizedBox.shrink();
           },
         ),
+      ),
+    );
+  }
+}
+
+class CaseStageItemCard extends StatelessWidget {
+  final Map<String, dynamic> item;
+
+  const CaseStageItemCard({super.key, required this.item});
+
+  @override
+  Widget build(BuildContext context) {
+    final translation = AppLocalizations.of(context)!;
+    final locale = translation.localeName;
+
+    return Card(
+      elevation: 3,
+      child: ExpansionTile(
+        tilePadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        title: _cryptoNameSymbol(item, locale, context),
+        subtitle: Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: RichText(
+            text:
+                item['note'] != null && item['note'].isNotEmpty
+                    ? buildStyledText(
+                      translation.status,
+                      '${item['stage_type'][locale == 'es' ? 'name_es' : 'name_en']} / ${item['note']}',
+                      context,
+                    )
+                    : buildStyledText(
+                      translation.status,
+                      item['stage_type'][locale == 'es'
+                          ? 'name_es'
+                          : 'name_en'],
+                      context,
+                    ),
+          ),
+        ),
+        childrenPadding: const EdgeInsets.all(15.0),
+        children: [
+          const SizedBox(height: 10),
+          ...List<Widget>.from(
+            item['applications'].map<Widget>(
+              (app) => ApplicationItem(application: app),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -175,10 +137,8 @@ class CaseStageScreen extends StatelessWidget {
       children: [
         Text(
           caaseType,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
+          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
             color: Theme.of(context).colorScheme.primary,
-            fontSize: 16,
           ),
         ),
         Row(
@@ -188,13 +148,122 @@ class CaseStageScreen extends StatelessWidget {
             const SizedBox(width: 4),
             Text(
               DateFormat('MM/dd/yyyy').format(date),
-              style: const TextStyle(
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
-                fontSize: 16,
               ),
             ),
           ],
+        ),
+      ],
+    );
+  }
+
+  TextSpan buildStyledText(String label, String value, BuildContext context) {
+    return TextSpan(
+      children: [
+        TextSpan(
+          text: '$label: ',
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+        ),
+        TextSpan(
+          text: value,
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium?.copyWith(color: Colors.black87),
+        ),
+      ],
+    );
+  }
+}
+
+class ApplicationItem extends StatelessWidget {
+  final Map<String, dynamic> application;
+
+  const ApplicationItem({super.key, required this.application});
+
+  @override
+  Widget build(BuildContext context) {
+    final translation = AppLocalizations.of(context)!;
+    final locale = translation.localeName;
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Row(
+                  children: [
+                    Text(
+                      '${translation.application}: ',
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        color: Theme.of(context).colorScheme.primary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Flexible(
+                      child: Text(
+                        application['application']['application_type']['abbrev'],
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Text(
+                DateFormat(
+                  'MM/dd/yyyy',
+                ).format(DateTime.parse(application['date'])),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.copyWith(color: Colors.black87),
+              ),
+            ],
+          ),
+          const SizedBox(height: 5),
+          RichText(
+            text:
+                application['note'] != null && application['note'].isNotEmpty
+                    ? buildStyledText(
+                      translation.status,
+                      '${application['stage_type'][locale == 'es' ? 'name_es' : 'name_en']} / ${application['note']}',
+                      context,
+                    )
+                    : buildStyledText(
+                      translation.status,
+                      application['stage_type'][locale == 'es'
+                          ? 'name_es'
+                          : 'name_en'],
+                      context,
+                    ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  TextSpan buildStyledText(String label, String value, BuildContext context) {
+    return TextSpan(
+      children: [
+        TextSpan(
+          text: '$label: ',
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+        ),
+        TextSpan(
+          text: value,
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium?.copyWith(color: Colors.black87),
         ),
       ],
     );
