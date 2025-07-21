@@ -352,7 +352,9 @@ class _ContainerStaffState extends State<ContainerStaff> {
           child: Text(
             title,
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headlineLarge,
+            style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+              color: Theme.of(context).colorScheme.primary,
+            ),
           ),
         ),
         ResponsiveGridRow(

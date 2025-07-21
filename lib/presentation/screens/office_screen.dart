@@ -149,102 +149,137 @@ class _OfficeCarouselScreenState extends State<OfficeCarouselScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const SizedBox(height: 16),
-          CarouselSlider.builder(
-            carouselController: _carouselController,
-            itemCount: offices.length,
-            options: CarouselOptions(
-              height: 500,
-              initialPage: _currentIndex,
-              enlargeCenterPage: true,
-              enableInfiniteScroll: false,
-              onPageChanged: (index, reason) {
-                setState(() {
-                  _currentIndex = index;
-                });
-              },
-            ),
-            itemBuilder: (context, index, realIndex) {
-              final office = offices[index];
-              return Center(
-                // asegura que la card no se expanda más allá del slider
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => OfficeDetailsScreen(office: office),
-                      ),
-                    );
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              CarouselSlider.builder(
+                carouselController: _carouselController,
+                itemCount: offices.length,
+                options: CarouselOptions(
+                  autoPlay: true, // Autoplay
+                  autoPlayInterval: const Duration(seconds: 4), // Duracion
+                  height: 500,
+                  initialPage: _currentIndex,
+                  enlargeCenterPage: true,
+                  enableInfiniteScroll: false,
+                  onPageChanged: (index, reason) {
+                    setState(() {
+                      _currentIndex = index;
+                    });
                   },
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    elevation: 5,
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      constraints: const BoxConstraints(maxHeight: 500),
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Flexible(
-                            flex: 4,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: Image.network(
-                                office.imageUrl ?? '',
-                                fit: BoxFit.cover,
-                                width: double.infinity,
-                                // height: 200,
-                                errorBuilder:
-                                    (_, __, ___) => const Icon(
-                                      Icons.image_not_supported,
-                                      size: 100,
-                                    ),
-                              ),
-                            ),
+                ),
+                itemBuilder: (context, index, realIndex) {
+                  final office = offices[index];
+                  return Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => OfficeDetailsScreen(office: office),
                           ),
-                          const SizedBox(height: 16),
-                          ListTile(
-                            title: Text(
-                              office.name,
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            subtitle: Text(
-                              "${translation.office_director}: ${office.officeDirector ?? ''} | ${office.city}",
-                              style: const TextStyle(fontSize: 16),
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: TextButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder:
-                                        (context) =>
-                                            OfficeDetailsScreen(office: office),
+                        );
+                      },
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        elevation: 5,
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          constraints: const BoxConstraints(maxHeight: 500),
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Flexible(
+                                flex: 4,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: Image.network(
+                                    office.imageUrl ?? '',
+                                    fit: BoxFit.cover,
+                                    width: double.infinity,
+                                    errorBuilder:
+                                        (_, __, ___) => const Icon(
+                                          Icons.image_not_supported,
+                                          size: 100,
+                                        ),
                                   ),
-                                );
-                              },
-                              child: Text(translation.see_details),
-                            ),
+                                ),
+                              ),
+                              const SizedBox(height: 16),
+                              ListTile(
+                                title: Text(
+                                  office.name,
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  "${translation.office_director}: ${office.officeDirector ?? ''} | ${office.city}",
+                                  style: const TextStyle(fontSize: 16),
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder:
+                                            (context) => OfficeDetailsScreen(
+                                              office: office,
+                                            ),
+                                      ),
+                                    );
+                                  },
+                                  child: Text(translation.see_details),
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
+                  );
+                },
+              ),
+              // Botón izquierda
+              Positioned(
+                left: 20,
+                child: IconButton(
+                  icon: const Icon(Icons.arrow_back_ios, size: 50),
+                  onPressed:
+                      _currentIndex > 0
+                          ? () {
+                            _carouselController.animateToPage(
+                              _currentIndex - 1,
+                            );
+                          }
+                          : null,
                 ),
-              );
-            },
+              ),
+              // Botón derecha
+              Positioned(
+                right: 20,
+                child: IconButton(
+                  icon: const Icon(Icons.arrow_forward_ios, size: 50),
+                  onPressed:
+                      _currentIndex < offices.length - 1
+                          ? () {
+                            _carouselController.animateToPage(
+                              _currentIndex + 1,
+                            );
+                          }
+                          : null,
+                ),
+              ),
+            ],
           ),
-
           const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
