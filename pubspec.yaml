@@ -50,6 +50,21 @@ flutter_launcher_icons:
   image_path: "assets/icon/icon.png"
   min_sdk_android: 18 # android min sdk min:16, default 21
 
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/splash/splash.png
+  #branding: assets/splash/branding.png
+  android: true
+  ios: true
+  web: true
+
+  android_12:
+    image: assets/icon/icon.png
+    icon_background_color: "#ffffff"
+    # image_dark: assets/logo-acceptance.png
+    # icon_background_color_dark: "#121212"
+
+
 flutter:
   generate: true
   uses-material-design: true
