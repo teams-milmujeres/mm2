@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:milmujeres_app/domain/entities/contact_us.dart';
 import 'package:milmujeres_app/presentation/bloc/auth/auth_bloc.dart';
 import 'package:milmujeres_app/presentation/bloc/contact_us/contact_us_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:milmujeres_app/l10n/app_localizations.dart';
 import 'package:milmujeres_app/widgets/rounded_button_large.dart';
 
 class ContactUsScreen extends StatefulWidget {

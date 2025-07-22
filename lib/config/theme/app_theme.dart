@@ -105,7 +105,7 @@ class AppTheme {
         surfaceTintColor: Colors.transparent,
         shadowColor: Colors.transparent,
       ),
-      tabBarTheme: TabBarTheme(
+      tabBarTheme: TabBarThemeData(
         labelColor: colorPrimary,
         unselectedLabelColor: Colors.black54,
         indicatorSize: TabBarIndicatorSize.tab,

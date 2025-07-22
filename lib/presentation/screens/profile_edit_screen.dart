@@ -6,7 +6,7 @@ import 'package:milmujeres_app/domain/entities/address.dart';
 import 'package:milmujeres_app/domain/entities/email.dart';
 import 'package:milmujeres_app/domain/entities/phone.dart';
 import 'package:milmujeres_app/domain/entities/user.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:milmujeres_app/l10n/app_localizations.dart';
 import 'package:milmujeres_app/presentation/bloc/auth/auth_bloc.dart';
 import 'package:milmujeres_app/presentation/bloc/countries/countries_bloc.dart';
 import 'package:milmujeres_app/widgets/widgets.dart';

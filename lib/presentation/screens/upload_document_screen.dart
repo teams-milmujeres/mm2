@@ -4,7 +4,7 @@ import 'package:milmujeres_app/domain/entities/document.dart';
 import 'package:milmujeres_app/presentation/bloc/auth/auth_bloc.dart';
 import 'package:milmujeres_app/presentation/bloc/documents/documents_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:milmujeres_app/l10n/app_localizations.dart';
 
 class UploadDocumentScreen extends StatelessWidget {
   const UploadDocumentScreen({super.key});

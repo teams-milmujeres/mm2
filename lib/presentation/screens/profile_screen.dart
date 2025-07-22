@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:milmujeres_app/domain/entities/citizenship.dart';
 import 'package:milmujeres_app/domain/entities/country.dart';
 import 'package:milmujeres_app/presentation/bloc/auth/auth_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:milmujeres_app/l10n/app_localizations.dart';
 import 'package:milmujeres_app/presentation/bloc/countries/countries_bloc.dart';
 import 'package:milmujeres_app/presentation/screens.dart';
 
