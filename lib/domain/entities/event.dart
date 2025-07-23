@@ -4,6 +4,8 @@ class Event {
   final String titleEn;
   final String bodyEs;
   final String bodyEn;
+  final String summaryEs;
+  final String summaryEn;
   final String city;
   final DateTime? eventDate;
   final DateTime? createdDate;
@@ -18,6 +20,8 @@ class Event {
     required this.titleEs,
     required this.bodyEn,
     required this.bodyEs,
+    required this.summaryEn,
+    required this.summaryEs,
     required this.city,
     this.eventDate,
     this.createdDate,
@@ -34,6 +38,8 @@ class Event {
       titleEs: json['title_es'],
       bodyEn: json['body_en'],
       bodyEs: json['body_es'],
+      summaryEn: json['summary_en'],
+      summaryEs: json['summary_es'],
       city: json['city'],
       eventDate:
           json['event_date'] != null
@@ -56,6 +62,8 @@ class Event {
     String? titleEs,
     String? bodyEn,
     String? bodyEs,
+    String? summaryEn,
+    String? summaryEs,
     String? city,
     DateTime? eventDate,
     DateTime? createdDate,
@@ -70,6 +78,8 @@ class Event {
       titleEs: titleEs ?? this.titleEs,
       bodyEn: bodyEn ?? this.bodyEn,
       bodyEs: bodyEs ?? this.bodyEs,
+      summaryEn: summaryEn ?? this.summaryEn,
+      summaryEs: summaryEs ?? this.summaryEs,
       city: city ?? this.city,
       eventDate: eventDate ?? this.eventDate,
       createdDate: createdDate ?? this.createdDate,
@@ -86,6 +96,8 @@ class Event {
     "title_es": titleEs,
     "body_en": bodyEn,
     "body_es": bodyEs,
+    "summary_en": summaryEn,
+    "summary_es": summaryEs,
     "city": city,
     "event_date": eventDate?.toIso8601String(),
     "created_date": createdDate?.toIso8601String(),
@@ -102,6 +114,8 @@ class Event {
       titleEs: map['title_es'],
       bodyEn: map['body_en'],
       bodyEs: map['body_es'],
+      summaryEn: map['summary_en'],
+      summaryEs: map['summary_es'],
       city: map['city'],
       eventDate:
           map['event_date'] != null ? DateTime.parse(map['event_date']) : null,

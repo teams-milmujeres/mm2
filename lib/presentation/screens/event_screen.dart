@@ -83,10 +83,6 @@ class _EventScreenState extends State<EventScreen> {
   }
 
   Widget _buildNews(BuildContext context, EventsSuccess state) {
-    final translation = AppLocalizations.of(context)!;
-    if (state.blogs.isEmpty) {
-      return Center(child: Text(translation.no_elements));
-    }
     return SingleChildScrollView(
       padding: const EdgeInsets.all(15.0),
       child: Column(
@@ -112,10 +108,6 @@ class _EventScreenState extends State<EventScreen> {
   }
 
   Widget _buildEvents(BuildContext context, EventsSuccess state) {
-    final translation = AppLocalizations.of(context)!;
-    if (state.events.isEmpty) {
-      return Center(child: Text(translation.no_elements));
-    }
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: Column(
@@ -425,7 +417,7 @@ String getLocalizedField({
       return locale == 'es' ? event.bodyEs : event.bodyEn;
     case 'summary':
       // Opcional: si tienes un campo resumen distinto, lo defines aquí.
-      return locale == 'es' ? event.bodyEs : event.bodyEn;
+      return locale == 'es' ? event.summaryEs : event.summaryEn;
     default:
       return '';
   }

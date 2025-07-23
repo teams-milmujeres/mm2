@@ -84,6 +84,11 @@ class EventsBloc extends Bloc<EventsEvent, EventsState> {
           citiesBlogs: citiesBlogs,
         ),
       );
+      print("blogs: $blogs");
+      print("events: $events");
+      print("Upcoming events: $upcomingEvents");
+      print("Important events: $importantEvents");
+      print("Important blogs: $importantBlogs");
     } catch (e) {
       emit(EventsError(errorMessage: e.toString()));
     }
