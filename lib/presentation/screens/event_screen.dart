@@ -214,8 +214,8 @@ class _EventScreenState extends State<EventScreen> {
                     .map(
                       (e) =>
                           isEvent
-                              ? EventCard(event: e, icon: Icons.star)
-                              : BlogCard(event: e, icon: Icons.star),
+                              ? EventCard(event: e, icon: Icons.calendar_month)
+                              : BlogCard(event: e, icon: Icons.article),
                     )
                     .toList(),
           ),
@@ -323,16 +323,6 @@ class BlogCard extends StatelessWidget {
 
   const BlogCard({super.key, required this.event, required this.icon});
 
-  Future<List<String>> _getImagesBlog(String eventId) async {
-    final client = DioClient();
-    var response = await client.dio.get('blogs_img/$eventId');
-    List<dynamic> data = response.data;
-    return data
-        .whereType<Map<String, dynamic>>()
-        .map((e) => e['image_path'] as String)
-        .toList();
-  }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -348,53 +338,28 @@ class BlogCard extends StatelessWidget {
         clipBehavior: Clip.antiAlias,
         child: Column(
           children: [
-            FutureBuilder<List<String>>(
-              future: _getImagesBlog(event.id.toString()),
-              builder: (context, snapshot) {
-                Widget leadingWidget;
-
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  leadingWidget = const CircularProgressIndicator();
-                } else if (snapshot.hasError) {
-                  leadingWidget = const Icon(Icons.error, color: Colors.red);
-                } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                  leadingWidget = ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: Image.network(
-                      snapshot.data![0],
-                      width: 50,
-                      height: 50,
-                      fit: BoxFit.cover,
-                    ),
-                  );
-                } else {
-                  leadingWidget = const Icon(Icons.image_not_supported);
-                }
-
-                return ListTile(
-                  leading: leadingWidget,
-                  title: Text(
-                    getLocalizedField(
-                      context: context,
-                      event: event,
-                      field: 'title',
-                    ),
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  subtitle: Text(
-                    getLocalizedField(
-                      context: context,
-                      event: event,
-                      field: 'summary',
-                    ),
-                    maxLines: 5,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                );
-              },
+            ListTile(
+              leading: Icon(icon),
+              title: Text(
+                getLocalizedField(
+                  context: context,
+                  event: event,
+                  field: 'title',
+                ),
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              subtitle: Text(
+                getLocalizedField(
+                  context: context,
+                  event: event,
+                  field: 'summary',
+                ),
+                maxLines: 5,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ],
         ),
@@ -446,7 +411,7 @@ class EventsDetailsScreen extends StatelessWidget {
 
     Future<List<String>> getImagesBlog(String eventId) async {
       final client = DioClient();
-      var response = await client.dio.get('blogs_img/$eventId');
+      var response = await client.dio.get('/blogs_img/$eventId');
       List<dynamic> data = response.data;
       return data
           .whereType<Map<String, dynamic>>()
