@@ -7,6 +7,18 @@ class AppTheme {
 
     final colorPrimary = Colors.teal;
 
+    final colorScheme = const ColorScheme(
+      brightness: Brightness.light,
+      primary: Colors.teal, // Color principal (botones, etc.)
+      onPrimary: Colors.white, // Texto sobre el color primario
+      secondary: Colors.tealAccent, // Color secundario (chips, switches)
+      onSecondary: Colors.black, // Texto sobre el secundario
+      error: Colors.red, // Errores
+      onError: Colors.white, // Texto sobre errores
+      surface: Colors.white, // Cards, Sheets, etc.
+      onSurface: Colors.black87, // Texto sobre surface
+    );
+
     final customTextTheme = GoogleFonts.poppinsTextTheme(
       baseTextTheme,
     ).copyWith(
@@ -48,11 +60,9 @@ class AppTheme {
     );
 
     return ThemeData(
+      scaffoldBackgroundColor: Colors.white,
       useMaterial3: true,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: colorPrimary,
-        onSurfaceVariant: colorPrimary,
-      ),
+      colorScheme: colorScheme,
       textTheme: customTextTheme,
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -112,6 +122,29 @@ class AppTheme {
         indicatorColor: colorPrimary,
         labelStyle: customTextTheme.titleMedium,
         unselectedLabelStyle: customTextTheme.bodyMedium,
+      ),
+      // ✅ Tema para NavigationBar de Material 3
+      navigationBarTheme: NavigationBarThemeData(
+        backgroundColor: Colors.white,
+        indicatorColor: colorScheme.primary.withAlpha(
+          25,
+        ), // Reemplazo de .withOpacity(0.1)
+
+        labelTextStyle: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return customTextTheme.bodyMedium?.copyWith(
+              color: colorScheme.primary,
+            );
+          }
+          return customTextTheme.bodyMedium?.copyWith(color: Colors.black54);
+        }),
+
+        iconTheme: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return IconThemeData(color: colorScheme.primary);
+          }
+          return const IconThemeData(color: Colors.black54);
+        }),
       ),
     );
   }

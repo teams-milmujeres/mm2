@@ -7,39 +7,238 @@ import 'package:milmujeres_app/data/data.dart';
 import 'package:milmujeres_app/domain/entities/language_model.dart';
 import 'package:milmujeres_app/domain/entities/staff.dart';
 import 'package:milmujeres_app/presentation/bloc/locale/language_bloc.dart';
-import 'package:milmujeres_app/widgets/widgets.dart';
-// import 'package:responsive_framework/responsive_framework.dart';
+import 'package:milmujeres_app/presentation/navigation_options.dart';
+import 'package:milmujeres_app/presentation/screens/dashboard_screen.dart';
+import 'package:milmujeres_app/presentation/screens/profile_screen.dart';
 import 'package:milmujeres_app/l10n/app_localizations.dart';
 import 'package:milmujeres_app/presentation/bloc/staff/staff_bloc.dart';
+import 'package:milmujeres_app/widgets/circular_buitton.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 import 'package:milmujeres_app/presentation/bloc/auth/auth_bloc.dart';
 
-class WelcomeScreen extends StatelessWidget {
+class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
+
+  @override
+  State<WelcomeScreen> createState() => _WelcomeScreenState();
+}
+
+class _WelcomeScreenState extends State<WelcomeScreen> {
+  int currentPageIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const CustomDrawer(),
-      appBar: CustomAppBar(),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          return SingleChildScrollView(
-            child: Column(
-              children: [
-                ContainerAbout(),
-                const SizedBox(height: 20),
-                ContainerDonate(),
-                const SizedBox(height: 20),
-                ContainerStaff(),
-                const SizedBox(height: 20),
-                ContainerSocialButtons(),
-                const SizedBox(height: 20),
-                const ContainerFooter(),
-              ],
+      appBar: const CustomAppBar(),
+      // drawer: const CustomDrawer(), // Mantienes tu drawer basado en Bloc
+      bottomNavigationBar: BlocBuilder<AuthBloc, AuthState>(
+        builder: (context, state) {
+          final isLoggedIn = state is AuthAuthenticated;
+          final translation = AppLocalizations.of(context)!;
+
+          final destinations = <NavigationDestination>[
+            const NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
+            NavigationDestination(
+              icon: Icon(Icons.info_outline),
+              label: translation.about,
             ),
+
+            if (isLoggedIn)
+              NavigationDestination(
+                icon: Icon(Icons.menu),
+                label: translation.services,
+              ),
+            isLoggedIn
+                ? NavigationDestination(
+                  icon: Icon(Icons.person),
+                  label: translation.profile,
+                )
+                : NavigationDestination(
+                  icon: Icon(Icons.login),
+                  label: translation.login,
+                ),
+          ];
+
+          return NavigationBar(
+            selectedIndex: currentPageIndex,
+            onDestinationSelected: (index) {
+              setState(() {
+                currentPageIndex = index;
+              });
+            },
+            destinations: destinations,
           );
         },
+      ),
+      body: BlocBuilder<AuthBloc, AuthState>(
+        builder: (context, state) {
+          final isLoggedIn = state is AuthAuthenticated;
+
+          final pages = <Widget>[
+            const HomePage(),
+            const AboutPage(),
+            if (isLoggedIn) const DashboardScreen(),
+            isLoggedIn
+                ? const ProfileScreen()
+                : const LoginPage(), // Cambia a LoginPage si no está autenticado
+          ];
+
+          // Asegura que el índice esté dentro del rango válido
+          final page =
+              currentPageIndex < pages.length
+                  ? pages[currentPageIndex]
+                  : pages.first;
+
+          return page;
+        },
+      ),
+    );
+  }
+}
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return SingleChildScrollView(
+          child: Column(
+            children: [
+              ContainerAbout(),
+              const SizedBox(height: 20),
+              ContainerStaff(),
+              const SizedBox(height: 20),
+              ContainerSocialButtons(),
+              const SizedBox(height: 20),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+class AboutPage extends StatelessWidget {
+  const AboutPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        final isLoggedIn = state is AuthAuthenticated;
+
+        final List<Widget> options =
+            navigationOptions
+                .where((option) {
+                  if (isLoggedIn) {
+                    return ![
+                      '/login',
+                      '/register',
+                      '/upload_document',
+                      '/deposits',
+                      '/caases_stage',
+                    ].contains(option.route);
+                  } else {
+                    return [
+                      // '/login',
+                      // '/',
+                      '/events',
+                      '/mm_actions',
+                      '/offices',
+                      '/consulates',
+                      '/contact_us',
+                      '/donate',
+                    ].contains(option.route);
+                  }
+                })
+                .map(
+                  (option) => _optionItem(
+                    context,
+                    option.icon,
+                    option.labelBuilder(context),
+                    option.description(context),
+                    option.route,
+                  ),
+                )
+                .toList();
+
+        return ListView(children: [...options]);
+      },
+    );
+  }
+
+  Widget _optionItem(
+    BuildContext context,
+    IconData icon,
+    String title,
+    String description,
+    String route,
+  ) {
+    return ListTile(
+      leading: Icon(icon, color: Theme.of(context).colorScheme.primary),
+      title: Text(title, style: Theme.of(context).textTheme.bodyLarge),
+      subtitle: Text(
+        description,
+        style: Theme.of(context).textTheme.bodyMedium?.merge(
+          TextStyle(color: Theme.of(context).colorScheme.primary),
+        ),
+      ),
+      trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+      visualDensity: const VisualDensity(vertical: -1),
+      onTap: () {
+        context.push(route);
+      },
+    );
+  }
+}
+
+class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(25.0),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Image(image: AssetImage('assets/icon/icon.png'), height: 250),
+            const SizedBox(height: 20),
+            Text(
+              AppLocalizations.of(context)!.contact_to_request,
+              style: Theme.of(context).textTheme.bodyLarge,
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 50),
+            CircularButton(
+              text: AppLocalizations.of(context)!.login,
+              press: () {
+                context.pushNamed(
+                  'login',
+                ); // Navega a la pantalla de inicio de sesión
+              },
+            ),
+            const SizedBox(height: 20),
+            CircularButton(
+              text: AppLocalizations.of(context)!.register,
+              press: () {
+                context.pushNamed(
+                  'register',
+                ); // Navega a la pantalla de registro
+              },
+            ),
+            const SizedBox(height: 50),
+            // ContainerSocialButtons(),
+          ],
+        ),
       ),
     );
   }
@@ -57,16 +256,16 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       surfaceTintColor: Colors.transparent,
       shadowColor: Colors.transparent,
       title: const Text('Mil Mujeres'),
-      leading: Builder(
-        builder: (context) {
-          return IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: () {
-              Scaffold.of(context).openDrawer();
-            },
-          );
-        },
-      ),
+      // leading: Builder(
+      //   builder: (context) {
+      //     return IconButton(
+      //       icon: const Icon(Icons.menu),
+      //       onPressed: () {
+      //         Scaffold.of(context).openDrawer();
+      //       },
+      //     );
+      //   },
+      // ),
       bottom: PreferredSize(preferredSize: Size.zero, child: Container()),
       actions: [
         _CustomDropDownUnderlineWelcome(),
@@ -201,19 +400,20 @@ class ContainerAbout extends StatelessWidget {
       child: Center(
         child: Column(
           children: [
+            CircleAvatar(
+              backgroundImage: const AssetImage('assets/icon/icon.png'),
+              radius: 80,
+            ),
             Text(
-              AppLocalizations.of(context)!.mm_about_txt,
+              AppLocalizations.of(context)!.mm_description,
               style: Theme.of(context).textTheme.bodyLarge,
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 20),
-            ElevatedButton.icon(
-              icon: const Icon(Icons.contact_page, color: Colors.white),
-              onPressed: () => context.push('/contact_us'),
-              label: Text(
-                AppLocalizations.of(context)!.contact_us,
-                style: Theme.of(context).textTheme.labelLarge,
-              ),
+            const SizedBox(height: 30),
+            CircularButton(
+              icon: Icons.info_outline,
+              text: AppLocalizations.of(context)!.contact_us,
+              press: () => context.push('/contact_us'),
             ),
           ],
         ),

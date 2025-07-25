@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:milmujeres_app/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:milmujeres_app/presentation/navigation_options.dart';
 
@@ -8,7 +7,7 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final translation = AppLocalizations.of(context)!;
+    // final translation = AppLocalizations.of(context)!;
     final dashboardOptions =
         navigationOptions
             .where(
@@ -24,7 +23,7 @@ class DashboardScreen extends StatelessWidget {
             .toList();
 
     return Scaffold(
-      appBar: AppBar(title: Text(translation.dashboard)),
+      // appBar: AppBar(title: Text(translation.dashboard)),
       body: Center(
         child: GridView.builder(
           padding: const EdgeInsets.all(10),

@@ -1436,6 +1436,96 @@ abstract class AppLocalizations {
   /// **'At least one required'**
   String get at_least_one_required;
 
+  /// No description provided for @homeDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to home'**
+  String get homeDescription;
+
+  /// No description provided for @loginDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in'**
+  String get loginDescription;
+
+  /// No description provided for @dashboardDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'View dashboard'**
+  String get dashboardDescription;
+
+  /// No description provided for @profileDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'View profile'**
+  String get profileDescription;
+
+  /// No description provided for @eventsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'See events'**
+  String get eventsDescription;
+
+  /// No description provided for @mm_actionsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Active initiatives'**
+  String get mm_actionsDescription;
+
+  /// No description provided for @upload_fileDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload files'**
+  String get upload_fileDescription;
+
+  /// No description provided for @officesDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'View offices'**
+  String get officesDescription;
+
+  /// No description provided for @consulatesDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'View consulates'**
+  String get consulatesDescription;
+
+  /// No description provided for @alliances_referencesDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'See alliances'**
+  String get alliances_referencesDescription;
+
+  /// No description provided for @deposits_refundsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'View deposits'**
+  String get deposits_refundsDescription;
+
+  /// No description provided for @caases_stageDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Case status'**
+  String get caases_stageDescription;
+
+  /// No description provided for @donateDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Donate now'**
+  String get donateDescription;
+
+  /// No description provided for @contact_usDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact us'**
+  String get contact_usDescription;
+
+  /// No description provided for @complaintsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Send complaint'**
+  String get complaintsDescription;
+
   /// No description provided for @error_try_again_later.
   ///
   /// In en, this message translates to:
@@ -1451,7 +1541,7 @@ abstract class AppLocalizations {
   /// No description provided for @contact_to_request.
   ///
   /// In en, this message translates to:
-  /// **'Contact Mil Mujeres to request your registration or activate \n \n your account at 202 808 3311.'**
+  /// **'Contact Mil Mujeres to request your registration or activate your account at 202 808 3311.'**
   String get contact_to_request;
 
   /// No description provided for @have_an_account.
@@ -1471,6 +1561,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Mil Mujeres is a non-profit organization that was founded in 2007 to address the growing need for bilingual legal services for the Latino community in the United States with an emphasis on helping survivors of violent crime, including domestic violence, sexual assault, and assault, \n \n In the last years, we have helped more than five thousand people with our legal services and more than twenty thousand people with our information services throughout the national territory.'**
   String get mm_about_txt;
+
+  /// No description provided for @mm_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Mil Mujeres is a non-profit organization that was founded in 2007 to address the growing need for bilingual legal services for the Latino community in the United States with an emphasis on helping survivors of violent crime, including domestic violence, sexual assault, and assault.'**
+  String get mm_description;
+
+  /// No description provided for @mm_what_we_do.
+  ///
+  /// In en, this message translates to:
+  /// **'In the last years, we have helped more than five thousand people with our legal services and more than twenty thousand people with our information services throughout the national territory'**
+  String get mm_what_we_do;
 
   /// No description provided for @already_have_an_account.
   ///

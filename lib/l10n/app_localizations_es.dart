@@ -682,6 +682,51 @@ class AppLocalizationsEs extends AppLocalizations {
   String get at_least_one_required => 'Al menos uno requerido';
 
   @override
+  String get homeDescription => 'Ir al inicio';
+
+  @override
+  String get loginDescription => 'Iniciar sesión';
+
+  @override
+  String get dashboardDescription => 'Ver el panel';
+
+  @override
+  String get profileDescription => 'Ver perfil';
+
+  @override
+  String get eventsDescription => 'Ver eventos';
+
+  @override
+  String get mm_actionsDescription => 'Iniciativas activas';
+
+  @override
+  String get upload_fileDescription => 'Subir documentos';
+
+  @override
+  String get officesDescription => 'Ver oficinas';
+
+  @override
+  String get consulatesDescription => 'Ver consulados';
+
+  @override
+  String get alliances_referencesDescription => 'Ver alianzas';
+
+  @override
+  String get deposits_refundsDescription => 'Ver depósitos';
+
+  @override
+  String get caases_stageDescription => 'Estado del caso';
+
+  @override
+  String get donateDescription => 'Hacer donación';
+
+  @override
+  String get contact_usDescription => 'Contactar';
+
+  @override
+  String get complaintsDescription => 'Enviar queja';
+
+  @override
   String get error_try_again_later => 'Error inténtelo nuevamente más tarde.';
 
   @override
@@ -690,7 +735,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get contact_to_request =>
-      'Contacta con Mil Mujeres para solicitar tu registro o activar  \n \n tu cuenta al 202 808 3311.';
+      'Contacta con Mil Mujeres para solicitar tu registro o activar tu cuenta al 202 808 3311.';
 
   @override
   String get have_an_account => '¿Tiene usted una cuenta?';
@@ -701,6 +746,14 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get mm_about_txt =>
       'Mil Mujeres es una organización sin fines de lucro que se fundó en 2007 para abordar la creciente necesidad de servicios legales bilingües para la comunidad latina en los Estados Unidos con énfasis en ayudar a sobrevivientes de delitos violentos, incluida la violencia doméstica, la agresión sexual y la agresión. \n \n En los últimos años hemos ayudado a más de cinco mil personas con nuestros servicios legales ya más de veinte mil personas con nuestros servicios de información en todo el territorio nacional.';
+
+  @override
+  String get mm_description =>
+      'Mil Mujeres es una organización sin fines de lucro que se fundó en 2007 para abordar la creciente necesidad de servicios legales bilingües para la comunidad latina en los Estados Unidos con énfasis en ayudar a sobrevivientes de delitos violentos, incluida la violencia doméstica, la agresión sexual y la agresión.';
+
+  @override
+  String get mm_what_we_do =>
+      'En los últimos años hemos ayudado a más de cinco mil personas con nuestros servicios legales ya más de veinte mil personas con nuestros servicios de información en todo el territorio nacional.';
 
   @override
   String get already_have_an_account => '¡Ya tienes una cuenta!';

@@ -681,6 +681,51 @@ class AppLocalizationsEn extends AppLocalizations {
   String get at_least_one_required => 'At least one required';
 
   @override
+  String get homeDescription => 'Go to home';
+
+  @override
+  String get loginDescription => 'Sign in';
+
+  @override
+  String get dashboardDescription => 'View dashboard';
+
+  @override
+  String get profileDescription => 'View profile';
+
+  @override
+  String get eventsDescription => 'See events';
+
+  @override
+  String get mm_actionsDescription => 'Active initiatives';
+
+  @override
+  String get upload_fileDescription => 'Upload files';
+
+  @override
+  String get officesDescription => 'View offices';
+
+  @override
+  String get consulatesDescription => 'View consulates';
+
+  @override
+  String get alliances_referencesDescription => 'See alliances';
+
+  @override
+  String get deposits_refundsDescription => 'View deposits';
+
+  @override
+  String get caases_stageDescription => 'Case status';
+
+  @override
+  String get donateDescription => 'Donate now';
+
+  @override
+  String get contact_usDescription => 'Contact us';
+
+  @override
+  String get complaintsDescription => 'Send complaint';
+
+  @override
   String get error_try_again_later => 'Error try again later.';
 
   @override
@@ -689,7 +734,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get contact_to_request =>
-      'Contact Mil Mujeres to request your registration or activate \n \n your account at 202 808 3311.';
+      'Contact Mil Mujeres to request your registration or activate your account at 202 808 3311.';
 
   @override
   String get have_an_account => 'Do you have an account?';
@@ -700,6 +745,14 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get mm_about_txt =>
       'Mil Mujeres is a non-profit organization that was founded in 2007 to address the growing need for bilingual legal services for the Latino community in the United States with an emphasis on helping survivors of violent crime, including domestic violence, sexual assault, and assault, \n \n In the last years, we have helped more than five thousand people with our legal services and more than twenty thousand people with our information services throughout the national territory.';
+
+  @override
+  String get mm_description =>
+      'Mil Mujeres is a non-profit organization that was founded in 2007 to address the growing need for bilingual legal services for the Latino community in the United States with an emphasis on helping survivors of violent crime, including domestic violence, sexual assault, and assault.';
+
+  @override
+  String get mm_what_we_do =>
+      'In the last years, we have helped more than five thousand people with our legal services and more than twenty thousand people with our information services throughout the national territory';
 
   @override
   String get already_have_an_account => 'Already have an account!';
