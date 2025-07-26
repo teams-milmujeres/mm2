@@ -3,7 +3,8 @@ import 'document_history.dart';
 
 class Document {
   final int id;
-  final String note;
+  final String noteEN;
+  final String noteES;
   final bool uploaded;
   final bool checked;
   final DateTime createdAt;
@@ -13,7 +14,8 @@ class Document {
 
   Document({
     required this.id,
-    required this.note,
+    required this.noteEN,
+    required this.noteES,
     required this.uploaded,
     required this.checked,
     required this.createdAt,
@@ -25,7 +27,8 @@ class Document {
   factory Document.fromJson(Map<String, dynamic> json) {
     return Document(
       id: json['id'],
-      note: json['note_es'] ?? '',
+      noteES: json['note_es'] ?? '',
+      noteEN: json['note_en'] ?? '',
       uploaded: json['uploaded'] ?? false,
       checked: json['checked'] ?? false,
       createdAt: DateTime.parse(json['created_at']),
@@ -41,7 +44,8 @@ class Document {
 
   Map<String, dynamic> toJson() => {
     'id': id,
-    'note_es': note,
+    'note_es': noteES,
+    'note_en': noteEN,
     'uploaded': uploaded,
     'checked': checked,
     'created_at': createdAt.toIso8601String(),

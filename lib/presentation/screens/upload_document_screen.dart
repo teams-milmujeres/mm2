@@ -113,6 +113,7 @@ class _PendingDocumentCard extends StatelessWidget {
         locale == 'es'
             ? document.documentType.nameEs
             : document.documentType.nameEn;
+    final documentNote = locale == 'es' ? document.noteES : document.noteEN;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -121,7 +122,7 @@ class _PendingDocumentCard extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         child: Container(
           decoration: BoxDecoration(
-            color: isRejected ? Colors.red.shade50 : Colors.white,
+            // color: isRejected ? Colors.red.shade50 : Colors.white,
             borderRadius: BorderRadius.circular(12),
           ),
           padding: const EdgeInsets.symmetric(vertical: 8),
@@ -150,11 +151,16 @@ class _PendingDocumentCard extends StatelessWidget {
                       '${t.created_at}: $formattedDate',
                       style: const TextStyle(fontSize: 13, color: Colors.grey),
                     ),
-                    Text(
-                      '${t.last_state}: ${_translatedState(lastState, t)}',
-                      style: const TextStyle(fontSize: 13),
-                    ),
-                    if (lastStateNote.isNotEmpty)
+                    // Text(
+                    //   '${t.last_state}: ${_translatedState(lastState, t)}',
+                    //   style: const TextStyle(fontSize: 13),
+                    // ),
+                    if (!document.uploaded)
+                      Text(
+                        '${t.last_state}: ${_translatedState(lastState, t)}',
+                        style: const TextStyle(fontSize: 13),
+                      ),
+                    if (lastStateNote.isNotEmpty && !document.uploaded)
                       Text(
                         '${t.note}: $lastStateNote',
                         style: TextStyle(
@@ -166,7 +172,11 @@ class _PendingDocumentCard extends StatelessWidget {
                 ),
                 trailing:
                     document.uploaded
-                        ? null
+                        ? Icon(
+                          Icons.hourglass_top,
+                          color: Theme.of(context).colorScheme.primary,
+                          size: 30,
+                        )
                         : ElevatedButton.icon(
                           style: ElevatedButton.styleFrom(
                             backgroundColor:
@@ -226,7 +236,7 @@ class _PendingDocumentCard extends StatelessWidget {
                               (_) => AlertDialog(
                                 title: Text(t.instructions),
                                 content: SingleChildScrollView(
-                                  child: Text(document.note),
+                                  child: Text(documentNote),
                                 ),
                                 actions: [
                                   TextButton(

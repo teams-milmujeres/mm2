@@ -70,7 +70,7 @@ class DocumentBloc extends Bloc<DocumentEvent, DocumentState> {
       final client = DioClient();
 
       final response = await client.dio.post(
-        '/api/upload_file',
+        '/upload_file',
         data: {
           'file': base64File,
           'document_request_id': event.documentRequestId,
