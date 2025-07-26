@@ -28,69 +28,75 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const CustomAppBar(),
-      // drawer: const CustomDrawer(), // Mantienes tu drawer basado en Bloc
-      bottomNavigationBar: BlocBuilder<AuthBloc, AuthState>(
-        builder: (context, state) {
-          final isLoggedIn = state is AuthAuthenticated;
-          final translation = AppLocalizations.of(context)!;
+    return BlocProvider(
+      create: (context) => StaffBloc()..add(StaffFetchEvent()),
+      child: Scaffold(
+        appBar: const CustomAppBar(),
+        // drawer: const CustomDrawer(), // Mantienes tu drawer basado en Bloc
+        bottomNavigationBar: BlocBuilder<AuthBloc, AuthState>(
+          builder: (context, state) {
+            final isLoggedIn = state is AuthAuthenticated;
+            final translation = AppLocalizations.of(context)!;
 
-          final destinations = <NavigationDestination>[
-            const NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
-            NavigationDestination(
-              icon: Icon(Icons.info_outline),
-              label: translation.about,
-            ),
-
-            if (isLoggedIn)
-              NavigationDestination(
-                icon: Icon(Icons.menu),
-                label: translation.services,
+            final destinations = <NavigationDestination>[
+              const NavigationDestination(
+                icon: Icon(Icons.home),
+                label: 'Home',
               ),
-            isLoggedIn
-                ? NavigationDestination(
-                  icon: Icon(Icons.person),
-                  label: translation.profile,
-                )
-                : NavigationDestination(
-                  icon: Icon(Icons.login),
-                  label: translation.login,
+              NavigationDestination(
+                icon: Icon(Icons.info_outline),
+                label: translation.about,
+              ),
+
+              if (isLoggedIn)
+                NavigationDestination(
+                  icon: Icon(Icons.menu),
+                  label: translation.services,
                 ),
-          ];
+              isLoggedIn
+                  ? NavigationDestination(
+                    icon: Icon(Icons.person),
+                    label: translation.profile,
+                  )
+                  : NavigationDestination(
+                    icon: Icon(Icons.login),
+                    label: translation.login,
+                  ),
+            ];
 
-          return NavigationBar(
-            selectedIndex: currentPageIndex,
-            onDestinationSelected: (index) {
-              setState(() {
-                currentPageIndex = index;
-              });
-            },
-            destinations: destinations,
-          );
-        },
-      ),
-      body: BlocBuilder<AuthBloc, AuthState>(
-        builder: (context, state) {
-          final isLoggedIn = state is AuthAuthenticated;
+            return NavigationBar(
+              selectedIndex: currentPageIndex,
+              onDestinationSelected: (index) {
+                setState(() {
+                  currentPageIndex = index;
+                });
+              },
+              destinations: destinations,
+            );
+          },
+        ),
+        body: BlocBuilder<AuthBloc, AuthState>(
+          builder: (context, state) {
+            final isLoggedIn = state is AuthAuthenticated;
 
-          final pages = <Widget>[
-            const HomePage(),
-            const AboutPage(),
-            if (isLoggedIn) const DashboardScreen(),
-            isLoggedIn
-                ? const ProfileScreen()
-                : const LoginPage(), // Cambia a LoginPage si no está autenticado
-          ];
+            final pages = <Widget>[
+              const HomePage(),
+              const AboutPage(),
+              if (isLoggedIn) const DashboardScreen(),
+              isLoggedIn
+                  ? const ProfileScreen()
+                  : const LoginPage(), // Cambia a LoginPage si no está autenticado
+            ];
 
-          // Asegura que el índice esté dentro del rango válido
-          final page =
-              currentPageIndex < pages.length
-                  ? pages[currentPageIndex]
-                  : pages.first;
+            // Asegura que el índice esté dentro del rango válido
+            final page =
+                currentPageIndex < pages.length
+                    ? pages[currentPageIndex]
+                    : pages.first;
 
-          return page;
-        },
+            return page;
+          },
+        ),
       ),
     );
   }
@@ -476,63 +482,46 @@ class ContainerStaff extends StatefulWidget {
 }
 
 class _ContainerStaffState extends State<ContainerStaff> {
-  late final StaffBloc _staffBloc;
-
-  @override
-  void initState() {
-    super.initState();
-    _staffBloc = StaffBloc()..add(StaffFetchEvent());
-  }
-
-  @override
-  void dispose() {
-    _staffBloc.close();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     final translation = AppLocalizations.of(context)!;
 
-    return BlocProvider.value(
-      value: _staffBloc,
-      child: BlocBuilder<StaffBloc, StaffState>(
-        builder: (context, state) {
-          switch (state.runtimeType) {
-            case const (StaffInitial):
-            case const (StaffLoading):
-              return const Center(child: CircularProgressIndicator());
+    return BlocBuilder<StaffBloc, StaffState>(
+      builder: (context, state) {
+        switch (state.runtimeType) {
+          case const (StaffInitial):
+          case const (StaffLoading):
+            return const Center(child: CircularProgressIndicator());
 
-            case const (StaffSuccess):
-              final staff = (state as StaffSuccess).staff;
-              return SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _buildTeamSection(
-                      context,
-                      translation.executive_team,
-                      staff.executiveTeam,
-                    ),
-                    _buildTeamSection(
-                      context,
-                      translation.legal_team,
-                      staff.legalTeam,
-                    ),
-                  ],
-                ),
-              );
+          case const (StaffSuccess):
+            final staff = (state as StaffSuccess).staff;
+            return SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _buildTeamSection(
+                    context,
+                    translation.executive_team,
+                    staff.executiveTeam,
+                  ),
+                  _buildTeamSection(
+                    context,
+                    translation.legal_team,
+                    staff.legalTeam,
+                  ),
+                ],
+              ),
+            );
 
-            case const (StaffError):
-              final error = (state as StaffError).errorMessage;
-              return Center(child: Text('Error: $error'));
+          case const (StaffError):
+            final error = (state as StaffError).errorMessage;
+            return Center(child: Text('Error: $error'));
 
-            default:
-              return const SizedBox.shrink();
-          }
-        },
-      ),
+          default:
+            return const SizedBox.shrink();
+        }
+      },
     );
   }
 
