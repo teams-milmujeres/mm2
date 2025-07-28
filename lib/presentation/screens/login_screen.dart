@@ -1,12 +1,15 @@
-import 'dart:io';
-
-import 'package:device_info_plus/device_info_plus.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:milmujeres_app/l10n/app_localizations.dart';
-import 'package:go_router/go_router.dart';
+// Bloc
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:milmujeres_app/presentation/bloc/auth/auth_bloc.dart';
+// Localization
+import 'package:milmujeres_app/l10n/app_localizations.dart';
+// Navigation
+import 'package:go_router/go_router.dart';
+// Other imports
+import 'dart:io';
+import 'package:milmujeres_app/data/data.dart';
+import 'package:flutter/foundation.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -29,23 +32,6 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {
       obscureText = !obscureText;
     });
-  }
-
-  Future<String> getDeviceName() async {
-    final deviceInfo = DeviceInfoPlugin();
-    try {
-      if (Platform.isAndroid) {
-        final androidInfo = await deviceInfo.androidInfo;
-        return androidInfo.model;
-      } else if (Platform.isIOS) {
-        final iosInfo = await deviceInfo.iosInfo;
-        return iosInfo.utsname.machine;
-      } else {
-        return 'unknown';
-      }
-    } catch (e) {
-      return 'unknown';
-    }
   }
 
   @override
@@ -74,10 +60,6 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // const Image(
-              //   image: AssetImage('assets/images/milmujeres-logo.png'),
-              //   height: 100,
-              // ),
               const Image(
                 image: AssetImage('assets/icon/icon.png'),
                 height: 100,

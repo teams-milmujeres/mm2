@@ -1,3 +1,5 @@
+part of 'password_recovery_bloc.dart';
+
 abstract class PasswordRecoveryEvent {}
 
 class SubmitUsername extends PasswordRecoveryEvent {

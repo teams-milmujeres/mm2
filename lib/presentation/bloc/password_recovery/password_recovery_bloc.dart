@@ -1,9 +1,10 @@
 // account_recovery_bloc.dart
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'password_recovery_event.dart';
-import 'password_recovery_state.dart';
 import 'package:milmujeres_app/data/data.dart';
+
+part 'password_recovery_event.dart';
+part 'password_recovery_state.dart';
 
 class PasswordRecoveryBloc
     extends Bloc<PasswordRecoveryEvent, PasswordRecoveryState> {

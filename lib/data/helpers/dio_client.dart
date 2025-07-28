@@ -7,7 +7,9 @@ class DioClient {
   static final String _baseUrl = AppConfig.baseUrl;
 
   DioClient() {
-    addInterceptor(LogInterceptor());
+    // Esto permite imprimir las peticiones y respuestas en la consola
+    // Puedes descomentar la siguiente línea si necesitas depurar las peticiones
+    //addInterceptor(LogInterceptor());
   }
 
   final Dio dio = Dio(BaseOptions(baseUrl: '$_baseUrl/api'));

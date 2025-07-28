@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+// Bloc
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:milmujeres_app/l10n/app_localizations.dart';
-import 'package:milmujeres_app/domain/entities/user.dart';
 import 'package:milmujeres_app/presentation/bloc/register/register_bloc.dart';
+// Localization
+import 'package:milmujeres_app/l10n/app_localizations.dart';
+// Entities
+import 'package:milmujeres_app/domain/entities/user.dart';
+// Other imports
 import 'package:milmujeres_app/widgets/rounded_button_large.dart';
 
 class RegisterScreen extends StatefulWidget {

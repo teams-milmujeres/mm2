@@ -11,8 +11,6 @@ export 'package:milmujeres_app/presentation/screens/donate_screen.dart';
 export 'package:milmujeres_app/presentation/screens/consulate_screen.dart';
 export 'package:milmujeres_app/presentation/screens/reference_screen.dart';
 export 'package:milmujeres_app/presentation/screens/complaint_screen.dart';
-export 'package:milmujeres_app/presentation/screens/suggestion_screen.dart';
-export 'package:milmujeres_app/presentation/screens/grievance_screen.dart';
 export 'package:milmujeres_app/presentation/screens/password_recovery_screen.dart';
 export 'package:milmujeres_app/presentation/screens/deposit_screen.dart';
 export 'package:milmujeres_app/presentation/screens/case_stage_screen.dart';

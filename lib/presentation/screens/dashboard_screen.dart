@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// Navigation
 import 'package:go_router/go_router.dart';
 import 'package:milmujeres_app/presentation/navigation_options.dart';
 
@@ -71,7 +72,6 @@ class _DashboardCardState extends State<DashboardCard> {
         duration: const Duration(milliseconds: 150),
         curve: Curves.easeInOut,
         child: Card(
-          surfaceTintColor: theme.colorScheme.primary,
           color:
               isPressed
                   ? theme.colorScheme.primary

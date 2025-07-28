@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+// Bloc
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:milmujeres_app/presentation/bloc/offices/offices_bloc.dart';
+// Localization
 import 'package:milmujeres_app/l10n/app_localizations.dart';
+// Screens
+import 'package:milmujeres_app/presentation/screens.dart';
+// Entities
+import 'package:milmujeres_app/domain/entities/office.dart';
+// Other imports
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:milmujeres_app/data/data.dart';
-import 'package:milmujeres_app/domain/entities/office.dart';
-import 'package:milmujeres_app/presentation/bloc/offices/offices_bloc.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:milmujeres_app/presentation/screens.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class OfficeScreen extends StatefulWidget {

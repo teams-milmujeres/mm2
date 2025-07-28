@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+// Bloc
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:milmujeres_app/presentation/bloc/auth/auth_bloc.dart';
+import 'package:milmujeres_app/presentation/bloc/countries/countries_bloc.dart';
+// Entities
 import 'package:milmujeres_app/domain/entities/citizenship.dart';
 import 'package:milmujeres_app/domain/entities/country.dart';
-import 'package:milmujeres_app/presentation/bloc/auth/auth_bloc.dart';
-import 'package:milmujeres_app/l10n/app_localizations.dart';
-import 'package:milmujeres_app/presentation/bloc/countries/countries_bloc.dart';
+// Screens
 import 'package:milmujeres_app/presentation/screens.dart';
+// Localization
+import 'package:milmujeres_app/l10n/app_localizations.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});

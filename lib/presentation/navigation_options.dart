@@ -83,11 +83,6 @@ final List<NavigationOption> navigationOptions = [
         (context) =>
             AppLocalizations.of(context)!.alliances_referencesDescription,
   ),
-  // NavigationOption(
-  //   route: '/grievances',
-  //   icon: Icons.warning,
-  //   labelBuilder: (context) => AppLocalizations.of(context)!.grievances,
-  // ),
   NavigationOption(
     route: '/deposits',
     icon: Icons.payments,
@@ -122,9 +117,4 @@ final List<NavigationOption> navigationOptions = [
     description:
         (context) => AppLocalizations.of(context)!.complaintsDescription,
   ),
-  // NavigationOption(
-  //   route: '/suggestions',
-  //   icon: Icons.lightbulb,
-  //   labelBuilder: (context) => AppLocalizations.of(context)!.suggestions,
-  // ),
 ];

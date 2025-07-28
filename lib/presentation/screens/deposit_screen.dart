@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+// Bloc
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:milmujeres_app/l10n/app_localizations.dart';
-import 'package:milmujeres_app/domain/entities/deposit.dart';
-import 'package:milmujeres_app/domain/entities/refund.dart';
 import 'package:milmujeres_app/presentation/bloc/auth/auth_bloc.dart';
 import 'package:milmujeres_app/presentation/bloc/deposits/deposits_bloc.dart';
 import 'package:milmujeres_app/presentation/bloc/refunds/refunds_bloc.dart';
+// Entities
+import 'package:milmujeres_app/domain/entities/deposit.dart';
+import 'package:milmujeres_app/domain/entities/refund.dart';
+// Localization
+import 'package:milmujeres_app/l10n/app_localizations.dart';
+// Other imports
 import 'package:intl/intl.dart';
 
 class DepositScreen extends StatelessWidget {
@@ -65,7 +69,7 @@ class DepositScreen extends StatelessWidget {
 
             return ListView.separated(
               padding: const EdgeInsets.all(8.0),
-              separatorBuilder: (_, __) => const Divider(),
+              separatorBuilder: (_, __) => const SizedBox.shrink(),
               itemCount: state.deposits.length,
               itemBuilder: (context, index) {
                 final deposit = state.deposits[index];
@@ -121,7 +125,7 @@ class DepositScreen extends StatelessWidget {
             }
             return ListView.separated(
               padding: const EdgeInsets.all(8.0),
-              separatorBuilder: (_, __) => const Divider(),
+              separatorBuilder: (_, __) => const SizedBox.shrink(),
               itemCount: state.refunds.length,
               itemBuilder: (context, index) {
                 final refund = state.refunds[index];

@@ -1,20 +1,24 @@
-// import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+// Bloc
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:milmujeres_app/presentation/bloc/staff/staff_bloc.dart';
+import 'package:milmujeres_app/presentation/bloc/locale/language_bloc.dart';
+import 'package:milmujeres_app/presentation/bloc/auth/auth_bloc.dart';
+// Navigation
 import 'package:go_router/go_router.dart';
-import 'package:milmujeres_app/data/data.dart';
+import 'package:milmujeres_app/presentation/navigation_options.dart';
+// Entities
 import 'package:milmujeres_app/domain/entities/language_model.dart';
 import 'package:milmujeres_app/domain/entities/staff.dart';
-import 'package:milmujeres_app/presentation/bloc/locale/language_bloc.dart';
-import 'package:milmujeres_app/presentation/navigation_options.dart';
-import 'package:milmujeres_app/presentation/screens/dashboard_screen.dart';
-import 'package:milmujeres_app/presentation/screens/profile_screen.dart';
+// Localization
 import 'package:milmujeres_app/l10n/app_localizations.dart';
-import 'package:milmujeres_app/presentation/bloc/staff/staff_bloc.dart';
-import 'package:milmujeres_app/widgets/circular_buitton.dart';
+// Screens
+import 'package:milmujeres_app/presentation/screens.dart';
+// Other imports
+import 'package:milmujeres_app/data/data.dart';
 import 'package:responsive_grid/responsive_grid.dart';
-import 'package:milmujeres_app/presentation/bloc/auth/auth_bloc.dart';
+import 'package:milmujeres_app/widgets/circular_buitton.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -43,14 +47,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 icon: Icon(Icons.home),
                 label: 'Home',
               ),
-              NavigationDestination(
-                icon: Icon(Icons.info_outline),
-                label: translation.about,
-              ),
+              NavigationDestination(icon: Icon(Icons.menu), label: 'Menu'),
 
               if (isLoggedIn)
                 NavigationDestination(
-                  icon: Icon(Icons.menu),
+                  icon: Icon(Icons.design_services),
                   label: translation.services,
                 ),
               isLoggedIn
@@ -779,178 +780,3 @@ class ContainerFooter extends StatelessWidget {
     );
   }
 }
-
-// class CarrouselWidget extends StatelessWidget {
-//   const CarrouselWidget({super.key});
-
-//   Future<List<String>> _fetchBanners() async {
-//     // Simulación de obtener imágenes desde una API
-//     // En el futuro, aquí se hará una llamada HTTP para obtener las imágenes
-//     await Future.delayed(
-//       const Duration(milliseconds: 500),
-//     ); // Simula un retraso
-//     return [
-//       'assets/images/banners/banner1.webp',
-//       'assets/images/banners/banner2.webp',
-//       'assets/images/banners/banner3.webp',
-//       'assets/images/banners/banner4.webp',
-//     ];
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return FutureBuilder<List<String>>(
-//       future: _fetchBanners(),
-//       builder: (context, snapshot) {
-//         if (snapshot.connectionState == ConnectionState.waiting) {
-//           return const Center(child: CircularProgressIndicator());
-//         } else if (snapshot.hasError) {
-//           return const Center(child: Text('Error loading banners'));
-//         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-//           return const Center(child: Text('No banners available'));
-//         }
-
-//         final banners = snapshot.data!;
-//         return CarouselSlider(
-//           options: CarouselOptions(
-//             autoPlay: true,
-//             enlargeCenterPage: true,
-//             aspectRatio: 22 / 8,
-//             pageSnapping: true,
-//             autoPlayInterval: const Duration(seconds: 3),
-//             pauseAutoPlayOnTouch: true,
-//           ),
-//           items:
-//               banners.map((imagePath) {
-//                 return Builder(
-//                   builder: (BuildContext context) {
-//                     return GestureDetector(
-//                       onTap: () {
-//                         _showZoomableImage(context, imagePath);
-//                       },
-//                       child: Container(
-//                         width: MediaQuery.of(context).size.width,
-//                         margin: const EdgeInsets.symmetric(horizontal: 2.0),
-//                         child: ClipRRect(
-//                           borderRadius: BorderRadius.circular(8.0),
-//                           child: Image(
-//                             image: AssetImage(imagePath),
-//                             fit: BoxFit.cover,
-//                           ),
-//                         ),
-//                       ),
-//                     );
-//                   },
-//                 );
-//               }).toList(),
-//         );
-//       },
-//     );
-//   }
-
-//   void _showZoomableImage(BuildContext context, String imagePath) {
-//     showDialog(
-//       context: context,
-//       builder: (context) {
-//         return Dialog(
-//           backgroundColor: Colors.transparent,
-//           child: GestureDetector(
-//             onTap: () => Navigator.of(context).pop(), // Cerrar el diálogo
-//             child: InteractiveViewer(
-//               panEnabled: true, // Permite desplazar la imagen
-//               minScale: 1.0, // Zoom mínimo
-//               maxScale: 5.0, // Zoom máximo
-//               child: ClipRRect(
-//                 borderRadius: BorderRadius.circular(10.0),
-//                 child: Image.asset(imagePath, fit: BoxFit.contain),
-//               ),
-//             ),
-//           ),
-//         );
-//       },
-//     );
-//   }
-// }
-
-// class AboutComponent extends StatelessWidget {
-//   const AboutComponent({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final isMobile = ResponsiveBreakpoints.of(context).isMobile;
-
-//     return Container(
-//       decoration: BoxDecoration(
-//         borderRadius: BorderRadius.circular(10.0),
-//         color: Theme.of(context).colorScheme.primary,
-//       ),
-//       padding: const EdgeInsets.all(20),
-//       child:
-//           isMobile
-//               ? Column(children: _buildContent(context))
-//               : Row(
-//                 mainAxisAlignment: MainAxisAlignment.center,
-//                 children: _buildContent(context),
-//               ),
-//     );
-//   }
-
-//   List<Widget> _buildContent(BuildContext context) {
-//     return [
-//       Expanded(
-//         child: ClipRRect(
-//           borderRadius: BorderRadius.circular(12.0),
-//           child: const Image(
-//             image: AssetImage('assets/images/about.webp'),
-//             fit: BoxFit.cover,
-//           ),
-//         ),
-//       ),
-//       const SizedBox(width: 20, height: 20),
-//       Expanded(
-//         child: Padding(
-//           padding: const EdgeInsets.all(25),
-//           child: Column(
-//             children: [
-//               Text(
-//                 AppLocalizations.of(context)!.about,
-//                 style: const TextStyle(
-//                   color: Colors.white,
-//                   fontSize: 35,
-//                   fontWeight: FontWeight.bold,
-//                 ),
-//                 maxLines: 10,
-//                 overflow: TextOverflow.ellipsis,
-//                 textAlign: TextAlign.center,
-//               ),
-//               const SizedBox(height: 15),
-//               Text(
-//                 AppLocalizations.of(context)!.mm_about_txt,
-//                 style: const TextStyle(
-//                   color: Colors.white,
-//                   fontSize: 18,
-//                   fontFamily: 'Arial,Helvetica,sans-serif',
-//                 ),
-//                 maxLines: 12,
-//                 overflow: TextOverflow.ellipsis,
-//                 textAlign: TextAlign.center,
-//               ),
-//               const SizedBox(height: 25),
-//               Center(
-//                 child: RoundedButton(
-//                   text: AppLocalizations.of(context)!.contact_us,
-//                   color: Colors.white,
-//                   textColor: Theme.of(context).colorScheme.primary,
-//                   press: () {
-//                     Navigator.of(context).pushNamed('contact_us');
-//                   },
-//                 ),
-//               ),
-//               const SizedBox(height: 20),
-//             ],
-//           ),
-//         ),
-//       ),
-//     ];
-//   }
-// }

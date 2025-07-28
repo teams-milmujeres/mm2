@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+// Bloc
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:milmujeres_app/l10n/app_localizations.dart';
-import 'package:intl/intl.dart';
 import 'package:milmujeres_app/presentation/bloc/auth/auth_bloc.dart';
 import 'package:milmujeres_app/presentation/bloc/case_stage/case_stage_bloc.dart';
+// Localization
+import 'package:milmujeres_app/l10n/app_localizations.dart';
+// Other imports
+import 'package:intl/intl.dart';
 
 class CaseStageScreen extends StatelessWidget {
   const CaseStageScreen({super.key});

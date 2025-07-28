@@ -1,3 +1,5 @@
+part of 'password_recovery_bloc.dart';
+
 abstract class PasswordRecoveryState {}
 
 class RecoveryInitial extends PasswordRecoveryState {}

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+// Localization
 import 'package:milmujeres_app/l10n/app_localizations.dart';
+// Other imports
 import 'package:milmujeres_app/data/helpers/launch_url.dart';
 import 'package:milmujeres_app/widgets/rounded_button_large.dart';
 

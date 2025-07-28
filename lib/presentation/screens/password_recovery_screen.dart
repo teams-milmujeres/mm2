@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+// Bloc
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:milmujeres_app/l10n/app_localizations.dart';
 import 'package:milmujeres_app/presentation/bloc/password_recovery/password_recovery_bloc.dart';
-import 'package:milmujeres_app/presentation/bloc/password_recovery/password_recovery_event.dart';
-import 'package:milmujeres_app/presentation/bloc/password_recovery/password_recovery_state.dart';
+// Navigation
+import 'package:go_router/go_router.dart';
+// Localization
+import 'package:milmujeres_app/l10n/app_localizations.dart';
 
 class PasswordRecoveryScreen extends StatefulWidget {
   const PasswordRecoveryScreen({super.key});
@@ -167,7 +169,7 @@ class _PasswordRecoveryScreenState extends State<PasswordRecoveryScreen> {
       Text(t.password_updated_successfully),
       const SizedBox(height: 20),
       ElevatedButton(
-        onPressed: () => Navigator.of(context).pushNamed('login'),
+        onPressed: () => context.pushNamed('login'),
         child: Text(t.login),
       ),
     ],

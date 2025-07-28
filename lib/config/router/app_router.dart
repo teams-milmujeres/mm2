@@ -76,20 +76,6 @@ GoRouter onBoardingRouter(BuildContext context) => GoRouter(
           (context, state) => buildPageTransition(const ComplaintsScreen()),
     ),
     GoRoute(
-      path: '/suggestions',
-      name: 'suggestions',
-      // builder: (context, state) => const SuggestionScreen(),
-      pageBuilder:
-          (context, state) => buildPageTransition(const SuggestionScreen()),
-    ),
-    GoRoute(
-      path: '/grievances',
-      name: 'grievances',
-      // builder: (context, state) => const GrievanceScreen(),
-      pageBuilder:
-          (context, state) => buildPageTransition(const GrievanceScreen()),
-    ),
-    GoRoute(
       path: '/password_recovery',
       name: 'password_recovery',
       // builder: (context, state) => const PasswordRecoveryScreen(),

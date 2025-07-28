@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+// Bloc
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
-import 'package:milmujeres_app/data/data.dart';
+import 'package:milmujeres_app/presentation/bloc/auth/auth_bloc.dart';
+import 'package:milmujeres_app/presentation/bloc/countries/countries_bloc.dart';
+// Entities
 import 'package:milmujeres_app/domain/entities/address.dart';
 import 'package:milmujeres_app/domain/entities/email.dart';
 import 'package:milmujeres_app/domain/entities/phone.dart';
 import 'package:milmujeres_app/domain/entities/user.dart';
+// Localization
 import 'package:milmujeres_app/l10n/app_localizations.dart';
-import 'package:milmujeres_app/presentation/bloc/auth/auth_bloc.dart';
-import 'package:milmujeres_app/presentation/bloc/countries/countries_bloc.dart';
+// Other imports
+import 'package:intl/intl.dart';
+import 'package:milmujeres_app/data/data.dart';
 import 'package:milmujeres_app/widgets/widgets.dart';
 
 // Pantalla de edicion de perfil, muestra las opciones

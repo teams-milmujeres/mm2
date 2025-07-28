@@ -1,5 +1,7 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+// Carousel
+import 'package:carousel_slider/carousel_slider.dart';
+// Video Player
 import 'package:video_player/video_player.dart';
 
 class MMActionsScreen extends StatefulWidget {
