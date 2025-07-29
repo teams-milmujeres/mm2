@@ -729,6 +729,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get complaintsDescription => 'Send complaint';
 
   @override
+  String get how_meet => 'How did you meet us?';
+
+  @override
   String get error_try_again_later => 'Error try again later.';
 
   @override

@@ -6,6 +6,7 @@ import 'package:milmujeres_app/presentation/bloc/countries/countries_bloc.dart';
 // Entities
 import 'package:milmujeres_app/domain/entities/citizenship.dart';
 import 'package:milmujeres_app/domain/entities/country.dart';
+import 'package:milmujeres_app/presentation/constants.dart';
 // Screens
 import 'package:milmujeres_app/presentation/screens.dart';
 // Localization
@@ -17,6 +18,15 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final translation = AppLocalizations.of(context)!;
+
+    String getMeansText(String? value) {
+      if (value == null || value.isEmpty) return 'N/A';
+      final match = means.firstWhere(
+        (item) => item['value'] == value,
+        orElse: () => const {'value': '', 'text': 'N/A'},
+      );
+      return match['text']!;
+    }
 
     return BlocProvider(
       create: (_) => CountriesBloc()..add(GetCountriesAndCitizenships()),
@@ -158,6 +168,23 @@ class ProfileScreen extends StatelessWidget {
                                   translation.phone,
                                   user.phone!,
                                   context,
+                                ),
+                              if (user.howMeet != null &&
+                                  user.howMeet!.isNotEmpty)
+                                _buildItem(
+                                  translation.how_meet,
+                                  getMeansText(user.howMeet),
+                                  context,
+                                )
+                              else
+                                Text(
+                                  translation.is_required(translation.how_meet),
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.titleMedium?.copyWith(
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                             ],
                           ),

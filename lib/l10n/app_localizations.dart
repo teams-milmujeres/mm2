@@ -1532,6 +1532,12 @@ abstract class AppLocalizations {
   /// **'Send complaint'**
   String get complaintsDescription;
 
+  /// No description provided for @how_meet.
+  ///
+  /// In en, this message translates to:
+  /// **'How did you meet us?'**
+  String get how_meet;
+
   /// No description provided for @error_try_again_later.
   ///
   /// In en, this message translates to:

@@ -730,6 +730,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get complaintsDescription => 'Enviar queja';
 
   @override
+  String get how_meet => '¿Como nos conocio?';
+
+  @override
   String get error_try_again_later => 'Error inténtelo nuevamente más tarde.';
 
   @override

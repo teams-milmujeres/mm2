@@ -13,6 +13,7 @@ import 'package:milmujeres_app/l10n/app_localizations.dart';
 // Other imports
 import 'package:intl/intl.dart';
 import 'package:milmujeres_app/data/data.dart';
+import 'package:milmujeres_app/presentation/constants.dart';
 import 'package:milmujeres_app/widgets/widgets.dart';
 
 // Pantalla de edicion de perfil, muestra las opciones
@@ -120,6 +121,7 @@ class _EditBasicScreenState extends State<EditBasicScreen> {
   late final CountriesBloc countriesBloc;
   late User user;
   late final TextEditingController birthDateController;
+  late final TextEditingController howMeetController;
   DateTime? selectedBirthDate;
 
   bool initialized = false;
@@ -140,6 +142,7 @@ class _EditBasicScreenState extends State<EditBasicScreen> {
       text: user.dob != null ? DateFormat('yyyy-MM-dd').format(user.dob!) : '',
     );
     selectedBirthDate = user.dob;
+    howMeetController = TextEditingController(text: user.howMeet);
 
     initialized = true;
   }
@@ -151,6 +154,7 @@ class _EditBasicScreenState extends State<EditBasicScreen> {
     middleNameController.dispose();
     lastNameController.dispose();
     birthDateController.dispose();
+    howMeetController.dispose();
     super.dispose();
   }
 
@@ -258,7 +262,6 @@ class _EditBasicScreenState extends State<EditBasicScreen> {
                             }
                           },
                         ),
-
                         const SizedBox(height: 12),
                         EditableDropdownField(
                           label: widget.translation.citizenship,
@@ -269,6 +272,26 @@ class _EditBasicScreenState extends State<EditBasicScreen> {
                                   .toList(),
                           onChanged: (value) => user.citizenshipId = value,
                         ),
+                        const SizedBox(height: 12),
+                        DropdownButtonFormField<String>(
+                          value: user.howMeet,
+                          decoration: InputDecoration(
+                            labelText: widget.translation.how_meet,
+                            border: OutlineInputBorder(),
+                          ),
+                          items:
+                              means.map((item) {
+                                return DropdownMenuItem<String>(
+                                  value: item['value'],
+                                  child: Text(item['text']!),
+                                );
+                              }).toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              howMeetController.text = value!;
+                            });
+                          },
+                        ),
                         const SizedBox(height: 24),
                         ElevatedButton.icon(
                           onPressed: () {
@@ -276,6 +299,7 @@ class _EditBasicScreenState extends State<EditBasicScreen> {
                             user.middleName = middleNameController.text.trim();
                             user.lastName = lastNameController.text.trim();
                             user.dob = selectedBirthDate;
+                            user.howMeet = howMeetController.text.trim();
 
                             context.read<AuthBloc>().add(
                               EditProfileRequested(user.id.toString(), {
@@ -292,6 +316,7 @@ class _EditBasicScreenState extends State<EditBasicScreen> {
                                 'citizenship_id': user.citizenshipId,
                                 'client_id': user.id,
                                 'client': getPlatform(),
+                                'how_meet': user.howMeet,
                               }),
                             );
                             ScaffoldMessenger.of(context).showSnackBar(
