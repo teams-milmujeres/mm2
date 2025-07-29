@@ -36,7 +36,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       create: (context) => StaffBloc()..add(StaffFetchEvent()),
       child: Scaffold(
         appBar: const CustomAppBar(),
-        // drawer: const CustomDrawer(), // Mantienes tu drawer basado en Bloc
         bottomNavigationBar: BlocBuilder<AuthBloc, AuthState>(
           builder: (context, state) {
             final isLoggedIn = state is AuthAuthenticated;
@@ -48,7 +47,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 label: 'Home',
               ),
               NavigationDestination(icon: Icon(Icons.menu), label: 'Menu'),
-
               if (isLoggedIn)
                 NavigationDestination(
                   icon: Icon(Icons.design_services),
@@ -65,8 +63,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   ),
             ];
 
+            // Corrige el índice en tiempo real para evitar excepciones cuando el índice es mayor que la cantidad de destinos
+            final safeIndex =
+                currentPageIndex < destinations.length ? currentPageIndex : 0;
+
             return NavigationBar(
-              selectedIndex: currentPageIndex,
+              selectedIndex: safeIndex,
               onDestinationSelected: (index) {
                 setState(() {
                   currentPageIndex = index;
@@ -84,18 +86,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               const HomePage(),
               const AboutPage(),
               if (isLoggedIn) const DashboardScreen(),
-              isLoggedIn
-                  ? const ProfileScreen()
-                  : const LoginPage(), // Cambia a LoginPage si no está autenticado
+              isLoggedIn ? const ProfileScreen() : const LoginPage(),
             ];
 
-            // Asegura que el índice esté dentro del rango válido
-            final page =
-                currentPageIndex < pages.length
-                    ? pages[currentPageIndex]
-                    : pages.first;
+            // Usa el mismo índice seguro para sincronizar con el NavigationBar
+            final safeIndex =
+                currentPageIndex < pages.length ? currentPageIndex : 0;
 
-            return page;
+            return pages[safeIndex];
           },
         ),
       ),
