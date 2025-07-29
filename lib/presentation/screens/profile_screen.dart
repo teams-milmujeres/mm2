@@ -119,7 +119,11 @@ class ProfileScreen extends StatelessWidget {
                                   style: Theme.of(context).textTheme.titleMedium
                                       ?.copyWith(fontWeight: FontWeight.bold),
                                 ),
-                                Text(user.userName),
+                                Text(
+                                  user.userName ?? 'N/A',
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium,
+                                ),
                               ],
                             ),
                           ],

@@ -29,18 +29,19 @@ class User {
   int id;
   String lastName;
   String firstName;
-  dynamic locale;
-  dynamic middleName;
-  dynamic userName;
+  String? locale;
+  String? middleName;
+  String? userName;
+  String? phone;
+  String? avatar;
   DateTime? dob;
   List<Email> emails;
   List<Address> addresses;
   List<Phone> phones;
   String email;
-  dynamic phone;
-  dynamic avatar;
-  dynamic countryOfBirthId;
-  dynamic citizenshipId;
+  int? countryOfBirthId;
+  int? citizenshipId;
+
   String? howMeet;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -68,8 +69,15 @@ class User {
     email: json["email"] ?? '',
     phone: json["phone"] ?? '',
     avatar: json["avatar"],
-    countryOfBirthId: json["country_of_birth_id"],
-    citizenshipId: json["citizenship_id"],
+    countryOfBirthId:
+        json["country_of_birth_id"] != null
+            ? int.tryParse(json["country_of_birth_id"].toString())
+            : null,
+    citizenshipId:
+        json["citizenship_id"] != null
+            ? int.tryParse(json["citizenship_id"].toString())
+            : null,
+
     howMeet: json["how_meet"],
   );
 
