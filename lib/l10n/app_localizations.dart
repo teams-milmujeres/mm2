@@ -980,6 +980,12 @@ abstract class AppLocalizations {
   /// **'Deposits'**
   String get deposits;
 
+  /// No description provided for @payments.
+  ///
+  /// In en, this message translates to:
+  /// **'Payments'**
+  String get payments;
+
   /// No description provided for @refund.
   ///
   /// In en, this message translates to:
@@ -992,11 +998,11 @@ abstract class AppLocalizations {
   /// **'Refunds'**
   String get refunds;
 
-  /// No description provided for @deposits_refunds.
+  /// No description provided for @payments_refunds.
   ///
   /// In en, this message translates to:
-  /// **'Deposits and Refunds'**
-  String get deposits_refunds;
+  /// **'Payments and Refunds'**
+  String get payments_refunds;
 
   /// No description provided for @authorized_by.
   ///

@@ -23,10 +23,10 @@ class DepositScreen extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(translation.deposits),
+          title: Text(translation.payments_refunds),
           bottom: TabBar(
             tabs: [
-              Tab(text: translation.deposits),
+              Tab(text: translation.payments),
               Tab(text: translation.refunds),
             ],
           ),

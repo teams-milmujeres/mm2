@@ -86,7 +86,7 @@ final List<NavigationOption> navigationOptions = [
   NavigationOption(
     route: '/deposits',
     icon: Icons.payments,
-    labelBuilder: (context) => AppLocalizations.of(context)!.deposits_refunds,
+    labelBuilder: (context) => AppLocalizations.of(context)!.payments_refunds,
     description:
         (context) => AppLocalizations.of(context)!.deposits_refundsDescription,
   ),

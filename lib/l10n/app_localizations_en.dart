@@ -450,13 +450,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deposits => 'Deposits';
 
   @override
+  String get payments => 'Payments';
+
+  @override
   String get refund => 'Refund';
 
   @override
   String get refunds => 'Refunds';
 
   @override
-  String get deposits_refunds => 'Deposits and Refunds';
+  String get payments_refunds => 'Payments and Refunds';
 
   @override
   String get authorized_by => 'Authorized by';
