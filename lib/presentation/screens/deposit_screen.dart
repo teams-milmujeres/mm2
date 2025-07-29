@@ -46,7 +46,7 @@ class DepositScreen extends StatelessWidget {
       return Padding(
         padding: const EdgeInsets.all(25.0),
         child: Scaffold(
-          appBar: AppBar(title: Text(translation.caases_stage)),
+          appBar: AppBar(title: Text(translation.payments_refunds)),
           body: Center(child: Text(translation.no_elements)),
         ),
       );
@@ -64,7 +64,7 @@ class DepositScreen extends StatelessWidget {
             return Center(child: Text('Error: ${state.message}'));
           } else if (state is DepositsSuccess) {
             if (state.deposits.isEmpty) {
-              return const Center(child: Text('No hay depósitos.'));
+              return Center(child: Text(translation.no_elements));
             }
 
             return ListView.separated(

@@ -44,8 +44,27 @@ class CaseStageScreen extends StatelessWidget {
               final translation = AppLocalizations.of(context)!;
 
               if (data.isEmpty) {
-                return Center(
-                  child: Text(translation.your_case_is_in_evaluation),
+                return Padding(
+                  padding: const EdgeInsets.all(25.0),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.info_outline,
+                          size: 50,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                        const SizedBox(height: 20),
+                        Text(
+                          translation.your_case_is_in_evaluation,
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.bodyLarge
+                              ?.copyWith(color: Colors.black87),
+                        ),
+                      ],
+                    ),
+                  ),
                 );
               }
 

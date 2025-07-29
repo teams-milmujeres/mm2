@@ -70,7 +70,7 @@ class UploadDocumentScreen extends StatelessWidget {
                   );
                 }
 
-                return Center(child: Text(translate.is_empty));
+                return Center(child: Text(translate.no_elements));
               },
             ),
           ),
@@ -84,7 +84,7 @@ class UploadDocumentScreen extends StatelessWidget {
     AppLocalizations t,
     BuildContext context,
   ) {
-    if (pendingDocs.isEmpty) return Center(child: Text(t.is_empty));
+    if (pendingDocs.isEmpty) return Center(child: Text(t.no_elements));
 
     return ListView.separated(
       separatorBuilder: (_, __) => const SizedBox(height: 8),
@@ -269,7 +269,7 @@ class _PendingDocumentCard extends StatelessWidget {
 }
 
 Widget _buildConfirmedList(List<Document> confirmedDocs, AppLocalizations t) {
-  if (confirmedDocs.isEmpty) return Center(child: Text(t.is_empty));
+  if (confirmedDocs.isEmpty) return Center(child: Text(t.no_elements));
 
   return ListView.separated(
     itemCount: confirmedDocs.length,
