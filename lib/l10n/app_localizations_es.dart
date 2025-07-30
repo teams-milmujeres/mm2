@@ -733,6 +733,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get how_meet => '¿Como nos conocio?';
 
   @override
+  String get complete_information => 'Completar informacion';
+
+  @override
+  String get please_complete_information =>
+      'Por favor completar la siguiente informacion';
+
+  @override
   String get error_try_again_later => 'Error inténtelo nuevamente más tarde.';
 
   @override

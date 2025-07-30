@@ -1538,6 +1538,18 @@ abstract class AppLocalizations {
   /// **'How did you meet us?'**
   String get how_meet;
 
+  /// No description provided for @complete_information.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete Information'**
+  String get complete_information;
+
+  /// No description provided for @please_complete_information.
+  ///
+  /// In en, this message translates to:
+  /// **'Please complete the following information'**
+  String get please_complete_information;
+
   /// No description provided for @error_try_again_later.
   ///
   /// In en, this message translates to:

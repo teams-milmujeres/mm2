@@ -12,21 +12,18 @@ import 'package:milmujeres_app/presentation/screens.dart';
 // Localization
 import 'package:milmujeres_app/l10n/app_localizations.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
   @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  bool _modalShown = false;
+  @override
   Widget build(BuildContext context) {
     final translation = AppLocalizations.of(context)!;
-
-    String getMeansText(String? value) {
-      if (value == null || value.isEmpty) return 'N/A';
-      final match = means.firstWhere(
-        (item) => item['value'] == value,
-        orElse: () => const {'value': '', 'text': 'N/A'},
-      );
-      return match['text']!;
-    }
 
     return BlocProvider(
       create: (_) => CountriesBloc()..add(GetCountriesAndCitizenships()),
@@ -39,6 +36,7 @@ class ProfileScreen extends StatelessWidget {
           final fullName =
               '${user.firstName} ${user.middleName ?? ''} ${user.lastName}';
 
+          // Obtener el nombre del país de nacimiento y la ciudadanía
           return BlocBuilder<CountriesBloc, CountriesState>(
             builder: (context, countriesState) {
               String? countryName;
@@ -66,6 +64,15 @@ class ProfileScreen extends StatelessWidget {
                           .name;
                 }
               }
+
+              // Validar campos vacíos y mostrar modal si es necesario
+              validateEmptyFields(
+                context,
+                user,
+                countryName,
+                citizenshipName,
+                translation,
+              );
 
               return Scaffold(
                 appBar: AppBar(title: Text(translation.profile)),
@@ -147,49 +154,40 @@ class ProfileScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              _buildItem(translation.name, fullName, context),
-
-                              if (user.dob != null)
-                                _buildItem(
-                                  translation.date_birth,
-                                  '${user.dob!.day}/${user.dob!.month}/${user.dob!.year}',
-                                  context,
-                                ),
-                              if (countryName != null)
-                                _buildItem(
-                                  translation.country_birth,
-                                  countryName,
-                                  context,
-                                ),
-                              if (citizenshipName != null)
-                                _buildItem(
-                                  translation.citizenship,
-                                  citizenshipName,
-                                  context,
-                                ),
+                              buildRequiredItem(
+                                context: context,
+                                label: translation.name,
+                                value: fullName,
+                              ),
+                              buildRequiredItem(
+                                context: context,
+                                label: translation.date_birth,
+                                value:
+                                    user.dob != null
+                                        ? '${user.dob!.day}/${user.dob!.month}/${user.dob!.year}'
+                                        : null,
+                              ),
+                              buildRequiredItem(
+                                context: context,
+                                label: translation.country_birth,
+                                value: countryName,
+                              ),
+                              buildRequiredItem(
+                                context: context,
+                                label: translation.citizenship,
+                                value: citizenshipName,
+                              ),
                               if (user.phone?.isNotEmpty == true)
                                 _buildItem(
                                   translation.phone,
                                   user.phone!,
                                   context,
                                 ),
-                              if (user.howMeet != null &&
-                                  user.howMeet!.isNotEmpty)
-                                _buildItem(
-                                  translation.how_meet,
-                                  getMeansText(user.howMeet),
-                                  context,
-                                )
-                              else
-                                Text(
-                                  translation.is_required(translation.how_meet),
-                                  style: Theme.of(
-                                    context,
-                                  ).textTheme.titleMedium?.copyWith(
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
+                              buildRequiredItem(
+                                context: context,
+                                label: translation.how_meet,
+                                value: getMeansText(user.howMeet),
+                              ),
                             ],
                           ),
                         ),
@@ -336,6 +334,91 @@ class ProfileScreen extends StatelessWidget {
         },
       ),
     );
+  }
+
+  String getMeansText(String? value) {
+    if (value == null || value.isEmpty) return 'N/A';
+    final match = means.firstWhere(
+      (item) => item['value'] == value,
+      orElse: () => const {'value': '', 'text': 'N/A'},
+    );
+    return match['text']!;
+  }
+
+  // Función para validar y mostrar el modal si hay campos vacíos
+  void validateEmptyFields(
+    BuildContext context,
+    dynamic user,
+    String? countryName,
+    String? citizenshipName,
+    AppLocalizations translation,
+  ) {
+    final camposFaltantes = <String>[];
+
+    if (user.howMeet == null || user.howMeet!.isEmpty) {
+      camposFaltantes.add(translation.how_meet);
+    }
+    if (countryName == null || countryName == 'N/A') {
+      camposFaltantes.add(translation.country_birth);
+    }
+    if (citizenshipName == null || citizenshipName == 'N/A') {
+      camposFaltantes.add(translation.citizenship);
+    }
+    if (user.dob == null) {
+      camposFaltantes.add(translation.date_birth);
+    }
+    if (user.firstName.isEmpty || user.lastName.isEmpty) {
+      camposFaltantes.add(translation.name);
+    }
+
+    if (camposFaltantes.isNotEmpty && !_modalShown) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showDialog(
+          context: context,
+          builder:
+              (context) => AlertDialog(
+                title: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: const [
+                    Icon(Icons.warning, color: Colors.red, size: 100),
+                  ],
+                ),
+                content: Text(
+                  '${translation.please_complete_information}:\n\n- ${camposFaltantes.join('\n- ')}',
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(color: Colors.red),
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text('OK'),
+                  ),
+                ],
+              ),
+        );
+        _modalShown = true; // Evita que se muestre nuevamente
+      });
+    }
+  }
+
+  Widget buildRequiredItem({
+    required BuildContext context,
+    required String label,
+    required String? value,
+  }) {
+    final translation = AppLocalizations.of(context)!;
+    if (value != null && value.trim().isNotEmpty && value != 'N/A') {
+      return _buildItem(label, value, context);
+    } else {
+      return Text(
+        translation.is_required(label),
+        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+          color: Colors.red,
+          fontWeight: FontWeight.bold,
+        ),
+      );
+    }
   }
 
   Widget _buildItem(
