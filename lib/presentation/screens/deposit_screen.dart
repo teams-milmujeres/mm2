@@ -173,7 +173,7 @@ class DepositCard extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: Card(
-          elevation: 3,
+          elevation: 2,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
             child: Row(
@@ -253,7 +253,7 @@ class RefundCard extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: Card(
-          elevation: 3,
+          elevation: 2,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
             child: Row(

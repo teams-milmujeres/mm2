@@ -102,7 +102,7 @@ class CaseStageItemCard extends StatelessWidget {
     final locale = translation.localeName;
 
     return Card(
-      elevation: 3,
+      elevation: 2,
       child: ExpansionTile(
         tilePadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         title: _cryptoNameSymbol(item, locale, context),

@@ -76,7 +76,7 @@ class _DashboardCardState extends State<DashboardCard> {
               isPressed
                   ? theme.colorScheme.primary
                   : theme.colorScheme.onPrimary,
-          elevation: 4,
+          elevation: 2,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
