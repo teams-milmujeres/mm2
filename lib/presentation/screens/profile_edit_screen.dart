@@ -326,7 +326,6 @@ class _EditBasicScreenState extends State<EditBasicScreen> {
                                 ),
                               ),
                             );
-                            Navigator.pop(context);
                           },
                           icon: const Icon(Icons.save),
                           label: Text(AppLocalizations.of(context)!.save),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 // Bloc
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:milmujeres_app/domain/entities/user.dart';
 import 'package:milmujeres_app/presentation/bloc/auth/auth_bloc.dart';
 import 'package:milmujeres_app/presentation/bloc/countries/countries_bloc.dart';
 // Entities
@@ -65,14 +66,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 }
               }
 
-              // Validar campos vacíos y mostrar modal si es necesario
-              validateEmptyFields(
-                context,
-                user,
-                countryName,
-                citizenshipName,
-                translation,
-              );
+              // Solo mostrar el modal después de regresar de editar o al cargar por primera vez
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                validateEmptyFields(
+                  context,
+                  user,
+                  countryName,
+                  citizenshipName,
+                  translation,
+                );
+              });
 
               return Scaffold(
                 appBar: AppBar(title: Text(translation.profile)),
@@ -348,7 +351,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   // Función para validar y mostrar el modal si hay campos vacíos
   void validateEmptyFields(
     BuildContext context,
-    dynamic user,
+    User user,
     String? countryName,
     String? citizenshipName,
     AppLocalizations translation,
@@ -358,10 +361,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (user.howMeet == null || user.howMeet!.isEmpty) {
       camposFaltantes.add(translation.how_meet);
     }
-    if (countryName == null || countryName == 'N/A') {
+    if (user.countryOfBirthId == null || user.countryOfBirthId == 0) {
       camposFaltantes.add(translation.country_birth);
     }
-    if (citizenshipName == null || citizenshipName == 'N/A') {
+    if (user.citizenshipId == null || user.citizenshipId == 0) {
       camposFaltantes.add(translation.citizenship);
     }
     if (user.dob == null) {

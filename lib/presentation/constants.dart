@@ -1,4 +1,5 @@
 const List<Map<String, String>> means = [
+  {'value': '', 'text': '-- Select an option --'},
   {'value': 'FA', 'text': 'Facebook'},
   {'value': 'IG', 'text': 'Instagram'},
   {'value': 'TW', 'text': 'Twitter'},
