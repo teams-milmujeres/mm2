@@ -382,15 +382,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
               (context) => AlertDialog(
                 title: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
-                    Icon(Icons.warning, color: Colors.red, size: 100),
+                  children: [
+                    Icon(
+                      Icons.back_hand,
+                      // icons.warning,
+                      color: Theme.of(context).primaryColor,
+                      size: 100,
+                    ),
                   ],
                 ),
                 content: Text(
                   '${translation.please_complete_information}:\n\n- ${camposFaltantes.join('\n- ')}',
                   style: Theme.of(
                     context,
-                  ).textTheme.bodyMedium?.copyWith(color: Colors.red),
+                  ).textTheme.bodyMedium?.copyWith(color: Colors.black87),
                 ),
                 actions: [
                   TextButton(
@@ -417,7 +422,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       return Text(
         translation.is_required(label),
         style: Theme.of(context).textTheme.titleMedium?.copyWith(
-          color: Colors.red,
+          color: Theme.of(context).primaryColor,
           fontWeight: FontWeight.bold,
         ),
       );
