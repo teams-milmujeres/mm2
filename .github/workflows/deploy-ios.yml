@@ -1,0 +1,184 @@
+name: Deploy - Production - iOS
+
+on:
+  workflow_dispatch:
+    inputs:
+      release:
+        description: 'Describe the changes in this release'
+        required: true
+      version_name:
+        description: 'Enter the version name ej. 1.0.0'
+        required: true
+
+jobs:
+
+  build:
+    name: Build
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Code magic tools
+        run: |
+          pip install codemagic-cli-tools
+      
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+          flutter-version: '3.29.0'
+          
+      - name: Clean and get dependencies
+        run: |
+          flutter clean
+          flutter pub get
+      - name: Install Localizations
+        run:
+          flutter gen-l10n
+
+      - name: Configure Xcode
+        run: |
+          sudo xcode-select -s /Applications/Xcode_16.2.app
+          sudo gem install xcodeproj
+      - name: Get signing key
+        run: |
+          echo "${{ secrets.PRIVATE_KEY }}" | base64 --decode > ${{ github.workspace }}/privateKey.key
+          sudo chmod 644 ${{ github.workspace }}/privateKey.key
+      - name: Get connect key
+        run: |
+          echo "${{ secrets.AUTH_KEY_APPLE_CONNECT_P8 }}"  | base64 --decode > ${{ github.workspace }}/AuthKey_appleconnect.p8
+          sudo chmod 644 ${{ github.workspace }}/AuthKey_appleconnect.p8
+      - name: Fetch signing files from App Store Connect
+        run: |
+          app-store-connect fetch-signing-files ${{ vars.APPLICATION_ID }} \
+            --create \
+            --type IOS_APP_STORE \
+            --platform IOS \
+            --issuer-id ${{ secrets.KEY_ISSUER_ID }} \
+            --key-id ${{ secrets.KEY_ID }} \
+            --private-key @file:${{ github.workspace }}/AuthKey_appleconnect.p8 \
+            --certificate-key @file:${{ github.workspace }}/privateKey.key \
+            --strict-match-identifier
+      - name: Get Build ID Number
+        run: | 
+          build_number=$(app-store-connect get-latest-testflight-build-number \
+            ${{ secrets.APP_STORE_APP_ID }} \
+            --platform IOS \
+            --issuer-id ${{ secrets.KEY_ISSUER_ID }} \
+            --key-id ${{ secrets.KEY_ID }} \
+            --private-key @file:${{ github.workspace }}/AuthKey_appleconnect.p8)
+          echo "BUILD_NUMBER=$((build_number + 1))" >> $GITHUB_ENV
+        working-directory: ios
+
+      - name: Actualizar versión en pubspec.yaml
+        run: |
+          # En macOS se suele usar el flag "-i.bak" para hacer una copia de respaldo.
+          sed -i.bak "s/^version:.*/version: ${{ github.event.inputs.version_name }}+${BUILD_NUMBER}/" pubspec.yaml
+      - name: Initialize keychain
+        run: keychain initialize
+
+      - name: Add certificates to keychain
+        run: keychain add-certificates
+
+      - name: List identities in keychain
+        run: xcrun security find-identity -v -p codesigning
+
+    #   - name: Get provision file
+    #     run: |
+    #       mkdir -p ${{ github.workspace }}/ixguard/profile
+    #       cp * ${{ github.workspace }}/ixguard/profile/profile.mobileprovision
+    #     working-directory: /Users/runner/Library/MobileDevice/Provisioning Profiles
+
+      - name: Xcodebuild version
+        run: /usr/bin/xcodebuild -version
+
+      - name: Install dependencies
+        run: flutter packages pub get
+        
+      - name: Clean and get dependencies
+        run: |
+          flutter clean
+          flutter pub get
+      - name: Install Localizations
+        run:
+          flutter gen-l10n
+
+      - name: Generate icons
+        run:
+          flutter pub run flutter_launcher_icons
+
+      # Instalar dependencias de CocoaPods
+      - name: Install CocoaPods dependencies
+        working-directory: ios
+        run: |
+          pod repo update  
+          pod install
+          
+      - name: Set profile
+        run: |
+          xcode-project use-profiles
+      - name: Complete Build
+        run: |
+         flutter build ipa --release --build-number $BUILD_NUMBER \
+         --dart-define=flutter.versionName=${{ github.event.inputs.version_name }} \
+         --export-options-plist=/Users/runner/export_options.plist
+      - name: Rename ipa
+        run: |
+          mv ${{ github.workspace }}/build/ios/ipa/*.ipa \
+            ${{ github.workspace }}/build/ios/ipa/Runner-${{ github.event.inputs.version_name }}.ipa
+          
+      - name: Move package to publish
+        run: |
+          mkdir -p ${{ github.workspace }}/build/artifact
+          find ${{ github.workspace }}/build/ -type f \( -name "*.ipa" \) -exec mv {} ${{ github.workspace }}/build/artifact/ \;
+        continue-on-error: true
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-package
+          path: ${{ github.workspace }}/build/artifact/
+          retention-days: 14
+        continue-on-error: true
+
+      - name: Retrieve saved Ipa
+        uses: actions/download-artifact@v4
+        with:
+          name: app-package
+          path: ${{ github.workspace }}/build/artifact
+
+      - name: Publish testflight ipa ofuscate
+        run: |
+          APP_FILE=$(find ${{ github.workspace }}/build/artifact -name "*.ipa")
+          app-store-connect publish \
+          --issuer-id ${{ secrets.KEY_ISSUER_ID }} \
+          --key-id ${{ secrets.KEY_ID }} \
+          --private-key @file:${{ github.workspace }}/AuthKey_appleconnect.p8 \
+          --path "$APP_FILE" \
+          --testflight \
+          --whats-new "Release github pipeline" \
+          --version-string $BUILD_NUMBER
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }}-v${{ github.event.inputs.version_name }}
+          release_name: Release ${{ github.ref_name }} - Version ${{ github.event.inputs.version_name }}
+          body: ${{ github.event.inputs.release }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} 
+          asset_path: ${{ github.workspace }}/build/artifact/Runner-${{ github.event.inputs.version_name }}.ipa
+          asset_name: Runner-${{ github.event.inputs.version_name }}.ipa
+          asset_content_type: application/octet-stream

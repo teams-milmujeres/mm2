@@ -1,0 +1,200 @@
+name: Deploy - Production - Android
+
+on:
+  workflow_dispatch:
+    inputs:
+      release:
+        description: 'Describe the changes in this release'
+        required: true
+      version_name:
+        description: 'Enter the version name ej. 1.0.0'
+        required: true
+jobs:
+   build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          architecture: 'x64'
+          distribution: 'temurin'
+          cache: 'gradle'
+
+      - name: Set up Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          gradle-version: '8.5'
+
+      - name: Install Codemagic CLI tools
+        run: |
+          python3 -m pip install codemagic-cli-tools
+          sudo gem install xcodeproj
+        
+      - name: Get signing key
+        run: |
+          echo "${{ secrets.ANDROID_KEYSTORE }}" | base64 --decode > ${{ github.workspace }}/android-keystore.jks
+
+      - name: Get Google Service Account Json
+        run: |
+          echo "${{ secrets.API_GOOGLECLOUD_APPS_JSON }}" | base64 --decode > ${{ github.workspace }}/api-googlecloud-apps.json
+
+      - name: Create key.properties
+        run: |
+          echo "storeFile=${{ github.workspace }}/android-keystore.jks" > ${{ github.workspace }}/android/key.properties
+          echo "storePassword=${{ secrets.KEY_PASSWORD }}" >> ${{ github.workspace }}/android/key.properties
+          echo "keyAlias=${{ vars.KEY_ALIAS }}" >> ${{ github.workspace }}/android/key.properties
+          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> ${{ github.workspace }}/android/key.properties
+
+      # - name: Get Build ID Number
+      #   run: | 
+      #     build_number=$(google-play get-latest-build-number \
+      #       --package ${{ vars.APPLICATION_ID }} \
+      #       --credentials @file:${{ github.workspace }}/api-googlecloud-apps.json \
+      #       --track internal)
+      #     echo "BUILD_NUMBER=$((build_number + 1))" >> $GITHUB_ENV
+      #   working-directory: android
+
+      - name: Get Build ID Number
+        run: | 
+          build_number=$(google-play get-latest-build-number \
+            --package ${{ vars.APPLICATION_ID }} \
+            --credentials @file:${{ github.workspace }}/api-googlecloud-apps.json)
+          echo "BUILD_NUMBER=$((build_number + 1))" >> $GITHUB_ENV
+        working-directory: android
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+          flutter-version: '3.29.0'
+
+      - name: Install dependencies
+        run: flutter packages pub get
+        
+      - name: Clean and get dependencies
+        run: |
+          flutter clean
+          flutter pub get
+
+      - name: Install Localizations
+        run:
+          flutter gen-l10n
+
+      - name: Generate icons
+        run:
+          flutter pub run flutter_launcher_icons
+   
+      - name: Build Flutter app
+        run: |
+          flutter build appbundle --release --build-number $BUILD_NUMBER \
+          --dart-define=flutter.versionName=${{ github.event.inputs.version_name }} \
+          --target-platform android-arm,android-arm64
+        env:
+          FCI_KEYSTORE_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          FCI_KEY_ALIAS: ${{ vars.KEY_ALIAS }}
+          FCI_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          CI: ${{ vars.CI }}
+
+      - name: Rename app bundle
+        run: |
+          mv ${{ github.workspace }}/build/app/outputs/bundle/release/app-release.aab \
+              ${{ github.workspace }}/build/app/outputs/bundle/release/app-release-${{ github.event.inputs.version_name }}.aab
+
+      - name: Generate APK
+        run: |
+          android-app-bundle build-universal-apk --bundle ${{ github.workspace }}/build/app/outputs/bundle/release/app-release-${{ github.event.inputs.version_name }}.aab --ks ${{ github.workspace }}/android-keystore.jks --ks-pass ${{ secrets.KEY_PASSWORD }} --ks-key-alias ${{ vars.KEY_ALIAS }} --key-pass ${{ secrets.KEY_PASSWORD }}
+
+      - name: Rename APK
+        run: |
+          mv ${{ github.workspace }}/build/app/outputs/bundle/release/app-release-${{ github.event.inputs.version_name }}-universal.apk \
+            ${{ github.workspace }}/build/app/outputs/bundle/release/app-universal-${{ github.event.inputs.version_name }}.apk
+
+
+      - name: Move package to publish
+        run: |
+          mkdir -p ${{ github.workspace }}/package/
+          find ${{ github.workspace }}/build/ -type f \( -name "*.aab" -o -name "*.apk*" -o -name "protectionreport.html" \) -exec mv {} ${{ github.workspace }}/package/ \;
+        continue-on-error: true
+      
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-package
+          path: ${{ github.workspace }}/package/
+          retention-days: 14
+        continue-on-error: true
+
+   publish:
+    name: Publish
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - name: Get Google Service Account Json
+        run: |
+          echo "${{ secrets.API_GOOGLECLOUD_APPS_JSON }}" | base64 --decode > ${{ github.workspace }}/api-googlecloud-apps.json
+      
+      - name: Retrieve saved App Bundle
+        uses: actions/download-artifact@v4
+        with:
+          name: app-package
+          path: ${{ github.workspace }}/package/
+          
+      - name: Publish App Bundle
+        uses: r0adkll/upload-google-play@v1
+        with:
+          releaseFiles: ${{ github.workspace }}/package/app-release-${{ github.event.inputs.version_name }}.aab
+          serviceAccountJson: ${{ github.workspace }}/api-googlecloud-apps.json
+          packageName: ${{ vars.APPLICATION_ID }}
+          track: internal
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }}-v${{ github.event.inputs.version_name }}
+          release_name: Release ${{ github.ref_name }} - Version ${{ github.event.inputs.version_name }}
+          body: ${{ github.event.inputs.release }}
+          draft: false
+          prerelease: false
+
+      # - name: Attach APK to Release
+      #   run: |
+      #     UPLOAD_URL=$(jq -r '.upload_url' < $GITHUB_WORKSPACE/release.json | sed 's/{?name,label}//')
+      #     curl -X POST \
+      #       -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+      #       -H "Content-Type: application/octet-stream" \
+      #       --data-binary @"${{ github.workspace }}/package/app-universal.apk" \
+      #       "${UPLOAD_URL}?name=app-universal-${{ github.event.inputs.version_name }}.apk"
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Release Appbundle Asset
+        id: upload-release-appbundle-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} 
+          asset_path: ${{ github.workspace }}/package/app-release-${{ github.event.inputs.version_name }}.aab
+          asset_name: app-release-${{ github.event.inputs.version_name }}.aab
+          asset_content_type: application/octet-stream
+      
+      - name: Upload Release APK Asset
+        id: upload-release-apk-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} 
+          asset_path: ${{ github.workspace }}/package/app-universal-${{ github.event.inputs.version_name }}.apk
+          asset_name: app-universal-${{ github.event.inputs.version_name }}.apk
+          asset_content_type: application/octet-stream
+        
