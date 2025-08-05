@@ -244,6 +244,10 @@
   "how_meet": "¿Como nos conocio?",
   "complete_information": "Completar informacion",
   "please_complete_information": "Por favor completar la siguiente informacion",
+  "rating": "Calificanos",
+  "ratingDescription": "Califica nuestro servicio",
+  "rating_text": "Tu opinión es importante para nosotros, déjanos una pequeña reseña sobre el servicio brindado para que podamos seguir mejorando para ti",
+  "select_rating_first": "Por favor, selecciona una calificación primero",
 
   "@_MESSAGES": {},
   "error_try_again_later" : "Error inténtelo nuevamente más tarde.",

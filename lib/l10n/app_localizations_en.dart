@@ -739,6 +739,19 @@ class AppLocalizationsEn extends AppLocalizations {
       'Please complete the following information';
 
   @override
+  String get rating => 'Rate us';
+
+  @override
+  String get ratingDescription => 'Rate our service';
+
+  @override
+  String get rating_text =>
+      'Your opinion is important to us. Please leave us a short review about the service provided so that we can continue to improve for you';
+
+  @override
+  String get select_rating_first => 'Please select a rating first';
+
+  @override
   String get error_try_again_later => 'Error try again later.';
 
   @override

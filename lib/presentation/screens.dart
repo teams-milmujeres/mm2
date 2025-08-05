@@ -17,3 +17,4 @@ export 'package:milmujeres_app/presentation/screens/case_stage_screen.dart';
 export 'package:milmujeres_app/presentation/screens/event_screen.dart';
 export 'package:milmujeres_app/presentation/screens/upload_document_screen.dart';
 export 'package:milmujeres_app/presentation/screens/mm_actions_screen.dart';
+export 'package:milmujeres_app/presentation/screens/rating_screen.dart';

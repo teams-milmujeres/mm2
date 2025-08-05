@@ -1550,6 +1550,30 @@ abstract class AppLocalizations {
   /// **'Please complete the following information'**
   String get please_complete_information;
 
+  /// No description provided for @rating.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate us'**
+  String get rating;
+
+  /// No description provided for @ratingDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate our service'**
+  String get ratingDescription;
+
+  /// No description provided for @rating_text.
+  ///
+  /// In en, this message translates to:
+  /// **'Your opinion is important to us. Please leave us a short review about the service provided so that we can continue to improve for you'**
+  String get rating_text;
+
+  /// No description provided for @select_rating_first.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a rating first'**
+  String get select_rating_first;
+
   /// No description provided for @error_try_again_later.
   ///
   /// In en, this message translates to:

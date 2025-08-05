@@ -117,6 +117,13 @@ GoRouter onBoardingRouter(BuildContext context) => GoRouter(
       pageBuilder:
           (context, state) => buildPageTransition(const MMActionsScreen()),
     ),
+    GoRoute(
+      path: '/rating',
+      name: 'rating',
+      // builder: (context, state) => const RatingScreen(),
+      pageBuilder:
+          (context, state) => buildPageTransition(const RatingScreen()),
+    ),
   ],
 );
 
