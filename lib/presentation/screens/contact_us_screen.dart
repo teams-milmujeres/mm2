@@ -152,6 +152,8 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
               subjectController.clear();
               messageController.clear();
 
+              final translation = AppLocalizations.of(context)!;
+
               showDialog(
                 context: context,
                 builder:
@@ -161,7 +163,8 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                         color: Theme.of(context).colorScheme.primary,
                         size: 48,
                       ),
-                      content: Text(state.message),
+                      // content: Text(state.message),
+                      content: Text(translation.your_message_has_been_send),
                       actions: [
                         TextButton(
                           onPressed: () => Navigator.of(context).pop(),
