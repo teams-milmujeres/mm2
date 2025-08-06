@@ -1,4 +1,5 @@
 class Complaint {
+  final int? clientId;
   final String subject;
   final String message;
   final String? answer;
@@ -7,6 +8,7 @@ class Complaint {
   final int userId;
 
   Complaint({
+    this.clientId,
     required this.subject,
     required this.message,
     this.answer,
@@ -16,6 +18,7 @@ class Complaint {
   });
 
   factory Complaint.fromJson(Map<String, dynamic> json) => Complaint(
+    clientId: json['client_id'],
     subject: json['subject'],
     message: json['message'],
     answer: json['answer'],
@@ -25,6 +28,7 @@ class Complaint {
   );
 
   Map<String, dynamic> toJson() => {
+    'client_id': clientId,
     'subject': subject,
     'message': message,
     'answer': answer,

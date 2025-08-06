@@ -25,7 +25,7 @@ class _ComplaintsScreenState extends State<ComplaintsScreen> {
   String? messageError;
   String? userName;
   String? userEmail;
-  int? userId;
+  int? clientId;
 
   @override
   void initState() {
@@ -35,7 +35,7 @@ class _ComplaintsScreenState extends State<ComplaintsScreen> {
     if (authState is AuthAuthenticated) {
       userName = "${authState.user.firstName} ${authState.user.lastName}";
       userEmail = authState.user.email;
-      userId = authState.user.id;
+      clientId = authState.user.id;
     }
   }
 
@@ -67,14 +67,15 @@ class _ComplaintsScreenState extends State<ComplaintsScreen> {
         // Obtener el estado actual de AuthBloc
         final authState = context.read<AuthBloc>().state;
 
-        // Extraer el userId si está autenticado
-        final int userId =
+        // Extraer el clientId si está autenticado
+        final int clientId =
             (authState is AuthAuthenticated) ? authState.user.id : 100;
 
         final complaint = Complaint(
           subject: subjectController.text,
           message: messageController.text,
-          userId: userId,
+          clientId: clientId,
+          userId: 10,
         );
 
         if (authState is AuthAuthenticated) {
