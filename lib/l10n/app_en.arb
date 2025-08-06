@@ -248,6 +248,8 @@
   "ratingDescription": "Rate our service",
   "rating_text": "Your opinion is important to us. Please leave us a short review about the service provided so that we can continue to improve for you",
   "select_rating_first": "Please select a rating first",
+  "has_been_rating": "Your review has already been submitted",
+  "thanks_for_rating": "We sincerely appreciate your feedback. We are constantly working to provide you with better service",
 
   "@_MESSAGES": {},
   "error_try_again_later" : "Error try again later.",

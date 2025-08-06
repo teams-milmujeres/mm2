@@ -754,6 +754,13 @@ class AppLocalizationsEs extends AppLocalizations {
       'Por favor, selecciona una calificación primero';
 
   @override
+  String get has_been_rating => 'Tu reseña ya ha sido enviada';
+
+  @override
+  String get thanks_for_rating =>
+      'Agradecemos de todo corazón tus comentarios, estamos trabajando constantemente para darte un mejor servicio';
+
+  @override
   String get error_try_again_later => 'Error inténtelo nuevamente más tarde.';
 
   @override

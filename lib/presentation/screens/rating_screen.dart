@@ -26,6 +26,12 @@ class _RatingScreenState extends State<RatingScreen> {
     });
   }
 
+  Color _getColorByRating(int rating) {
+    if (rating <= 2) return Colors.red;
+    if (rating == 3) return Colors.orange;
+    return Colors.green;
+  }
+
   @override
   Widget build(BuildContext context) {
     final translation = AppLocalizations.of(context)!;
@@ -39,61 +45,133 @@ class _RatingScreenState extends State<RatingScreen> {
                   clientId: (authState as AuthAuthenticated).user.id,
                 ),
               ),
-      child: Scaffold(
-        appBar: AppBar(title: Text(translation.rating)),
-        body: Padding(
-          padding: const EdgeInsets.all(25.0),
-          child: BlocConsumer<RatingBloc, RatingState>(
-            listener: (context, state) {
-              if (state is RatingSend) {
-                ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(SnackBar(content: Text(state.message)));
-              } else if (state is RatingError) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Error: ${state.message}')),
-                );
-              }
-            },
-            builder: (context, state) {
-              if (state is RatingLoading) {
-                return const Center(child: CircularProgressIndicator());
-              }
+      child: BlocConsumer<RatingBloc, RatingState>(
+        listener: (context, state) {
+          if (state is RatingSend) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.message)));
+          } else if (state is RatingError) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text('Error: ${state.message}')));
+          }
+        },
+        builder: (context, state) {
+          if (state is RatingLoading) {
+            return const Scaffold(
+              body: Center(child: CircularProgressIndicator()),
+            );
+          }
 
-              if (state is RatingSuccess && !_isInitialized) {
-                final rating = state.rating;
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  setState(() {
-                    _selectedRating = rating.rating;
-                    _commentController.text = rating.comment;
-                    _readOnly = rating.isRating;
-                    _isInitialized = true;
-                  });
+          if (state is RatingSuccess) {
+            final rating = state.rating;
+
+            // Solo actualizamos los valores si no se ha inicializado o si el modo lectura ha cambiado
+            if (!_isInitialized || rating.isRating) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                setState(() {
+                  _selectedRating = rating.rating;
+                  _commentController.text = rating.comment;
+                  _readOnly = rating.isRating;
+                  _isInitialized = true;
                 });
-              }
+              });
+            }
+          }
 
-              return Column(
+          if (_readOnly) {
+            final Color ratingColor = _getColorByRating(_selectedRating);
+
+            return Scaffold(
+              backgroundColor: ratingColor,
+              appBar: AppBar(
+                title: Text(translation.rating),
+                backgroundColor: ratingColor,
+                foregroundColor: Colors.white,
+              ),
+              body: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(25.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 20),
+                      Text(
+                        translation.has_been_rating,
+                        style: Theme.of(context).textTheme.headlineLarge
+                            ?.copyWith(color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 50),
+                      CircleAvatar(
+                        radius: 100,
+                        backgroundColor: Colors.white,
+                        child: Text(
+                          '$_selectedRating/5',
+                          style: TextStyle(
+                            color: ratingColor,
+                            fontSize: 48,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: List.generate(5, (index) {
+                          final starIndex = index + 1;
+                          return Icon(
+                            starIndex <= _selectedRating
+                                ? Icons.star
+                                : Icons.star_border,
+                            size: 50,
+                            color: Colors.white,
+                          );
+                        }),
+                      ),
+                      const SizedBox(height: 20),
+                      Text(
+                        '"${_commentController.text}"',
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodyLarge?.copyWith(color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 50),
+                      Text(
+                        translation.thanks_for_rating,
+                        style: Theme.of(context).textTheme.headlineLarge
+                            ?.copyWith(color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }
+
+          // Scaffold para MODO EDICIÓN
+          return Scaffold(
+            appBar: AppBar(title: Text(translation.rating)),
+            body: Padding(
+              padding: const EdgeInsets.all(25.0),
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox(height: 20),
-
                   CircleAvatar(
                     radius: 100,
                     backgroundImage: AssetImage('assets/images/about.webp'),
                   ),
-
                   const SizedBox(height: 50),
-
                   Text(
                     translation.rating_text,
                     style: Theme.of(context).textTheme.bodyMedium,
                     textAlign: TextAlign.left,
                   ),
-
                   const SizedBox(height: 20),
-
-                  // Estrellas
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(5, (index) {
@@ -106,64 +184,65 @@ class _RatingScreenState extends State<RatingScreen> {
                           size: 50,
                           color: Theme.of(context).colorScheme.primary,
                         ),
-                        onPressed:
-                            _readOnly ? null : () => _onStarTapped(starIndex),
+                        onPressed: () => _onStarTapped(starIndex),
                       );
                     }),
                   ),
-
                   const SizedBox(height: 20),
-
-                  // Comentario
                   TextField(
                     controller: _commentController,
-                    readOnly: _readOnly,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: translation.comment,
                     ),
                     maxLines: 4,
                   ),
-
                   const SizedBox(height: 20),
+                  RoundedButton(
+                    press: () {
+                      if (_selectedRating == 0) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(translation.select_rating_first),
+                          ),
+                        );
+                        return;
+                      }
+                      if (_commentController.text.trim().isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              translation.is_required(translation.comment),
+                            ),
+                          ),
+                        );
+                        return;
+                      }
 
-                  // Botón de enviar solo si no está calificado
-                  if (!_readOnly)
-                    RoundedButton(
-                      press: () {
-                        if (_selectedRating == 0) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(translation.select_rating_first),
-                            ),
-                          );
-                          return;
-                        }
-
-                        final authState = context.read<AuthBloc>().state;
-                        if (authState is AuthAuthenticated) {
-                          context.read<RatingBloc>().add(
-                            SendRatingEvent(
-                              clientId: authState.user.id,
-                              rating: _selectedRating,
-                              comment: _commentController.text,
-                            ),
-                          );
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(translation.error_try_again_later),
-                            ),
-                          );
-                        }
-                      },
-                      text: translation.send,
-                    ),
+                      final authState = context.read<AuthBloc>().state;
+                      if (authState is AuthAuthenticated) {
+                        context.read<RatingBloc>().add(
+                          SendRatingEvent(
+                            clientId: authState.user.id,
+                            rating: _selectedRating,
+                            comment: _commentController.text,
+                          ),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(translation.error_try_again_later),
+                          ),
+                        );
+                      }
+                    },
+                    text: translation.send,
+                  ),
                 ],
-              );
-            },
-          ),
-        ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }

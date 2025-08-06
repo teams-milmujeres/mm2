@@ -1574,6 +1574,18 @@ abstract class AppLocalizations {
   /// **'Please select a rating first'**
   String get select_rating_first;
 
+  /// No description provided for @has_been_rating.
+  ///
+  /// In en, this message translates to:
+  /// **'Your review has already been submitted'**
+  String get has_been_rating;
+
+  /// No description provided for @thanks_for_rating.
+  ///
+  /// In en, this message translates to:
+  /// **'We sincerely appreciate your feedback. We are constantly working to provide you with better service'**
+  String get thanks_for_rating;
+
   /// No description provided for @error_try_again_later.
   ///
   /// In en, this message translates to:

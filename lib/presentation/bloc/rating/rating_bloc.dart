@@ -67,6 +67,8 @@ class RatingBloc extends Bloc<RatingEvent, RatingState> {
       );
 
       emit(RatingSend(response.data['message']));
+      await Future.delayed(Duration(milliseconds: 100));
+      add(GetRatingEvent(clientId: event.clientId));
     } catch (e) {
       emit(RatingError(e.toString()));
     }
