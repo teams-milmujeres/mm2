@@ -1367,7 +1367,7 @@ abstract class AppLocalizations {
   /// No description provided for @state_moved_to_drive.
   ///
   /// In en, this message translates to:
-  /// **'Moved to Drive'**
+  /// **'Saved'**
   String get state_moved_to_drive;
 
   /// No description provided for @state_deleted.
@@ -1549,6 +1549,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please complete the following information'**
   String get please_complete_information;
+
+  /// No description provided for @saved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved'**
+  String get saved;
 
   /// No description provided for @error_try_again_later.
   ///

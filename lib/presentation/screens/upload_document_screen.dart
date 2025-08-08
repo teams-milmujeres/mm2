@@ -151,26 +151,19 @@ class _PendingDocumentCard extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 4),
-                    Text(
-                      '${t.created_at}: $formattedDate',
-                      style: const TextStyle(fontSize: 13, color: Colors.grey),
-                    ),
-                    // Text(
-                    //   '${t.last_state}: ${_translatedState(lastState, t)}',
-                    //   style: const TextStyle(fontSize: 13),
-                    // ),
+
+                    _rowText('${t.created_at}: ', formattedDate, Colors.grey),
                     if (!document.uploaded)
-                      Text(
-                        '${t.last_state}: ${_translatedState(lastState, t)}',
-                        style: const TextStyle(fontSize: 13),
+                      _rowText(
+                        '${t.last_state}: ',
+                        _translatedState(lastState, t),
+                        isRejected ? Colors.red : Colors.black87,
                       ),
                     if (lastStateNote.isNotEmpty && !document.uploaded)
-                      Text(
-                        '${t.note}: $lastStateNote',
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: isRejected ? Colors.red : Colors.black,
-                        ),
+                      _rowText(
+                        '${t.note}: ',
+                        lastStateNote,
+                        isRejected ? Colors.red : Colors.black87,
                       ),
                   ],
                 ),
@@ -284,6 +277,7 @@ Widget _buildConfirmedList(List<Document> confirmedDocs, AppLocalizations t) {
       final lastHistory = doc.histories.isNotEmpty ? doc.histories.last : null;
       final lastState = lastHistory?.state ?? '';
       final lastStateNote = lastHistory?.stateNote ?? '';
+      final isMovedToDrive = lastState == 'moved_to_drive';
 
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -315,21 +309,13 @@ Widget _buildConfirmedList(List<Document> confirmedDocs, AppLocalizations t) {
             expandedAlignment: Alignment.topLeft,
             children: [
               Column(
-                crossAxisAlignment: CrossAxisAlignment.start, // <-- clave
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    '${t.created_at}: $formattedDate',
-                    style: const TextStyle(fontSize: 13, color: Colors.grey),
-                  ),
-                  Text(
-                    '${t.last_state}: ${_translatedState(lastState, t)}',
-                    style: const TextStyle(fontSize: 13),
-                  ),
-                  if (lastStateNote.isNotEmpty)
-                    Text(
-                      '${t.note}: $lastStateNote',
-                      style: const TextStyle(fontSize: 13),
-                    ),
+                  _rowText('${t.created_at}: ', formattedDate),
+                  _rowText('${t.last_state}: ', _translatedState(lastState, t)),
+                  if (lastStateNote.isNotEmpty && !isMovedToDrive)
+                    _rowText('${t.note}: ', lastStateNote),
+                  SizedBox(height: 8),
                 ],
               ),
             ],
@@ -351,10 +337,32 @@ String _translatedState(String state, AppLocalizations loc) {
     case 'rejected':
       return loc.state_rejected;
     case 'moved_to_drive':
-      return loc.state_moved_to_drive;
+      return loc.saved;
     case 'deleted':
       return loc.state_deleted;
     default:
       return 'Desconocido';
   }
 }
+
+Widget _rowText(
+  String title,
+  String value, [
+  Color? color,
+  double fontSize = 14,
+]) => Row(
+  children: [
+    Text(
+      title,
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+        color: color ?? Colors.black87,
+        fontSize: fontSize,
+      ),
+    ),
+    Text(
+      value,
+      style: TextStyle(color: color ?? Colors.black87, fontSize: fontSize),
+    ),
+  ],
+);

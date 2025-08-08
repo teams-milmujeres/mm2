@@ -213,7 +213,7 @@
   "state_reviewed": "Reviewed",
   "state_accepted": "Accepted",
   "state_rejected": "Rejected",
-  "state_moved_to_drive": "Moved to Drive",
+  "state_moved_to_drive": "Saved",
   "state_deleted": "Deleted",
   "last_state": "Last State",
   "instructions": "Instructions",
@@ -244,6 +244,7 @@
   "how_meet": "How did you meet us?",
   "complete_information": "Complete Information",
   "please_complete_information": "Please complete the following information",
+  "saved": "Saved",
 
   "@_MESSAGES": {},
   "error_try_again_later" : "Error try again later.",

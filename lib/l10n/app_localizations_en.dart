@@ -645,7 +645,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get state_rejected => 'Rejected';
 
   @override
-  String get state_moved_to_drive => 'Moved to Drive';
+  String get state_moved_to_drive => 'Saved';
 
   @override
   String get state_deleted => 'Deleted';
@@ -737,6 +737,9 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get please_complete_information =>
       'Please complete the following information';
+
+  @override
+  String get saved => 'Saved';
 
   @override
   String get error_try_again_later => 'Error try again later.';

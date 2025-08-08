@@ -740,6 +740,9 @@ class AppLocalizationsEs extends AppLocalizations {
       'Por favor completar la siguiente informacion';
 
   @override
+  String get saved => 'Guardado';
+
+  @override
   String get error_try_again_later => 'Error inténtelo nuevamente más tarde.';
 
   @override
