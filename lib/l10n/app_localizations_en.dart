@@ -745,6 +745,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ratingDescription => 'Rate our service';
 
   @override
+  String get rating_title => 'How was your experience with our organization?';
+
+  @override
   String get rating_text =>
       'Your opinion is important to us. Please leave us a short review about the service provided so that we can continue to improve for you';
 

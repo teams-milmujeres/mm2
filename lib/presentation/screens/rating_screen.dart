@@ -32,6 +32,12 @@ class _RatingScreenState extends State<RatingScreen> {
     return Colors.green;
   }
 
+  String _getEmojiByRating(int rating) {
+    if (rating <= 2) return 'assets/images/rating/emoji-sad.png';
+    if (rating == 3) return 'assets/images/rating/emoji-like.png';
+    return 'assets/images/rating/emoji-love.png';
+  }
+
   @override
   Widget build(BuildContext context) {
     final translation = AppLocalizations.of(context)!;
@@ -83,6 +89,7 @@ class _RatingScreenState extends State<RatingScreen> {
           if (_readOnly) {
             final Color ratingColor = _getColorByRating(_selectedRating);
 
+            // Scaffold para el modo lectura
             return Scaffold(
               backgroundColor: ratingColor,
               appBar: AppBar(
@@ -145,6 +152,12 @@ class _RatingScreenState extends State<RatingScreen> {
                             ?.copyWith(color: Colors.white),
                         textAlign: TextAlign.center,
                       ),
+                      const SizedBox(height: 20),
+                      Image.asset(
+                        _getEmojiByRating(_selectedRating),
+                        width: 100,
+                        color: Colors.white,
+                      ),
                     ],
                   ),
                 ),
@@ -161,11 +174,29 @@ class _RatingScreenState extends State<RatingScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Image.asset(
+                        'assets/images/rating/logo-full.png',
+                        width: 200,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
                   CircleAvatar(
                     radius: 100,
-                    backgroundImage: AssetImage('assets/images/about.webp'),
+                    backgroundImage: AssetImage(
+                      'assets/images/rating/image-rating.png',
+                    ),
                   ),
                   const SizedBox(height: 50),
+                  Text(
+                    translation.rating_title,
+                    style: Theme.of(context).textTheme.headlineLarge,
+                    textAlign: TextAlign.left,
+                  ),
+                  const SizedBox(height: 20),
                   Text(
                     translation.rating_text,
                     style: Theme.of(context).textTheme.bodyMedium,
@@ -194,6 +225,7 @@ class _RatingScreenState extends State<RatingScreen> {
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: translation.comment,
+                      hint: Text(translation.rating_title),
                     ),
                     maxLines: 4,
                   ),

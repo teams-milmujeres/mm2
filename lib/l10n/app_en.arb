@@ -246,6 +246,7 @@
   "please_complete_information": "Please complete the following information",
   "rating": "Rate us",
   "ratingDescription": "Rate our service",
+  "rating_title": "How was your experience with our organization?",
   "rating_text": "Your opinion is important to us. Please leave us a short review about the service provided so that we can continue to improve for you",
   "select_rating_first": "Please select a rating first",
   "has_been_rating": "Your review has already been submitted",

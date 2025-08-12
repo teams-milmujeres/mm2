@@ -746,6 +746,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get ratingDescription => 'Califica nuestro servicio';
 
   @override
+  String get rating_title =>
+      '¿Como fue tu experiencia en nuestra organización?';
+
+  @override
   String get rating_text =>
       'Tu opinión es importante para nosotros, déjanos una pequeña reseña sobre el servicio brindado para que podamos seguir mejorando para ti';
 

@@ -71,6 +71,7 @@ flutter:
   assets:
     - assets/images/banners/
     - assets/images/mm-actions/
+    - assets/images/rating/
     - assets/images/
     - assets/icon/
     - assets/splash/

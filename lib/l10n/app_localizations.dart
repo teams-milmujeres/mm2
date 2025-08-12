@@ -1562,6 +1562,12 @@ abstract class AppLocalizations {
   /// **'Rate our service'**
   String get ratingDescription;
 
+  /// No description provided for @rating_title.
+  ///
+  /// In en, this message translates to:
+  /// **'How was your experience with our organization?'**
+  String get rating_title;
+
   /// No description provided for @rating_text.
   ///
   /// In en, this message translates to:
