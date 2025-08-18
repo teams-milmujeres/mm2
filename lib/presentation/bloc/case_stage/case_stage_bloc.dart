@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:milmujeres_app/data/data.dart';
+import 'package:mm/data/data.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 part 'case_stage_event.dart';

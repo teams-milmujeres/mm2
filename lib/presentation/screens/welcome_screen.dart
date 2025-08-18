@@ -2,23 +2,23 @@ import 'package:flutter/material.dart';
 // Bloc
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:milmujeres_app/presentation/bloc/staff/staff_bloc.dart';
-import 'package:milmujeres_app/presentation/bloc/locale/language_bloc.dart';
-import 'package:milmujeres_app/presentation/bloc/auth/auth_bloc.dart';
+import 'package:mm/presentation/bloc/staff/staff_bloc.dart';
+import 'package:mm/presentation/bloc/locale/language_bloc.dart';
+import 'package:mm/presentation/bloc/auth/auth_bloc.dart';
 // Navigation
 import 'package:go_router/go_router.dart';
-import 'package:milmujeres_app/presentation/navigation_options.dart';
+import 'package:mm/presentation/navigation_options.dart';
 // Entities
-import 'package:milmujeres_app/domain/entities/language_model.dart';
-import 'package:milmujeres_app/domain/entities/staff.dart';
+import 'package:mm/domain/entities/language_model.dart';
+import 'package:mm/domain/entities/staff.dart';
 // Localization
-import 'package:milmujeres_app/l10n/app_localizations.dart';
+import 'package:mm/l10n/app_localizations.dart';
 // Screens
-import 'package:milmujeres_app/presentation/screens.dart';
+import 'package:mm/presentation/screens.dart';
 // Other imports
-import 'package:milmujeres_app/data/data.dart';
+import 'package:mm/data/data.dart';
 import 'package:responsive_grid/responsive_grid.dart';
-import 'package:milmujeres_app/widgets/circular_buitton.dart';
+import 'package:mm/widgets/circular_buitton.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});

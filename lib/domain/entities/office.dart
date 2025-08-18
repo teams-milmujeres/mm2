@@ -1,6 +1,6 @@
-import 'package:milmujeres_app/domain/entities/alliance.dart';
-import 'package:milmujeres_app/domain/entities/consulate.dart';
-import 'package:milmujeres_app/domain/entities/reference.dart';
+import 'package:mm/domain/entities/alliance.dart';
+import 'package:mm/domain/entities/consulate.dart';
+import 'package:mm/domain/entities/reference.dart';
 
 class Office {
   Office({

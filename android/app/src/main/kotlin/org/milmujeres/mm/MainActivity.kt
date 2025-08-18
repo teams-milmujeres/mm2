@@ -1,4 +1,4 @@
-package com.example.milmujeres_app
+package org.milmujeres.mm
 
 import io.flutter.embedding.android.FlutterActivity
 

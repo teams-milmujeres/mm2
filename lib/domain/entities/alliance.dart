@@ -1,5 +1,5 @@
-import 'package:milmujeres_app/domain/entities/country.dart';
-import 'package:milmujeres_app/domain/entities/state.dart';
+import 'package:mm/domain/entities/country.dart';
+import 'package:mm/domain/entities/state.dart';
 
 class Alliance {
   Alliance({

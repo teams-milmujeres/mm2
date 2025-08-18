@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 // Bloc
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:milmujeres_app/presentation/bloc/events/events_bloc.dart';
+import 'package:mm/presentation/bloc/events/events_bloc.dart';
 // Localization
-import 'package:milmujeres_app/l10n/app_localizations.dart';
+import 'package:mm/l10n/app_localizations.dart';
 // Entities
-import 'package:milmujeres_app/domain/entities/event.dart';
+import 'package:mm/domain/entities/event.dart';
 // Other imports
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:milmujeres_app/data/data.dart';
+import 'package:mm/data/data.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart';
 

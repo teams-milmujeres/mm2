@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:milmujeres_app/data/data.dart';
-import 'package:milmujeres_app/domain/entities/staff.dart';
+import 'package:mm/data/data.dart';
+import 'package:mm/domain/entities/staff.dart';
 
 part 'staff_state.dart';
 part 'staff_event.dart';

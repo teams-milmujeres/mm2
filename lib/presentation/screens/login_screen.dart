@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 // Bloc
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:milmujeres_app/presentation/bloc/auth/auth_bloc.dart';
+import 'package:mm/presentation/bloc/auth/auth_bloc.dart';
 // Localization
-import 'package:milmujeres_app/l10n/app_localizations.dart';
+import 'package:mm/l10n/app_localizations.dart';
 // Navigation
 import 'package:go_router/go_router.dart';
 // Other imports
 import 'dart:io';
-import 'package:milmujeres_app/data/data.dart';
+import 'package:mm/data/data.dart';
 import 'package:flutter/foundation.dart';
 
 class LoginScreen extends StatefulWidget {

@@ -1,7 +1,7 @@
 // account_recovery_bloc.dart
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:milmujeres_app/data/data.dart';
+import 'package:mm/data/data.dart';
 
 part 'password_recovery_event.dart';
 part 'password_recovery_state.dart';

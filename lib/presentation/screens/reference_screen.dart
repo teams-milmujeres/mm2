@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 // Bloc
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:milmujeres_app/presentation/bloc/auth/auth_bloc.dart';
-import 'package:milmujeres_app/presentation/bloc/alliances/alliances_bloc.dart';
-import 'package:milmujeres_app/presentation/bloc/references/references_bloc.dart';
+import 'package:mm/presentation/bloc/auth/auth_bloc.dart';
+import 'package:mm/presentation/bloc/alliances/alliances_bloc.dart';
+import 'package:mm/presentation/bloc/references/references_bloc.dart';
 // Localization
-import 'package:milmujeres_app/l10n/app_localizations.dart';
+import 'package:mm/l10n/app_localizations.dart';
 // Entities
-import 'package:milmujeres_app/domain/entities/alliance.dart';
-import 'package:milmujeres_app/domain/entities/reference.dart';
+import 'package:mm/domain/entities/alliance.dart';
+import 'package:mm/domain/entities/reference.dart';
 // Other imports
-import 'package:milmujeres_app/data/data.dart';
+import 'package:mm/data/data.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ReferenceScreen extends StatefulWidget {

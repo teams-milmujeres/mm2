@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 // Bloc
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:milmujeres_app/presentation/bloc/consulates/consulates_bloc.dart';
+import 'package:mm/presentation/bloc/consulates/consulates_bloc.dart';
 // Entities
-import 'package:milmujeres_app/domain/entities/consulate.dart';
-import 'package:milmujeres_app/domain/entities/office.dart';
+import 'package:mm/domain/entities/consulate.dart';
+import 'package:mm/domain/entities/office.dart';
 // Localization
-import 'package:milmujeres_app/l10n/app_localizations.dart';
+import 'package:mm/l10n/app_localizations.dart';
 // Other imports
-import 'package:milmujeres_app/data/data.dart';
+import 'package:mm/data/data.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class ConsulateOfficeScreen extends StatefulWidget {

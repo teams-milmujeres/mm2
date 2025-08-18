@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:milmujeres_app/data/data.dart';
-import 'package:milmujeres_app/domain/entities/user.dart';
+import 'package:mm/data/data.dart';
+import 'package:mm/domain/entities/user.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';

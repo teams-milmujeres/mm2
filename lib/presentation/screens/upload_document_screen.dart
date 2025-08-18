@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 // Bloc
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:milmujeres_app/presentation/bloc/auth/auth_bloc.dart';
-import 'package:milmujeres_app/presentation/bloc/documents/documents_bloc.dart';
+import 'package:mm/presentation/bloc/auth/auth_bloc.dart';
+import 'package:mm/presentation/bloc/documents/documents_bloc.dart';
 // Localization
-import 'package:milmujeres_app/l10n/app_localizations.dart';
+import 'package:mm/l10n/app_localizations.dart';
 // Entities
-import 'package:milmujeres_app/domain/entities/document.dart';
+import 'package:mm/domain/entities/document.dart';
 // Other imports
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 // Bloc
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:milmujeres_app/presentation/bloc/auth/auth_bloc.dart';
-import 'package:milmujeres_app/presentation/bloc/deposits/deposits_bloc.dart';
-import 'package:milmujeres_app/presentation/bloc/refunds/refunds_bloc.dart';
+import 'package:mm/presentation/bloc/auth/auth_bloc.dart';
+import 'package:mm/presentation/bloc/deposits/deposits_bloc.dart';
+import 'package:mm/presentation/bloc/refunds/refunds_bloc.dart';
 // Entities
-import 'package:milmujeres_app/domain/entities/deposit.dart';
-import 'package:milmujeres_app/domain/entities/refund.dart';
+import 'package:mm/domain/entities/deposit.dart';
+import 'package:mm/domain/entities/refund.dart';
 // Localization
-import 'package:milmujeres_app/l10n/app_localizations.dart';
+import 'package:mm/l10n/app_localizations.dart';
 // Other imports
 import 'package:intl/intl.dart';
 

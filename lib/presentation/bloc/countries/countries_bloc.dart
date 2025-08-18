@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:milmujeres_app/data/helpers/dio_client.dart';
-import 'package:milmujeres_app/domain/entities/citizenship.dart';
-import 'package:milmujeres_app/domain/entities/country.dart';
+import 'package:mm/data/helpers/dio_client.dart';
+import 'package:mm/domain/entities/citizenship.dart';
+import 'package:mm/domain/entities/country.dart';
 
 part 'countries_event.dart';
 part 'countries_state.dart';

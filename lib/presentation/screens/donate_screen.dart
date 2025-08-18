@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 // Localization
-import 'package:milmujeres_app/l10n/app_localizations.dart';
+import 'package:mm/l10n/app_localizations.dart';
 // Other imports
-import 'package:milmujeres_app/data/helpers/launch_url.dart';
-import 'package:milmujeres_app/widgets/rounded_button_large.dart';
+import 'package:mm/data/helpers/launch_url.dart';
+import 'package:mm/widgets/rounded_button_large.dart';
 
 class DonateScreen extends StatelessWidget {
   const DonateScreen({super.key});

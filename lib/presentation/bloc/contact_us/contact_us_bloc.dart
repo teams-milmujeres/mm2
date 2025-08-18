@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:milmujeres_app/data/data.dart';
-import 'package:milmujeres_app/domain/entities/contact_us.dart';
+import 'package:mm/data/data.dart';
+import 'package:mm/domain/entities/contact_us.dart';
 
 part 'contact_us_event.dart';
 part 'contact_us_state.dart';

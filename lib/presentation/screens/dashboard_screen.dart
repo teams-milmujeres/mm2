@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 // Navigation
 import 'package:go_router/go_router.dart';
-import 'package:milmujeres_app/presentation/navigation_options.dart';
+import 'package:mm/presentation/navigation_options.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});

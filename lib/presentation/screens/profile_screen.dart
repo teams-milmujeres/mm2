@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 // Bloc
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:milmujeres_app/domain/entities/user.dart';
-import 'package:milmujeres_app/presentation/bloc/auth/auth_bloc.dart';
-import 'package:milmujeres_app/presentation/bloc/countries/countries_bloc.dart';
+import 'package:mm/domain/entities/user.dart';
+import 'package:mm/presentation/bloc/auth/auth_bloc.dart';
+import 'package:mm/presentation/bloc/countries/countries_bloc.dart';
 // Entities
-import 'package:milmujeres_app/domain/entities/citizenship.dart';
-import 'package:milmujeres_app/domain/entities/country.dart';
-import 'package:milmujeres_app/presentation/constants.dart';
+import 'package:mm/domain/entities/citizenship.dart';
+import 'package:mm/domain/entities/country.dart';
+import 'package:mm/presentation/constants.dart';
 // Screens
-import 'package:milmujeres_app/presentation/screens.dart';
+import 'package:mm/presentation/screens.dart';
 // Localization
-import 'package:milmujeres_app/l10n/app_localizations.dart';
+import 'package:mm/l10n/app_localizations.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});

@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:milmujeres_app/data/data.dart';
+import 'package:mm/data/data.dart';
 
 enum ApiResult { success, connectionError, otherError }
 

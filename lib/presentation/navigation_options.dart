@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:milmujeres_app/l10n/app_localizations.dart';
+import 'package:mm/l10n/app_localizations.dart';
 
 class NavigationOption {
   final String route;

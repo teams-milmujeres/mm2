@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:milmujeres_app/data/data.dart';
-import 'package:milmujeres_app/domain/entities/complaint.dart';
+import 'package:mm/data/data.dart';
+import 'package:mm/domain/entities/complaint.dart';
 
 part 'complaints_event.dart';
 part 'complaints_state.dart';

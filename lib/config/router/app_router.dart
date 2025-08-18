@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:milmujeres_app/presentation/screens.dart';
+import 'package:mm/presentation/screens.dart';
 
 GoRouter onBoardingRouter(BuildContext context) => GoRouter(
   initialLocation: '/',
