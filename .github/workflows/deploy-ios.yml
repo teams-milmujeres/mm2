@@ -40,7 +40,7 @@ jobs:
 
       - name: Configure Xcode
         run: |
-          sudo xcode-select -s /Applications/Xcode_16.2.app
+          sudo xcode-select -s /Applications/Xcode_16.3.app
           sudo gem install xcodeproj
       - name: Get signing key
         run: |
@@ -109,10 +109,14 @@ jobs:
         run:
           flutter pub run flutter_launcher_icons
 
-      # Instalar dependencias de CocoaPods
+      - name: Generate iOS splash screen
+        run: flutter pub run flutter_native_splash:create
+
       - name: Install CocoaPods dependencies
         working-directory: ios
         run: |
+          sudo gem uninstall cocoapods
+          sudo gem install cocoapods
           pod repo update  
           pod install
           
