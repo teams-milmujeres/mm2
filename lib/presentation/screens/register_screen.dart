@@ -121,7 +121,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     const SizedBox(height: 25),
                     Text(
                       translation.contact_to_request,
-                      overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 25),

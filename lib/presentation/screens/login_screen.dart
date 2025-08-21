@@ -65,11 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 100,
               ),
               const SizedBox(height: 25),
-              Text(
-                translation.contact_to_request,
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.center,
-              ),
+              Text(translation.contact_to_request, textAlign: TextAlign.center),
               const SizedBox(height: 24),
               TextField(
                 controller: usernameController,
