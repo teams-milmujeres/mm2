@@ -47,5 +47,13 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+		<string>Necesitamos acceder a tu galería para que puedas seleccionar y subir fotos desde tu dispositivo.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string>La app utiliza tu ubicación para mejorar la experiencia y mostrarte contenido relevante según tu lugar.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+		<string>Necesitamos tu ubicación mientras usas la app para ofrecerte funciones personalizadas.</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 </dict>
 </plist>
