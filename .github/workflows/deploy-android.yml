@@ -62,7 +62,7 @@ jobs:
       - name: Get Build ID Number
         run: | 
           build_number=$(google-play get-latest-build-number \
-            --package ${{ vars.APPLICATION_ID }} \
+            --package ${{ vars.APPLICATION_ID_ANDROID}} \
             --credentials @file:${{ github.workspace }}/api-googlecloud-apps.json)
           echo "BUILD_NUMBER=$((build_number + 1))" >> $GITHUB_ENV
         working-directory: android
@@ -172,41 +172,40 @@ jobs:
         with:
           releaseFiles: ${{ github.workspace }}/package/app-release-${{ github.event.inputs.version_name }}.aab
           serviceAccountJson: ${{ github.workspace }}/api-googlecloud-apps.json
-          packageName: ${{ vars.APPLICATION_ID }}
+          packageName: ${{ vars.APPLICATION_ID_ANDROID }}
           track: internal
 
-      - name: Create or Update Release
-        id: release
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Esto permite que gh CLI se autentique
-        run: |
-          TAG_NAME="${GITHUB_REF_NAME}-v${{ github.event.inputs.version_name }}"
-          
-          # Verificar si release existe
-          EXISTING=$(gh release view "$TAG_NAME" --repo $GITHUB_REPOSITORY --json id -q ".id" || echo "")
-          
-          if [ -z "$EXISTING" ]; then
-            echo "Release no existe, creando..."
-            gh release create "$TAG_NAME" \
-              --title "Release ${GITHUB_REF_NAME} - Version ${{ github.event.inputs.version_name }}" \
-              --notes "${{ github.event.inputs.release }}"
-          else
-            echo "Release ya existe (ID $EXISTING), se actualizará..."
-            gh release edit "$TAG_NAME" \
-              --title "Release ${GITHUB_REF_NAME} - Version ${{ github.event.inputs.version_name }}" \
-              --notes "${{ github.event.inputs.release }}"
-          fi
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }}-v${{ github.event.inputs.version_name }}-ANDROID
+          release_name: Release ${{ github.ref_name }} - Version ${{ github.event.inputs.version_name }}
+          body: ${{ github.event.inputs.release }}
+          draft: false
+          prerelease: false
 
-      - name: Upload Appbundle
+      - name: Upload Release Appbundle Asset
+        id: upload-release-appbundle-asset 
+        uses: actions/upload-release-asset@v1
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          TAG_NAME="${GITHUB_REF_NAME}-v${{ github.event.inputs.version_name }}"
-          gh release upload "$TAG_NAME" "${GITHUB_WORKSPACE}/package/app-release-${{ github.event.inputs.version_name }}.aab" --clobber
-
-      - name: Upload APK
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} 
+          asset_path: ${{ github.workspace }}/package/app-release-${{ github.event.inputs.version_name }}.aab
+          asset_name: app-release-${{ github.event.inputs.version_name }}.aab
+          asset_content_type: application/octet-stream
+      
+      - name: Upload Release APK Asset
+        id: upload-release-apk-asset 
+        uses: actions/upload-release-asset@v1
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          TAG_NAME="${GITHUB_REF_NAME}-v${{ github.event.inputs.version_name }}"
-          gh release upload "$TAG_NAME" "${GITHUB_WORKSPACE}/package/app-universal-${{ github.event.inputs.version_name }}.apk" --clobber
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} 
+          asset_path: ${{ github.workspace }}/package/app-universal-${{ github.event.inputs.version_name }}.apk
+          asset_name: app-universal-${{ github.event.inputs.version_name }}.apk
+          asset_content_type: application/octet-stream
+        

@@ -107,7 +107,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           builder: (context, state) {
             final isLoading = state is RegisterLoading;
 
-            return Padding(
+            return SingleChildScrollView(
               padding: const EdgeInsets.all(16.0),
               child: Form(
                 key: _formKey,
