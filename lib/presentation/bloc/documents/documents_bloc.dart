@@ -20,6 +20,7 @@ class DocumentBloc extends Bloc<DocumentEvent, DocumentState> {
     on<GetDocumentsEvent>(_onLoadDocuments);
     on<UploadDocumentEvent>(_onUploadDocument);
     on<PickFileEvent>(_onPickFile);
+    on<SigningTermsAndConditionsEvent>(_signingTermsandConditions);
   }
 
   Future<void> _onLoadDocuments(
@@ -82,6 +83,35 @@ class DocumentBloc extends Bloc<DocumentEvent, DocumentState> {
       emit(DocumentUploaded(response.data['message']));
 
       // ¡Recargar lista!
+      add(GetDocumentsEvent(clientId: event.clientId));
+    } catch (e) {
+      emit(DocumentError(e.toString()));
+    }
+  }
+
+  Future<void> _signingTermsandConditions(
+    SigningTermsAndConditionsEvent event,
+    Emitter<DocumentState> emit,
+  ) async {
+    emit(DocumentLoading());
+
+    try {
+      final token = await _secureStorage.read(key: 'token');
+      if (token == null) throw Exception('Token no encontrado');
+
+      final client = DioClient();
+
+      final response = await client.dio.post(
+        '/sign_upload_documents',
+        data: {
+          'signature_upload_documents ': event.signing,
+          'client_id': event.clientId,
+        },
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+
+      emit(DocumentSigned(response.data['msg']));
+
       add(GetDocumentsEvent(clientId: event.clientId));
     } catch (e) {
       emit(DocumentError(e.toString()));

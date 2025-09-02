@@ -26,3 +26,13 @@ class PickFileEvent extends DocumentEvent {
 
   PickFileEvent({required this.documentRequestId, required this.clientId});
 }
+
+class SigningTermsAndConditionsEvent extends DocumentEvent {
+  final bool signing;
+  final String clientId;
+
+  SigningTermsAndConditionsEvent({
+    required this.signing,
+    required this.clientId,
+  });
+}

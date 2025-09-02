@@ -1556,6 +1556,24 @@ abstract class AppLocalizations {
   /// **'Saved'**
   String get saved;
 
+  /// No description provided for @terms_and_conditions.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms and Conditions'**
+  String get terms_and_conditions;
+
+  /// No description provided for @accept_terms_and_conditions.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept Terms and Conditions'**
+  String get accept_terms_and_conditions;
+
+  /// No description provided for @signature_success.
+  ///
+  /// In en, this message translates to:
+  /// **'The terms and conditions have been accepted correctly.'**
+  String get signature_success;
+
   /// No description provided for @error_try_again_later.
   ///
   /// In en, this message translates to:
@@ -1777,6 +1795,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your donations will provide important support for the purpose of defending the rights of immigrants and the protection of victims of domestic violence and gender-based crimes.'**
   String get mm_donate_txt;
+
+  /// No description provided for @terms_and_conditions_text.
+  ///
+  /// In en, this message translates to:
+  /// **'1. The documents you upload to the application will be used exclusively for the review, analysis, and follow-up of the legal process related to your case.\n\n2. You declare that the documents you upload are truthful, complete, and your legitimate property, or that you have the necessary authorization to provide them. Mil Mujeres is not responsible for the accuracy or authenticity of the information contained in the uploaded files.\n\n3. All documents will be treated with strict confidentiality and in accordance with the current regulations on personal data protection. Only authorized Mil Mujeres staff will have access to your information.\n\n4. It is strictly prohibited to upload documents that are not related to the corresponding legal process, that contain offensive or illegal material, that infringe the rights of third parties, or that include viruses, malware, or any element that may damage the system.\n\n5. Mil Mujeres will not be responsible for errors arising from the upload of illegible, incomplete, falsified documents, or documents delivered outside the deadlines established for the legal process.\n\n6. By uploading documents to the application, you give your express consent for them to be reviewed, stored, and used by Mil Mujeres solely for legal purposes related to your case.\n\n7. Mil Mujeres may modify these terms and conditions when necessary, always ensuring the protection and confidentiality of the information. Users will be duly notified of any changes.'**
+  String get terms_and_conditions_text;
 
   /// Validating any input
   ///

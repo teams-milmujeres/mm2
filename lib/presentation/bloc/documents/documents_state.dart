@@ -24,3 +24,9 @@ class DocumentError extends DocumentState {
 
   DocumentError(this.error);
 }
+
+class DocumentSigned extends DocumentState {
+  final String message;
+
+  DocumentSigned(this.message);
+}

@@ -10,8 +10,29 @@ import 'package:mm/domain/entities/document.dart';
 // Other imports
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class UploadDocumentScreen extends StatelessWidget {
+class UploadDocumentScreen extends StatefulWidget {
   const UploadDocumentScreen({super.key});
+
+  @override
+  State<UploadDocumentScreen> createState() => _UploadDocumentScreenState();
+}
+
+class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final authState = context.read<AuthBloc>().state;
+      if (authState is AuthAuthenticated &&
+          (authState.user.signatureUploadDocuments == null ||
+              authState.user.signatureUploadDocuments == false)) {
+        // Usa mounted para evitar errores si el widget ya no está en el árbol
+        if (mounted) {
+          _showSignatureModal(context);
+        }
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -366,3 +387,88 @@ Widget _rowText(
     ),
   ],
 );
+
+// Modal para firmar términos y condiciones
+// Se muestra si no ha firmado aún
+void _showSignatureModal(BuildContext context) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return SignatureModal();
+    },
+  );
+}
+
+class SignatureModal extends StatelessWidget {
+  const SignatureModal({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final translation = AppLocalizations.of(context)!;
+
+    return BlocProvider(
+      create: (context) => DocumentBloc(),
+      child: AlertDialog(
+        title: Text(translation.terms_and_conditions),
+        content: SingleChildScrollView(
+          child: Text(translation.terms_and_conditions_text),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              // Navegar dos pantallas hacia atrás
+              Navigator.of(context).popUntil((route) => route.isFirst);
+            },
+            child: Text(translation.close),
+          ),
+          BlocConsumer<DocumentBloc, DocumentState>(
+            listener: (context, state) {
+              if (state is DocumentSigned) {
+                Navigator.of(context).pop(); // Cierra modal al éxito
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(translation.signature_success)),
+                );
+              }
+              if (state is DocumentError) {
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text(state.error)));
+              }
+            },
+            builder: (context, state) {
+              final isLoading = state is DocumentLoading;
+              final authState = context.read<AuthBloc>().state;
+
+              return TextButton(
+                onPressed:
+                    isLoading
+                        ? null
+                        : () {
+                          context.read<DocumentBloc>().add(
+                            SigningTermsAndConditionsEvent(
+                              signing: true,
+                              clientId:
+                                  (authState as AuthAuthenticated).user.id
+                                      .toString(),
+                            ),
+                          );
+                          // Refrescar el usuario con el campo actualizado
+                          context.read<AuthBloc>().add(CheckToken());
+                        },
+                child:
+                    isLoading
+                        ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                        : Text(translation.accept_terms_and_conditions),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}

@@ -85,8 +85,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthFailure("Error al validar el usuario. Intenta más tarde."));
       }
       emit(AuthUnauthenticated());
-    } catch (_) {
+    } catch (e) {
       emit(AuthFailure("Error inesperado. Intenta nuevamente."));
+      print(e);
       emit(AuthUnauthenticated());
     }
   }

@@ -24,6 +24,7 @@ class User {
     this.countryOfBirthId,
     this.citizenshipId,
     this.howMeet,
+    this.signatureUploadDocuments,
   });
 
   int id;
@@ -43,6 +44,7 @@ class User {
   int? citizenshipId;
 
   String? howMeet;
+  bool? signatureUploadDocuments;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
     id: json["id"],
@@ -79,6 +81,7 @@ class User {
             : null,
 
     howMeet: json["how_meet"],
+    signatureUploadDocuments: json["signature_upload_documents"] ?? false,
   );
 
   Map<String, dynamic> toJson() => {
@@ -100,5 +103,6 @@ class User {
     "country_of_birth_id": countryOfBirthId,
     "citizenship_id": citizenshipId,
     "how_meet": howMeet,
+    "signature_upload_documents": signatureUploadDocuments,
   };
 }
