@@ -395,24 +395,97 @@ void _showSignatureModal(BuildContext context) {
     context: context,
     barrierDismissible: false,
     builder: (BuildContext context) {
-      return SignatureModal();
+      return const SignatureModal();
     },
   );
 }
 
-class SignatureModal extends StatelessWidget {
+class SignatureModal extends StatefulWidget {
   const SignatureModal({super.key});
+
+  @override
+  State<SignatureModal> createState() => _SignatureModalState();
+}
+
+class _SignatureModalState extends State<SignatureModal> {
+  final ScrollController _scrollController = ScrollController();
+  bool _hasScrolledToEnd = false;
+  bool _isExpanded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_scrollListener);
+  }
+
+  void _scrollListener() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent) {
+      if (!_hasScrolledToEnd) {
+        setState(() {
+          _hasScrolledToEnd = true;
+        });
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_scrollListener);
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final translation = AppLocalizations.of(context)!;
+    final fullText = translation.terms_and_conditions_text;
+    final summary = translation.terms_and_conditions_summary;
 
     return BlocProvider(
       create: (context) => DocumentBloc(),
       child: AlertDialog(
         title: Text(translation.terms_and_conditions),
-        content: SingleChildScrollView(
-          child: Text(translation.terms_and_conditions_text),
+        content: SizedBox(
+          width: double.maxFinite,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (!_isExpanded) ...[
+                Text(summary),
+                const SizedBox(height: 8),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton.icon(
+                    onPressed: () {
+                      setState(() {
+                        _isExpanded = true;
+                      });
+                    },
+                    icon: const Icon(Icons.menu_book_outlined),
+                    label: Text(
+                      translation.read_full,
+                    ), // TODO: Localize this string
+                  ),
+                ),
+              ],
+              if (_isExpanded)
+                Flexible(
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.4,
+                    child: Scrollbar(
+                      thumbVisibility: true,
+                      controller: _scrollController,
+                      child: SingleChildScrollView(
+                        controller: _scrollController,
+                        child: Text(fullText),
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
         ),
         actions: [
           TextButton(
@@ -429,8 +502,7 @@ class SignatureModal extends StatelessWidget {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text(translation.signature_success)),
                 );
-              }
-              if (state is DocumentError) {
+              } else if (state is DocumentError) {
                 ScaffoldMessenger.of(
                   context,
                 ).showSnackBar(SnackBar(content: Text(state.error)));
@@ -439,10 +511,11 @@ class SignatureModal extends StatelessWidget {
             builder: (context, state) {
               final isLoading = state is DocumentLoading;
               final authState = context.read<AuthBloc>().state;
+              final canAccept = _isExpanded && _hasScrolledToEnd;
 
               return TextButton(
                 onPressed:
-                    isLoading
+                    isLoading || !canAccept
                         ? null
                         : () {
                           context.read<DocumentBloc>().add(

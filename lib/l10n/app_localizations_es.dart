@@ -887,6 +887,13 @@ class AppLocalizationsEs extends AppLocalizations {
       '1. Los documentos que usted cargue en la aplicación serán utilizados exclusivamente para la revisión, análisis y seguimiento del proceso legal correspondiente a su caso.\n\n2. Usted declara que los documentos que suba son verídicos, completos y de su legítima titularidad, o que cuenta con la autorización necesaria para proporcionarlos. Mil Mujeres no se hace responsable por la veracidad ni autenticidad de la información contenida en los archivos cargados.\n\n3. Todos los documentos serán tratados con estricta confidencialidad y de acuerdo con la normativa vigente en materia de protección de datos personales. Solo el personal autorizado de Mil Mujeres tendrá acceso a su información.\n\n4. Queda prohibido subir documentos que no estén relacionados con el proceso legal correspondiente, que contengan material ofensivo, ilegal, o que infrinja derechos de terceros, o que incluyan virus, malware o cualquier elemento que pueda dañar el sistema.\n\n5. Mil Mujeres no será responsable por errores derivados de la carga de documentos ilegibles, incompletos, falsificados o entregados fuera de los plazos establecidos para el proceso legal.\n\n6. Al cargar documentos en la aplicación, usted otorga su consentimiento expreso para que estos sean revisados, almacenados y utilizados por Mil Mujeres únicamente para los fines legales relacionados con su caso.\n\n7. Mil Mujeres podrá modificar estos términos y condiciones cuando sea necesario, garantizando siempre la protección y confidencialidad de la información. Se notificará oportunamente a los usuarios sobre cualquier cambio.';
 
   @override
+  String get terms_and_conditions_summary =>
+      'Tus documentos se usarán solo para tu caso legal, deben ser verídicos y estarán protegidos con confidencialidad. No subas archivos ilegales, falsos o dañinos. Al subirlos, aceptas su uso para fines legales y que los términos puedan cambiar.';
+
+  @override
+  String get read_full => 'Leer completo';
+
+  @override
   String is_required(String item) {
     return '$item es requerido';
   }

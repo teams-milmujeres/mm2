@@ -883,6 +883,13 @@ class AppLocalizationsEn extends AppLocalizations {
       '1. The documents you upload to the application will be used exclusively for the review, analysis, and follow-up of the legal process related to your case.\n\n2. You declare that the documents you upload are truthful, complete, and your legitimate property, or that you have the necessary authorization to provide them. Mil Mujeres is not responsible for the accuracy or authenticity of the information contained in the uploaded files.\n\n3. All documents will be treated with strict confidentiality and in accordance with the current regulations on personal data protection. Only authorized Mil Mujeres staff will have access to your information.\n\n4. It is strictly prohibited to upload documents that are not related to the corresponding legal process, that contain offensive or illegal material, that infringe the rights of third parties, or that include viruses, malware, or any element that may damage the system.\n\n5. Mil Mujeres will not be responsible for errors arising from the upload of illegible, incomplete, falsified documents, or documents delivered outside the deadlines established for the legal process.\n\n6. By uploading documents to the application, you give your express consent for them to be reviewed, stored, and used by Mil Mujeres solely for legal purposes related to your case.\n\n7. Mil Mujeres may modify these terms and conditions when necessary, always ensuring the protection and confidentiality of the information. Users will be duly notified of any changes.';
 
   @override
+  String get terms_and_conditions_summary =>
+      'Your documents will only be used for your legal case, must be truthful, and will be kept confidential. Do not upload illegal, false, or harmful files. By uploading, you consent to their legal use and accept that terms may change.';
+
+  @override
+  String get read_full => 'Read full';
+
+  @override
   String is_required(String item) {
     return '$item is required';
   }
