@@ -97,68 +97,70 @@ class _RatingScreenState extends State<RatingScreen> {
                 backgroundColor: ratingColor,
                 foregroundColor: Colors.white,
               ),
-              body: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(25.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const SizedBox(height: 20),
-                      Text(
-                        translation.has_been_rating,
-                        style: Theme.of(context).textTheme.headlineLarge
-                            ?.copyWith(color: Colors.white),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 50),
-                      CircleAvatar(
-                        radius: 100,
-                        backgroundColor: Colors.white,
-                        child: Text(
-                          '$_selectedRating/5',
-                          style: TextStyle(
-                            color: ratingColor,
-                            fontSize: 48,
-                            fontWeight: FontWeight.bold,
+              body: SingleChildScrollView(
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(25.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const SizedBox(height: 20),
+                        Text(
+                          translation.has_been_rating,
+                          style: Theme.of(context).textTheme.headlineLarge
+                              ?.copyWith(color: Colors.white),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 50),
+                        CircleAvatar(
+                          radius: 100,
+                          backgroundColor: Colors.white,
+                          child: Text(
+                            '$_selectedRating/5',
+                            style: TextStyle(
+                              color: ratingColor,
+                              fontSize: 48,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: List.generate(5, (index) {
-                          final starIndex = index + 1;
-                          return Icon(
-                            starIndex <= _selectedRating
-                                ? Icons.star
-                                : Icons.star_border,
-                            size: 50,
-                            color: Colors.white,
-                          );
-                        }),
-                      ),
-                      const SizedBox(height: 20),
-                      Text(
-                        '"${_commentController.text}"',
-                        style: Theme.of(
-                          context,
-                        ).textTheme.bodyLarge?.copyWith(color: Colors.white),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 50),
-                      Text(
-                        translation.thanks_for_rating,
-                        style: Theme.of(context).textTheme.headlineLarge
-                            ?.copyWith(color: Colors.white),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 20),
-                      Image.asset(
-                        _getEmojiByRating(_selectedRating),
-                        width: 100,
-                        color: Colors.white,
-                      ),
-                    ],
+                        const SizedBox(height: 20),
+                        Wrap(
+                          alignment: WrapAlignment.center,
+                          children: List.generate(5, (index) {
+                            final starIndex = index + 1;
+                            return Icon(
+                              starIndex <= _selectedRating
+                                  ? Icons.star
+                                  : Icons.star_border,
+                              size: 50,
+                              color: Colors.white,
+                            );
+                          }),
+                        ),
+                        const SizedBox(height: 20),
+                        Text(
+                          '"${_commentController.text}"',
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodyLarge?.copyWith(color: Colors.white),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 50),
+                        Text(
+                          translation.thanks_for_rating,
+                          style: Theme.of(context).textTheme.headlineMedium
+                              ?.copyWith(color: Colors.white),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 20),
+                        Image.asset(
+                          _getEmojiByRating(_selectedRating),
+                          width: 100,
+                          color: Colors.white,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -168,109 +170,111 @@ class _RatingScreenState extends State<RatingScreen> {
           // Scaffold para MODO EDICIÓN
           return Scaffold(
             appBar: AppBar(title: Text(translation.rating)),
-            body: Padding(
-              padding: const EdgeInsets.all(25.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Image.asset(
-                        'assets/images/rating/logo-full.png',
-                        width: 200,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  CircleAvatar(
-                    radius: 100,
-                    backgroundImage: AssetImage(
-                      'assets/images/rating/image-rating.png',
-                    ),
-                  ),
-                  const SizedBox(height: 50),
-                  Text(
-                    translation.rating_title,
-                    style: Theme.of(context).textTheme.headlineLarge,
-                    textAlign: TextAlign.left,
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    translation.rating_text,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                    textAlign: TextAlign.left,
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(5, (index) {
-                      final starIndex = index + 1;
-                      return IconButton(
-                        icon: Icon(
-                          starIndex <= _selectedRating
-                              ? Icons.star
-                              : Icons.star_border,
-                          size: 50,
-                          color: Theme.of(context).colorScheme.primary,
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Image.asset(
+                          'assets/images/rating/logo-full.png',
+                          width: 200,
                         ),
-                        onPressed: () => _onStarTapped(starIndex),
-                      );
-                    }),
-                  ),
-                  const SizedBox(height: 20),
-                  TextField(
-                    controller: _commentController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: translation.comment,
-                      hint: Text(translation.rating_title),
+                      ],
                     ),
-                    maxLines: 4,
-                  ),
-                  const SizedBox(height: 20),
-                  RoundedButton(
-                    press: () {
-                      if (_selectedRating == 0) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(translation.select_rating_first),
+                    const SizedBox(height: 20),
+                    const CircleAvatar(
+                      radius: 100,
+                      backgroundImage: AssetImage(
+                        'assets/images/rating/image-rating.png',
+                      ),
+                    ),
+                    const SizedBox(height: 50),
+                    Text(
+                      translation.rating_title,
+                      style: Theme.of(context).textTheme.headlineLarge,
+                      textAlign: TextAlign.left,
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
+                      translation.rating_text,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                      textAlign: TextAlign.left,
+                    ),
+                    const SizedBox(height: 20),
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      children: List.generate(5, (index) {
+                        final starIndex = index + 1;
+                        return IconButton(
+                          icon: Icon(
+                            starIndex <= _selectedRating
+                                ? Icons.star
+                                : Icons.star_border,
+                            size: 50,
+                            color: Theme.of(context).colorScheme.primary,
                           ),
+                          onPressed: () => _onStarTapped(starIndex),
                         );
-                        return;
-                      }
-                      if (_commentController.text.trim().isEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              translation.is_required(translation.comment),
+                      }),
+                    ),
+                    const SizedBox(height: 20),
+                    TextField(
+                      controller: _commentController,
+                      decoration: InputDecoration(
+                        border: const OutlineInputBorder(),
+                        labelText: translation.comment,
+                        hintText: translation.rating_title,
+                      ),
+                      maxLines: 4,
+                    ),
+                    const SizedBox(height: 20),
+                    RoundedButton(
+                      press: () {
+                        if (_selectedRating == 0) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(translation.select_rating_first),
                             ),
-                          ),
-                        );
-                        return;
-                      }
+                          );
+                          return;
+                        }
+                        if (_commentController.text.trim().isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                translation.is_required(translation.comment),
+                              ),
+                            ),
+                          );
+                          return;
+                        }
 
-                      final authState = context.read<AuthBloc>().state;
-                      if (authState is AuthAuthenticated) {
-                        context.read<RatingBloc>().add(
-                          SendRatingEvent(
-                            clientId: authState.user.id,
-                            rating: _selectedRating,
-                            comment: _commentController.text,
-                          ),
-                        );
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(translation.error_try_again_later),
-                          ),
-                        );
-                      }
-                    },
-                    text: translation.send,
-                  ),
-                ],
+                        final authState = context.read<AuthBloc>().state;
+                        if (authState is AuthAuthenticated) {
+                          context.read<RatingBloc>().add(
+                            SendRatingEvent(
+                              clientId: authState.user.id,
+                              rating: _selectedRating,
+                              comment: _commentController.text,
+                            ),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(translation.error_try_again_later),
+                            ),
+                          );
+                        }
+                      },
+                      text: translation.send,
+                    ),
+                  ],
+                ),
               ),
             ),
           );
