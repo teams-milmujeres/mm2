@@ -891,7 +891,7 @@ class AppLocalizationsEs extends AppLocalizations {
       'Tus documentos se usarán solo para tu caso legal, deben ser verídicos y estarán protegidos con confidencialidad. No subas archivos ilegales, falsos o dañinos. Al subirlos, aceptas su uso para fines legales y que los términos puedan cambiar.';
 
   @override
-  String get read_full => 'Leer completo';
+  String get read_full => 'Leer completo para aceptar';
 
   @override
   String is_required(String item) {

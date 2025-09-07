@@ -19,34 +19,18 @@ class UploadDocumentScreen extends StatefulWidget {
 
 class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final authState = context.read<AuthBloc>().state;
-      if (authState is AuthAuthenticated &&
-          (authState.user.signatureUploadDocuments == null ||
-              authState.user.signatureUploadDocuments == false)) {
-        // Usa mounted para evitar errores si el widget ya no está en el árbol
-        if (mounted) {
-          _showSignatureModal(context);
-        }
-      }
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     final translate = AppLocalizations.of(context)!;
     final authState = context.watch<AuthBloc>().state;
 
     return BlocProvider(
-      create:
-          (_) =>
-              DocumentBloc()..add(
-                GetDocumentsEvent(
-                  clientId: (authState as AuthAuthenticated).user.id.toString(),
-                ),
-              ),
+      create: (_) {
+        final bloc = DocumentBloc();
+        // Dispara el evento de términos y condiciones
+        bloc.add(GetTermsAndConditionsUploadEvent());
+        // El evento para obtener los documentos se dispara después de aceptar los términos
+        return bloc;
+      },
       child: DefaultTabController(
         length: 2,
         child: Scaffold(
@@ -69,6 +53,21 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('Error: ${state.error}')),
                 );
+              } else if (state is TermsAndConditionsUploadLoaded) {
+                final userVersion =
+                    (authState as AuthAuthenticated)
+                        .user
+                        .signatureUploadDocumentsVersion;
+                if (userVersion == null || state.version > userVersion) {
+                  _showSignatureModal(context, state.version, state.details);
+                } else {
+                  // Si ya ha firmado, obtener los documentos
+                  context.read<DocumentBloc>().add(
+                        GetDocumentsEvent(
+                          clientId: (authState as AuthAuthenticated).user.id.toString(),
+                        ),
+                      );
+                }
               }
             },
             child: BlocBuilder<DocumentBloc, DocumentState>(
@@ -389,19 +388,32 @@ Widget _rowText(
 );
 
 // Modal para firmar términos y condiciones
-// Se muestra si no ha firmado aún
-void _showSignatureModal(BuildContext context) {
+// Se muestra si no ha firmado los nuevos términos o si no ha firmado nunca
+void _showSignatureModal(
+  BuildContext context,
+  double version,
+  Map<String, dynamic> details,
+) {
   showDialog(
     context: context,
     barrierDismissible: false,
-    builder: (BuildContext context) {
-      return const SignatureModal();
+    builder: (BuildContext dialogContext) {
+      return BlocProvider.value(
+        value: BlocProvider.of<DocumentBloc>(context),
+        child: SignatureModal(version: version, details: details),
+      );
     },
   );
 }
 
 class SignatureModal extends StatefulWidget {
-  const SignatureModal({super.key});
+  const SignatureModal({
+    super.key,
+    required this.details,
+    required this.version,
+  });
+  final double version;
+  final Map<String, dynamic> details;
 
   @override
   State<SignatureModal> createState() => _SignatureModalState();
@@ -415,6 +427,7 @@ class _SignatureModalState extends State<SignatureModal> {
   @override
   void initState() {
     super.initState();
+
     _scrollController.addListener(_scrollListener);
   }
 
@@ -438,110 +451,121 @@ class _SignatureModalState extends State<SignatureModal> {
 
   @override
   Widget build(BuildContext context) {
+    final locale = Localizations.localeOf(context).languageCode;
     final translation = AppLocalizations.of(context)!;
-    final fullText = translation.terms_and_conditions_text;
-    final summary = translation.terms_and_conditions_summary;
+    final fullText =
+        locale == 'es'
+            ? widget.details['terms_es'] ?? ''
+            : widget.details['terms_en'] ?? '';
+    final summary =
+        locale == 'es'
+            ? widget.details['summary_es'] ?? ''
+            : widget.details['summary_en'] ?? '';
 
-    return BlocProvider(
-      create: (context) => DocumentBloc(),
-      child: AlertDialog(
-        title: Text(translation.terms_and_conditions),
-        content: SizedBox(
-          width: double.maxFinite,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (!_isExpanded) ...[
-                Text(summary),
-                const SizedBox(height: 8),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton.icon(
-                    onPressed: () {
-                      setState(() {
-                        _isExpanded = true;
-                      });
-                    },
-                    icon: const Icon(Icons.menu_book_outlined),
-                    label: Text(
-                      translation.read_full,
-                    ), // TODO: Localize this string
-                  ),
+    return AlertDialog(
+      title: Text(translation.terms_and_conditions),
+      content: SizedBox(
+        width: double.maxFinite,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (!_isExpanded) ...[
+              Text(summary),
+              const SizedBox(height: 8),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton.icon(
+                  onPressed: () {
+                    setState(() {
+                      _isExpanded = true;
+                    });
+                  },
+                  icon: const Icon(Icons.menu_book_outlined),
+                  label: Text(translation.read_full),
                 ),
-              ],
-              if (_isExpanded)
-                Flexible(
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.4,
-                    child: Scrollbar(
-                      thumbVisibility: true,
+              ),
+            ],
+            if (_isExpanded)
+              Flexible(
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.4,
+                  child: Scrollbar(
+                    thumbVisibility: true,
+                    controller: _scrollController,
+                    child: SingleChildScrollView(
                       controller: _scrollController,
-                      child: SingleChildScrollView(
-                        controller: _scrollController,
-                        child: Text(fullText),
-                      ),
+                      child: Text(fullText),
                     ),
                   ),
                 ),
-            ],
-          ),
+              ),
+          ],
         ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              // Navegar dos pantallas hacia atrás
-              Navigator.of(context).popUntil((route) => route.isFirst);
-            },
-            child: Text(translation.close),
-          ),
-          BlocConsumer<DocumentBloc, DocumentState>(
-            listener: (context, state) {
-              if (state is DocumentSigned) {
-                Navigator.of(context).pop(); // Cierra modal al éxito
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(translation.signature_success)),
-                );
-              } else if (state is DocumentError) {
-                ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(SnackBar(content: Text(state.error)));
-              }
-            },
-            builder: (context, state) {
-              final isLoading = state is DocumentLoading;
-              final authState = context.read<AuthBloc>().state;
-              final canAccept = _isExpanded && _hasScrolledToEnd;
-
-              return TextButton(
-                onPressed:
-                    isLoading || !canAccept
-                        ? null
-                        : () {
-                          context.read<DocumentBloc>().add(
-                            SigningTermsAndConditionsEvent(
-                              signing: true,
-                              clientId:
-                                  (authState as AuthAuthenticated).user.id
-                                      .toString(),
-                            ),
-                          );
-                          // Refrescar el usuario con el campo actualizado
-                          context.read<AuthBloc>().add(CheckToken());
-                        },
-                child:
-                    isLoading
-                        ? const SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        )
-                        : Text(translation.accept_terms_and_conditions),
-              );
-            },
-          ),
-        ],
       ),
+      actions: [
+        TextButton(
+          onPressed: () {
+            // Navegar dos pantallas hacia atrás
+            Navigator.of(context).popUntil((route) => route.isFirst);
+          },
+          child: Text(translation.close),
+        ),
+        BlocConsumer<DocumentBloc, DocumentState>(
+          listener: (context, state) {
+            if (state is DocumentSigned) {
+              final authState = context.read<AuthBloc>().state;
+              if (authState is AuthAuthenticated) {
+                context.read<DocumentBloc>().add(
+                      GetDocumentsEvent(
+                        clientId: authState.user.id.toString(),
+                      ),
+                    );
+              }
+              Navigator.of(context).pop(); // Cierra modal al éxito
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(translation.signature_success)),
+              );
+            } else if (state is DocumentError) {
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(state.error)));
+            }
+          },
+          builder: (context, state) {
+            final isLoading = state is DocumentLoading;
+            final authState = context.read<AuthBloc>().state;
+            final canAccept = _isExpanded && _hasScrolledToEnd;
+
+            return TextButton(
+              onPressed:
+                  isLoading || !canAccept
+                      ? null
+                      : () {
+                        context.read<DocumentBloc>().add(
+                              SigningTermsAndConditionsEvent(
+                                signing: true,
+                                clientId:
+                                    (authState as AuthAuthenticated).user.id
+                                        .toString(),
+                                version: double.parse(widget.version.toString()),
+                              ),
+                            );
+                        // Refrescar el usuario con el campo actualizado
+                        context.read<AuthBloc>().add(CheckToken());
+                      },
+              child:
+                  isLoading
+                      ? const SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                      : Text(translation.accept_terms_and_conditions),
+            );
+          },
+        ),
+      ],
     );
   }
 }

@@ -1811,7 +1811,7 @@ abstract class AppLocalizations {
   /// No description provided for @read_full.
   ///
   /// In en, this message translates to:
-  /// **'Read full'**
+  /// **'Read full for accept'**
   String get read_full;
 
   /// Validating any input

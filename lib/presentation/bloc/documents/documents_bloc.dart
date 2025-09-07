@@ -20,6 +20,7 @@ class DocumentBloc extends Bloc<DocumentEvent, DocumentState> {
     on<GetDocumentsEvent>(_onLoadDocuments);
     on<UploadDocumentEvent>(_onUploadDocument);
     on<PickFileEvent>(_onPickFile);
+    on<GetTermsAndConditionsUploadEvent>(_getTermsAndConditionsUpload);
     on<SigningTermsAndConditionsEvent>(_signingTermsandConditions);
   }
 
@@ -89,6 +90,36 @@ class DocumentBloc extends Bloc<DocumentEvent, DocumentState> {
     }
   }
 
+  Future<void> _getTermsAndConditionsUpload(
+    GetTermsAndConditionsUploadEvent event,
+    Emitter<DocumentState> emit,
+  ) async {
+    emit(DocumentLoading());
+
+    try {
+      final token = await _secureStorage.read(key: 'token');
+      if (token == null) throw Exception('Token no encontrado');
+
+      final client = DioClient();
+
+      final response = await client.dio.get(
+        '/get-terms-and-conditions-upload',
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+
+      final data = response.data;
+
+      emit(
+        TermsAndConditionsUploadLoaded(
+          details: data['details'],
+          version: double.parse(data['version'].toString()),
+        ),
+      );
+    } catch (e) {
+      emit(DocumentError(e.toString()));
+    }
+  }
+
   Future<void> _signingTermsandConditions(
     SigningTermsAndConditionsEvent event,
     Emitter<DocumentState> emit,
@@ -104,8 +135,9 @@ class DocumentBloc extends Bloc<DocumentEvent, DocumentState> {
       final response = await client.dio.post(
         '/sign_upload_documents',
         data: {
-          'signature_upload_documents ': event.signing,
+          'signature_upload_documents': event.signing,
           'client_id': event.clientId,
+          'version': event.version,
         },
         options: Options(headers: {'Authorization': 'Bearer $token'}),
       );

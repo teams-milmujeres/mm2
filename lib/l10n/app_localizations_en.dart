@@ -887,7 +887,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Your documents will only be used for your legal case, must be truthful, and will be kept confidential. Do not upload illegal, false, or harmful files. By uploading, you consent to their legal use and accept that terms may change.';
 
   @override
-  String get read_full => 'Read full';
+  String get read_full => 'Read full for accept';
 
   @override
   String is_required(String item) {

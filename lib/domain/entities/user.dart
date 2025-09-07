@@ -25,6 +25,7 @@ class User {
     this.citizenshipId,
     this.howMeet,
     this.signatureUploadDocuments,
+    this.signatureUploadDocumentsVersion,
   });
 
   int id;
@@ -45,44 +46,55 @@ class User {
 
   String? howMeet;
   bool? signatureUploadDocuments;
+  double? signatureUploadDocumentsVersion;
 
-  factory User.fromJson(Map<String, dynamic> json) => User(
-    id: json["id"],
-    lastName: json["lastname"] ?? '',
-    firstName: json["firstname"],
-    locale: json["locale"],
-    middleName: json["middlename"],
-    dob: json["dob"] != null ? DateTime.tryParse(json["dob"]) : null,
-    userName: json["username"],
-    emails:
-        json["emails"] != null
-            ? List<Email>.from(json["emails"].map((x) => Email.fromJson(x)))
-            : [],
-    addresses:
-        json["address"] != null
-            ? List<Address>.from(
-              json["address"].map((x) => Address.fromJson(x)),
-            )
-            : [],
-    phones:
-        json["phones"] != null
-            ? List<Phone>.from(json["phones"].map((x) => Phone.fromJson(x)))
-            : [],
-    email: json["email"] ?? '',
-    phone: json["phone"] ?? '',
-    avatar: json["avatar"],
-    countryOfBirthId:
-        json["country_of_birth_id"] != null
-            ? int.tryParse(json["country_of_birth_id"].toString())
-            : null,
-    citizenshipId:
-        json["citizenship_id"] != null
-            ? int.tryParse(json["citizenship_id"].toString())
-            : null,
+  factory User.fromJson(Map<String, dynamic> json) {
+    double? parseDouble(dynamic value) {
+      if (value == null) return null;
+      final str = value.toString().replaceAll(',', '.');
+      return double.tryParse(str);
+    }
 
-    howMeet: json["how_meet"],
-    signatureUploadDocuments: json["signature_upload_documents"] ?? false,
-  );
+    return User(
+      id: json["id"],
+      lastName: json["lastname"] ?? '',
+      firstName: json["firstname"],
+      locale: json["locale"],
+      middleName: json["middlename"],
+      dob: json["dob"] != null ? DateTime.tryParse(json["dob"]) : null,
+      userName: json["username"],
+      emails:
+          json["emails"] != null
+              ? List<Email>.from(json["emails"].map((x) => Email.fromJson(x)))
+              : [],
+      addresses:
+          json["address"] != null
+              ? List<Address>.from(
+                json["address"].map((x) => Address.fromJson(x)),
+              )
+              : [],
+      phones:
+          json["phones"] != null
+              ? List<Phone>.from(json["phones"].map((x) => Phone.fromJson(x)))
+              : [],
+      email: json["email"] ?? '',
+      phone: json["phone"] ?? '',
+      avatar: json["avatar"],
+      countryOfBirthId:
+          json["country_of_birth_id"] != null
+              ? int.tryParse(json["country_of_birth_id"].toString())
+              : null,
+      citizenshipId:
+          json["citizenship_id"] != null
+              ? int.tryParse(json["citizenship_id"].toString())
+              : null,
+      howMeet: json["how_meet"],
+      signatureUploadDocuments: json["signature_upload_documents"] ?? false,
+      signatureUploadDocumentsVersion: parseDouble(
+        json["signature_upload_documents_version"],
+      ),
+    );
+  }
 
   Map<String, dynamic> toJson() => {
     "id": id,
@@ -104,5 +116,6 @@ class User {
     "citizenship_id": citizenshipId,
     "how_meet": howMeet,
     "signature_upload_documents": signatureUploadDocuments,
+    "signature_upload_documents_version": signatureUploadDocumentsVersion,
   };
 }
