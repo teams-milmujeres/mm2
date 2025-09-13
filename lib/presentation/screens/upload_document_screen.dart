@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 // Bloc
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mm/domain/entities/terms_upload.dart';
 import 'package:mm/presentation/bloc/auth/auth_bloc.dart';
 import 'package:mm/presentation/bloc/documents/documents_bloc.dart';
 // Localization
@@ -54,19 +55,24 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                   SnackBar(content: Text('Error: ${state.error}')),
                 );
               } else if (state is TermsAndConditionsUploadLoaded) {
+                final authState = context.read<AuthBloc>().state;
                 final userVersion =
                     (authState as AuthAuthenticated)
                         .user
                         .signatureUploadDocumentsVersion;
-                if (userVersion == null || state.version > userVersion) {
-                  _showSignatureModal(context, state.version, state.details);
+
+                if (userVersion == null ||
+                    state.details.version > userVersion) {
+                  _showSignatureModal(
+                    context,
+                    state.details.version.toDouble(),
+                    state.details,
+                  );
                 } else {
                   // Si ya ha firmado, obtener los documentos
                   context.read<DocumentBloc>().add(
-                        GetDocumentsEvent(
-                          clientId: (authState as AuthAuthenticated).user.id.toString(),
-                        ),
-                      );
+                    GetDocumentsEvent(clientId: authState.user.id.toString()),
+                  );
                 }
               }
             },
@@ -388,11 +394,10 @@ Widget _rowText(
 );
 
 // Modal para firmar términos y condiciones
-// Se muestra si no ha firmado los nuevos términos o si no ha firmado nunca
 void _showSignatureModal(
   BuildContext context,
   double version,
-  Map<String, dynamic> details,
+  TermsAndConditionsUpload details,
 ) {
   showDialog(
     context: context,
@@ -412,8 +417,9 @@ class SignatureModal extends StatefulWidget {
     required this.details,
     required this.version,
   });
+
   final double version;
-  final Map<String, dynamic> details;
+  final TermsAndConditionsUpload details;
 
   @override
   State<SignatureModal> createState() => _SignatureModalState();
@@ -424,10 +430,13 @@ class _SignatureModalState extends State<SignatureModal> {
   bool _hasScrolledToEnd = false;
   bool _isExpanded = false;
 
+  String _formatDate(DateTime date) {
+    return '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
+  }
+
   @override
   void initState() {
     super.initState();
-
     _scrollController.addListener(_scrollListener);
   }
 
@@ -453,17 +462,29 @@ class _SignatureModalState extends State<SignatureModal> {
   Widget build(BuildContext context) {
     final locale = Localizations.localeOf(context).languageCode;
     final translation = AppLocalizations.of(context)!;
+
     final fullText =
-        locale == 'es'
-            ? widget.details['terms_es'] ?? ''
-            : widget.details['terms_en'] ?? '';
+        locale == 'es' ? widget.details.termsEs : widget.details.termsEn;
+
     final summary =
-        locale == 'es'
-            ? widget.details['summary_es'] ?? ''
-            : widget.details['summary_en'] ?? '';
+        locale == 'es' ? widget.details.summaryEs : widget.details.summaryEn;
 
     return AlertDialog(
-      title: Text(translation.terms_and_conditions),
+      title: Wrap(
+        crossAxisAlignment: WrapCrossAlignment.center,
+        spacing: 4,
+        children: [
+          Text(translation.terms_and_conditions),
+          if (widget.details.publishedAt != null)
+            Text(
+              ' - ${_formatDate(widget.details.publishedAt!)}',
+              style: const TextStyle(
+                fontWeight: FontWeight.w400,
+                color: Colors.grey,
+              ),
+            ),
+        ],
+      ),
       content: SizedBox(
         width: double.maxFinite,
         child: Column(
@@ -506,7 +527,6 @@ class _SignatureModalState extends State<SignatureModal> {
       actions: [
         TextButton(
           onPressed: () {
-            // Navegar dos pantallas hacia atrás
             Navigator.of(context).popUntil((route) => route.isFirst);
           },
           child: Text(translation.close),
@@ -517,12 +537,10 @@ class _SignatureModalState extends State<SignatureModal> {
               final authState = context.read<AuthBloc>().state;
               if (authState is AuthAuthenticated) {
                 context.read<DocumentBloc>().add(
-                      GetDocumentsEvent(
-                        clientId: authState.user.id.toString(),
-                      ),
-                    );
+                  GetDocumentsEvent(clientId: authState.user.id.toString()),
+                );
               }
-              Navigator.of(context).pop(); // Cierra modal al éxito
+              Navigator.of(context).pop();
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(translation.signature_success)),
               );
@@ -543,15 +561,14 @@ class _SignatureModalState extends State<SignatureModal> {
                       ? null
                       : () {
                         context.read<DocumentBloc>().add(
-                              SigningTermsAndConditionsEvent(
-                                signing: true,
-                                clientId:
-                                    (authState as AuthAuthenticated).user.id
-                                        .toString(),
-                                version: double.parse(widget.version.toString()),
-                              ),
-                            );
-                        // Refrescar el usuario con el campo actualizado
+                          SigningTermsAndConditionsEvent(
+                            signing: true,
+                            clientId:
+                                (authState as AuthAuthenticated).user.id
+                                    .toString(),
+                            version: widget.version,
+                          ),
+                        );
                         context.read<AuthBloc>().add(CheckToken());
                       },
               child:

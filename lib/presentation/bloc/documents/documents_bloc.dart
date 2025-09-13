@@ -7,6 +7,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mm/data/data.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:mm/domain/entities/document.dart';
+import 'package:mm/domain/entities/terms_upload.dart';
 
 part 'documents_event.dart';
 part 'documents_state.dart';
@@ -98,7 +99,10 @@ class DocumentBloc extends Bloc<DocumentEvent, DocumentState> {
 
     try {
       final token = await _secureStorage.read(key: 'token');
-      if (token == null) throw Exception('Token no encontrado');
+      if (token == null) {
+        emit(DocumentError('Token no encontrado'));
+        return;
+      }
 
       final client = DioClient();
 
@@ -107,16 +111,20 @@ class DocumentBloc extends Bloc<DocumentEvent, DocumentState> {
         options: Options(headers: {'Authorization': 'Bearer $token'}),
       );
 
-      final data = response.data;
-
+      if (response.statusCode == 200 && response.data is Map<String, dynamic>) {
+        final terms = TermsAndConditionsUpload.fromJson(response.data);
+        emit(TermsAndConditionsUploadLoaded(details: terms));
+      } else {
+        emit(DocumentError('Respuesta inválida del servidor'));
+      }
+    } on DioException catch (e) {
       emit(
-        TermsAndConditionsUploadLoaded(
-          details: data['details'],
-          version: double.parse(data['version'].toString()),
+        DocumentError(
+          'Error de red: ${e.message ?? 'No se pudo conectar al servidor'}',
         ),
       );
     } catch (e) {
-      emit(DocumentError(e.toString()));
+      emit(DocumentError('Error inesperado: $e'));
     }
   }
 

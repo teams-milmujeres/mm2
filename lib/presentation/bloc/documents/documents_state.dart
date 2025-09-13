@@ -32,11 +32,7 @@ class DocumentSigned extends DocumentState {
 }
 
 class TermsAndConditionsUploadLoaded extends DocumentState {
-  final double version;
-  final Map<String, dynamic> details;
+  final dynamic details;
 
-  TermsAndConditionsUploadLoaded({
-    required this.version,
-    required this.details,
-  });
+  TermsAndConditionsUploadLoaded({required this.details});
 }
