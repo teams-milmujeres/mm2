@@ -117,4 +117,10 @@ final List<NavigationOption> navigationOptions = [
     description:
         (context) => AppLocalizations.of(context)!.complaintsDescription,
   ),
+  NavigationOption(
+    route: '/rating',
+    icon: Icons.star,
+    labelBuilder: (context) => AppLocalizations.of(context)!.rating,
+    description: (context) => AppLocalizations.of(context)!.ratingDescription,
+  ),
 ];
