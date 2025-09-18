@@ -656,6 +656,12 @@ abstract class AppLocalizations {
   /// **'Office director email'**
   String get office_director_email;
 
+  /// No description provided for @see_google_maps.
+  ///
+  /// In en, this message translates to:
+  /// **'See in Google Maps'**
+  String get see_google_maps;
+
   /// No description provided for @unregistered.
   ///
   /// In en, this message translates to:
@@ -1597,6 +1603,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Saved'**
   String get saved;
+
+  /// No description provided for @grants.
+  ///
+  /// In en, this message translates to:
+  /// **'Grants'**
+  String get grants;
+
+  /// No description provided for @grantsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Check out our grants'**
+  String get grantsDescription;
 
   /// No description provided for @terms_and_conditions.
   ///

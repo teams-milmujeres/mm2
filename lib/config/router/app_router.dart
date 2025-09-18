@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mm/presentation/screens.dart';
+import 'package:mm/presentation/screens/grants_screen.dart';
 
 GoRouter onBoardingRouter(BuildContext context) => GoRouter(
   initialLocation: '/',
@@ -67,6 +68,12 @@ GoRouter onBoardingRouter(BuildContext context) => GoRouter(
       // builder: (context, state) => const ReferenceScreen(),
       pageBuilder:
           (context, state) => buildPageTransition(const ReferenceScreen()),
+    ),
+    GoRoute(
+      path: '/grants',
+      name: 'grants',
+      // builder: (context, state) => const GrantScreen(),
+      pageBuilder: (context, state) => buildPageTransition(const GrantScreen()),
     ),
     GoRoute(
       path: '/complaints',
