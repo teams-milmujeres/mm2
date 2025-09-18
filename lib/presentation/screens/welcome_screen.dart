@@ -158,6 +158,7 @@ class AboutPage extends StatelessWidget {
                       '/mm_actions',
                       '/offices',
                       '/consulates',
+                      '/grants',
                       '/contact_us',
                       '/donate',
                     ].contains(option.route);

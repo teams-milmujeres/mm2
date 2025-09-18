@@ -93,6 +93,7 @@
   "city_email" : "City email",
   "office_director" : "Office director",
   "office_director_email" : "Office director email",
+  "see_google_maps": "See in Google Maps",
   "unregistered" : "Unregistered",
   "test_version" : "Test Version",
   "register_by_key" : "Register by key",
@@ -245,6 +246,8 @@
   "complete_information": "Complete Information",
   "please_complete_information": "Please complete the following information",
   "saved": "Saved",
+  "grants": "Grants",
+  "grantsDescription": "Check out our grants",
 
   "@_MESSAGES": {},
   "error_try_again_later" : "Error try again later.",

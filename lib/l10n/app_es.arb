@@ -93,6 +93,7 @@
   "city_email" : "Correo de la ciudad",
   "office_director" : "Director de oficina",
   "office_director_email" : "Correo del director de oficina",
+  "see_google_maps": "Ver en Google Maps",
   "unregistered" : "No registrado",
   "test_version" : "Versión de Prueba",
   "register_by_key" : "Registro por llave",
@@ -245,6 +246,8 @@
   "complete_information": "Completar informacion",
   "please_complete_information": "Por favor completar la siguiente informacion",
   "saved": "Guardado",
+  "grants": "Subvenciones",
+  "grantsDescription": "Consulta nuestras subvenciones",
 
   "@_MESSAGES": {},
   "error_try_again_later" : "Error inténtelo nuevamente más tarde.",

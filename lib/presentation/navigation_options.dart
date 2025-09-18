@@ -84,6 +84,12 @@ final List<NavigationOption> navigationOptions = [
             AppLocalizations.of(context)!.alliances_referencesDescription,
   ),
   NavigationOption(
+    route: '/grants',
+    icon: Icons.card_giftcard,
+    labelBuilder: (context) => AppLocalizations.of(context)!.grants,
+    description: (context) => AppLocalizations.of(context)!.grantsDescription,
+  ),
+  NavigationOption(
     route: '/deposits',
     icon: Icons.payments,
     labelBuilder: (context) => AppLocalizations.of(context)!.payments_refunds,

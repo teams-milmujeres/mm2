@@ -354,6 +354,7 @@ class _GeneralInfoTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final translation = AppLocalizations.of(context)!;
 
     return ListView(
       padding: const EdgeInsets.all(16),
@@ -387,49 +388,49 @@ class _GeneralInfoTab extends StatelessWidget {
         if (office.address.isNotEmpty)
           ListTile(
             leading: const Icon(Icons.location_on),
-            title: const Text('Dirección'),
+            title: Text(translation.address),
             subtitle: Text(office.address),
           ),
 
         if (office.city.isNotEmpty)
           ListTile(
             leading: const Icon(Icons.location_city),
-            title: const Text('Ciudad'),
+            title: Text(translation.city),
             subtitle: Text(office.city),
           ),
 
         if (office.phone.isNotEmpty)
           ListTile(
             leading: const Icon(Icons.phone),
-            title: const Text('Teléfono'),
+            title: Text(translation.phone),
             subtitle: Text(office.phone),
           ),
 
         if (office.poBoxForUscis.isNotEmpty)
           ListTile(
             leading: const Icon(Icons.markunread_mailbox),
-            title: const Text('PO Box (USCIS)'),
+            title: Text(translation.box_for_uscis),
             subtitle: Text(office.poBoxForUscis),
           ),
 
         if (office.mmFax != null && office.mmFax!.isNotEmpty)
           ListTile(
             leading: const Icon(Icons.print),
-            title: const Text('Fax'),
+            title: Text(translation.fax),
             subtitle: Text(office.mmFax!),
           ),
 
         if (office.cityEmail != null && office.cityEmail!.isNotEmpty)
           ListTile(
             leading: const Icon(Icons.email),
-            title: const Text('Correo de oficina'),
+            title: Text(translation.city_email),
             subtitle: Text(office.cityEmail!),
           ),
 
         if (office.officeDirector != null && office.officeDirector!.isNotEmpty)
           ListTile(
             leading: const Icon(Icons.person),
-            title: const Text('Directora de Oficina'),
+            title: Text(translation.office_director),
             subtitle: Text(office.officeDirector!),
           ),
 
@@ -437,14 +438,14 @@ class _GeneralInfoTab extends StatelessWidget {
             office.officeDirectorEmail!.isNotEmpty)
           ListTile(
             leading: const Icon(Icons.alternate_email),
-            title: const Text('Correo de la Directora'),
+            title: Text(translation.office_director_email),
             subtitle: Text(office.officeDirectorEmail!),
           ),
 
         if (office.urlGoogleMaps != null && office.urlGoogleMaps!.isNotEmpty)
           ListTile(
             leading: const Icon(Icons.map),
-            title: const Text('Ver en Google Maps'),
+            title: Text(translation.see_google_maps),
             subtitle: Text(office.urlGoogleMaps!),
             onTap: () async {
               final url = Uri.parse(office.urlGoogleMaps!);

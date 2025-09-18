@@ -288,6 +288,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get office_director_email => 'Office director email';
 
   @override
+  String get see_google_maps => 'See in Google Maps';
+
+  @override
   String get unregistered => 'Unregistered';
 
   @override
@@ -740,6 +743,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get saved => 'Saved';
+
+  @override
+  String get grants => 'Grants';
+
+  @override
+  String get grantsDescription => 'Check out our grants';
 
   @override
   String get error_try_again_later => 'Error try again later.';
