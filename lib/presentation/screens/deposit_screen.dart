@@ -232,7 +232,7 @@ class DepositCard extends StatelessWidget {
 }
 
 class RefundCard extends StatelessWidget {
-  final dynamic refund;
+  final Refund refund;
   final VoidCallback? onTap;
 
   const RefundCard({super.key, required this.refund, this.onTap});
@@ -265,28 +265,30 @@ class RefundCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        refund.office?['name'] ?? 'Sin oficina',
+                        refund.office.name ?? 'N/A',
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       const SizedBox(height: 4),
-                      Row(
-                        children: [
-                          Text(
-                            '${translation.authorized_by}: ',
-                            style: Theme.of(context).textTheme.bodyMedium
-                                ?.copyWith(fontWeight: FontWeight.bold),
-                          ),
-                          Expanded(
-                            child: Text(
-                              refund.authorizedBy ?? 'N/A',
-                              style: Theme.of(context).textTheme.bodyMedium,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ],
-                      ),
+                      refund.authorizedBy?.name != null
+                          ? Row(
+                            children: [
+                              Text(
+                                '${translation.authorized_by}: ',
+                                style: Theme.of(context).textTheme.bodyMedium
+                                    ?.copyWith(fontWeight: FontWeight.bold),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  refund.authorizedBy?.name ?? '—',
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          )
+                          : SizedBox.shrink(),
                       const SizedBox(height: 4),
                       Text(
                         formattedDate,
@@ -393,11 +395,8 @@ class RefundDetailsScreen extends StatelessWidget {
           padding: const EdgeInsets.all(25.0),
           child: ListView(
             children: [
-              DetailTile(
-                title: translate.office,
-                value: refund.office?['name'],
-              ),
-              if (refund.amount.isNotEmpty)
+              DetailTile(title: translate.office, value: refund.office.name),
+              if (refund.amount > 0)
                 DetailTile(
                   title: translate.amount,
                   value: "- \$$amount",
@@ -405,16 +404,20 @@ class RefundDetailsScreen extends StatelessWidget {
                 ),
               DetailTile(
                 title: translate.date_send,
-                value: refund.dateSent.isNotEmpty ? refund.dateSent : '—',
+                value: refund.dateSent ?? '—',
               ),
-              DetailTile(
-                title: translate.authorized_by,
-                value: refund.authorizedBy?['name'],
-              ),
-              DetailTile(
-                title: translate.send_by,
-                value: refund.sentBy.isNotEmpty ? refund.sentBy : '—',
-              ),
+              refund.authorizedBy != null
+                  ? DetailTile(
+                    title: translate.authorized_by,
+                    value: refund.authorizedBy?.name ?? '—',
+                  )
+                  : const SizedBox.shrink(),
+              refund.sentBy != null
+                  ? DetailTile(
+                    title: translate.send_by,
+                    value: refund.sentBy ?? '—',
+                  )
+                  : const SizedBox.shrink(),
             ],
           ),
         ),
