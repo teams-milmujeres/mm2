@@ -22,7 +22,6 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
   @override
   Widget build(BuildContext context) {
     final translate = AppLocalizations.of(context)!;
-    final authState = context.watch<AuthBloc>().state;
 
     return BlocProvider(
       create: (_) {
