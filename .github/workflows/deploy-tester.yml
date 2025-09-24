@@ -1,0 +1,73 @@
+name: Upload App City to tester
+
+on:
+  # push:
+  #   branches:
+  #     - master
+  workflow_dispatch:
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v3
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+          flutter-version: '3.32.0'
+      
+      - name: Clean Gradle cache
+        run: rm -rf ~/.gradle/caches
+
+      - name: Clean Flutter build
+        run: flutter clean
+
+      - name: Install dependencies
+        run: flutter packages pub get
+        
+      - name: Clean and get dependencies
+        run: |
+          flutter clean
+          flutter pub get
+
+      - name: Install Localizations
+        run:
+          flutter gen-l10n
+
+      - name: Generate icons
+        run:
+          flutter pub run flutter_launcher_icons
+
+      - name: Generate splash screen
+        run: flutter pub run flutter_native_splash:create
+
+      - name: Build Flutter web
+        run: |
+          flutter build web --release 
+
+       # 4. Limpiar carpeta en el servidor
+      - name: Limpiar carpeta remota
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            echo "Limpiando carpeta /home/testermm/www/appcity..."
+            rm -rf /home/testermm/www/appcity/*
+            echo "Carpeta limpia!"
+
+      # 5. Copiar archivos por SCP
+      - name: Deploy a servidor por SCP
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          source: "build/web/*"
+          target: "/home/testermm/www/appcity/"
+
