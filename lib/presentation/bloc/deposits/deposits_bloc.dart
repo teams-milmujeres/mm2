@@ -23,7 +23,7 @@ class DepositsBloc extends Bloc<DepositsEvent, DepositsState> {
       final token = await _secureStorage.read(key: 'token');
 
       final res = await client.dio.post(
-        '/depositss',
+        '/app-deposits',
         data: {'client_id': event.clientId},
         options: Options(
           headers: {

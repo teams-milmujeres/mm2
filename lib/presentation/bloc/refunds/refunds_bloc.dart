@@ -23,7 +23,7 @@ class RefundsBloc extends Bloc<RefundsEvent, RefundsState> {
       final token = await _secureStorage.read(key: 'token');
 
       final res = await client.dio.post(
-        '/refunds',
+        '/app-refunds',
         data: {'client_id': event.clientId},
         options: Options(headers: {'Authorization': 'Bearer $token'}),
       );
