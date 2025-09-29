@@ -9,6 +9,10 @@ on:
       version_name:
         description: 'Enter the version name ej. 1.0.0'
         required: true
+
+permissions:
+  contents: write
+  
 jobs:
    build:
     name: Build
