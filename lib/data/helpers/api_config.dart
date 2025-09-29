@@ -9,6 +9,7 @@ class AppConfig {
     'testing1': dotenv.env['TEST1_API_URL'] ?? '',
     'testing2': dotenv.env['TEST2_API_URL'] ?? '',
     'production': dotenv.env['PROD_API_URL'] ?? '',
+    'city': dotenv.env['CITY_API_URL'] ?? '',
   };
 
   static String get baseUrl {
