@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 // Bloc
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mm/presentation/bloc/auth/auth_bloc.dart';
+import 'package:mm/presentation/bloc/notifications/notifications_bloc.dart';
 // Localization
 import 'package:mm/l10n/app_localizations.dart';
 // Navigation
@@ -43,6 +44,9 @@ class _LoginScreenState extends State<LoginScreen> {
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthAuthenticated) {
+            final notificationsBloc = context.read<NotificationBloc>();
+            notificationsBloc
+                .add(InitializeNotificationsEvent(state.user.id));
             ScaffoldMessenger.of(
               context,
             ).showSnackBar(SnackBar(content: Text(translation.login)));
