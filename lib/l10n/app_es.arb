@@ -1,200 +1,200 @@
 {
-  "@_DEFAULT_WORDS": {},
-  "welcome_title" : "Bienvenido",
-  "mm" : "Mil Mujeres",
-  "login" : "Entrar",
-  "offices" : "Oficinas",
-  "office" : "Oficina",
-  "consulate" : "Consulado",
-  "consulates" : "Consulados",
-  "contact_us" : "Contactenos",
-  "donate" : "Donar",
-  "logout" : "Salir",
-  "home" : "Inicio",
-  "profile" : "Perfil",
-  "dashboard" : "Tablero",
-  "alliances_references" : "Alianzas y Referencias",
-  "alliances" : "Alianzas",
-  "reference" : "Referencia",
-  "references" : "Referencias",
-  "complaint" : "Queja",
-  "complaints" : "Quejas",
-  "logout_success" : "Su sessión ha sido cerrada",
-  "access_key" : "Llave de acceso",
-  "email_or_phone_number" : "Correo o número de teléfono",
-  "password" : "Contraseña",
-  "new_password" : "Nueva contraseña",
-  "sign_up" : "Registrarse",
-  "sign_in" : "Iniciar sesión",
-  "first_name" : "Nombre",
-  "name" : "Nombre",
-  "middle_name" : "Segundo nombre",
-  "last_name" : "Apellidos",
-  "username" : "Nombre de usuario",
-  "user" : "Usuario",
-  "email" : "Correo",
-  "phone" : "Teléfono",
-  "password_confirmation" : "Confirmar contraseña",
-  "register" : "Registro",
-  "two" : "Dos",
-  "three" : "Tres",
-  "four" : "Cuatro",
-  "five" : "Cinco",
-  "six" : "Seis",
-  "seven" : "Siete",
-  "eight" : "Ocho",
-  "nine" : "Nueve",
-  "ten" : "Diez",
-  "about" : "Acerca",
-  "executive_team" : "Equipo Ejecutivo",
-  "legal_team" : "Equipo Legal",
-  "loading" : "Cargando",
-  "executive_director" : "Director Ejecutivo",
-  "deputy_director" : "Director Adjunto",
-  "associate_director" : "Director Asociado",
-  "legal_director" : "Director Legal",
-  "national_deputy_director" : "Subdirectora Nacional",
-  "senior_executive" : "Ejecutiva Sénior",
-  "executive_secretary" : "Secretaria Ejecutiva",
-  "senior_attorney" : "Abogado principal",
-  "information" : "Información",
-  "emails" : "Correos",
-  "addresses" : "Direcciones",
-  "phones" : "Teléfonos",
-  "edit_profile" : "Editar perfil",
-  "basic_information" : "Información básica",
-  "date_birth" : "Fecha de nacimiento",
-  "country_birth" : "País de nacimiento",
-  "select_country" : "Selecciona el país",
-  "select_citizenship" : "Selecciona la nacionalidad",
-  "select" : "Selecciona",
-  "citizenship" : "Nacionalidad",
-  "note" : "Nota",
-  "delete_confirm" : "Confirmar eliminar",
-  "yes" : "Si",
-  "no" : "No",
-  "edit_email" : "Editar correo",
-  "edit_phone" : "Editar teléfono",
-  "edit_address" : "Editar dirección",
-  "cancel" : "Cancelar",
-  "save" : "Guardar",
-  "is_empty" : "Está vacío",
-  "add_email" : "Adicionar correo",
-  "unsafe" : "Inseguro",
-  "mailing_address" : "Dirección de envío",
-  "physical_address" : "Dirección física",
-  "add_address" : "Adicionar dirección",
-  "add_phone" : "Adicionar teléfono",
-  "address" : "Dirección",
-  "map" : "Mapa",
-  "city" : "Ciudad",
-  "box_for_uscis" : "BOX",
-  "fax" : "Fax",
-  "city_email" : "Correo de la ciudad",
-  "office_director" : "Director de oficina",
-  "office_director_email" : "Correo del director de oficina",
+  "@@locale": "es",
+  "welcome_title": "Bienvenido",
+  "mm": "Mil Mujeres",
+  "login": "Entrar",
+  "offices": "Oficinas",
+  "office": "Oficina",
+  "consulate": "Consulado",
+  "consulates": "Consulados",
+  "contact_us": "Contactenos",
+  "donate": "Donar",
+  "logout": "Salir",
+  "home": "Inicio",
+  "profile": "Perfil",
+  "dashboard": "Tablero",
+  "alliances_references": "Alianzas y Referencias",
+  "alliances": "Alianzas",
+  "reference": "Referencia",
+  "references": "Referencias",
+  "complaint": "Queja",
+  "complaints": "Quejas",
+  "logout_success": "Su sessión ha sido cerrada",
+  "access_key": "Llave de acceso",
+  "email_or_phone_number": "Correo o número de teléfono",
+  "password": "Contraseña",
+  "new_password": "Nueva contraseña",
+  "sign_up": "Registrarse",
+  "sign_in": "Iniciar sesión",
+  "first_name": "Nombre",
+  "name": "Nombre",
+  "middle_name": "Segundo nombre",
+  "last_name": "Apellidos",
+  "username": "Nombre de usuario",
+  "user": "Usuario",
+  "email": "Correo",
+  "phone": "Teléfono",
+  "password_confirmation": "Confirmar contraseña",
+  "register": "Registro",
+  "two": "Dos",
+  "three": "Tres",
+  "four": "Cuatro",
+  "five": "Cinco",
+  "six": "Seis",
+  "seven": "Siete",
+  "eight": "Ocho",
+  "nine": "Nueve",
+  "ten": "Diez",
+  "about": "Acerca",
+  "executive_team": "Equipo Ejecutivo",
+  "legal_team": "Equipo Legal",
+  "loading": "Cargando",
+  "executive_director": "Director Ejecutivo",
+  "deputy_director": "Director Adjunto",
+  "associate_director": "Director Asociado",
+  "legal_director": "Director Legal",
+  "national_deputy_director": "Subdirectora Nacional",
+  "senior_executive": "Ejecutiva Sénior",
+  "executive_secretary": "Secretaria Ejecutiva",
+  "senior_attorney": "Abogado principal",
+  "information": "Información",
+  "emails": "Correos",
+  "addresses": "Direcciones",
+  "phones": "Teléfonos",
+  "edit_profile": "Editar perfil",
+  "basic_information": "Información básica",
+  "date_birth": "Fecha de nacimiento",
+  "country_birth": "País de nacimiento",
+  "select_country": "Selecciona el país",
+  "select_citizenship": "Selecciona la nacionalidad",
+  "select": "Selecciona",
+  "citizenship": "Nacionalidad",
+  "note": "Nota",
+  "delete_confirm": "Confirmar eliminar",
+  "yes": "Si",
+  "no": "No",
+  "edit_email": "Editar correo",
+  "edit_phone": "Editar teléfono",
+  "edit_address": "Editar dirección",
+  "cancel": "Cancelar",
+  "save": "Guardar",
+  "is_empty": "Está vacío",
+  "add_email": "Adicionar correo",
+  "unsafe": "Inseguro",
+  "mailing_address": "Dirección de envío",
+  "physical_address": "Dirección física",
+  "add_address": "Adicionar dirección",
+  "add_phone": "Adicionar teléfono",
+  "address": "Dirección",
+  "map": "Mapa",
+  "city": "Ciudad",
+  "box_for_uscis": "BOX",
+  "fax": "Fax",
+  "city_email": "Correo de la ciudad",
+  "office_director": "Director de oficina",
+  "office_director_email": "Correo del director de oficina",
   "see_google_maps": "Ver en Google Maps",
-  "unregistered" : "No registrado",
-  "test_version" : "Versión de Prueba",
-  "register_by_key" : "Registro por llave",
-  "key_code" : "Código de llave",
-  "code" : "Código",
-  "verify" : "Verificar",
-  "normal_register" : "Registro normal",
-  "i_have_account" : "Ya tengo cuenta",
-  "active_account" : "Activar cuenta",
-  "activation_code" : "Código de activación",
-  "form" : "Formulario",
-  "answers" : "Respuestas",
-  "answer" : "Respuesta",
-  "subject" : "Asunto",
-  "message" : "Mensaje",
-  "messages" : "mensajes",
-  "send" : "Enviar",
-  "go_back" : "Ir Atrás",
-  "write_another" : "Escribir otra",
-  "pending" : "Pendiente",
-  "answered" : "Respondido",
-  "created_at" : "Creado",
-  "updated_at" : "Actualizado",
-  "organization" : "Organización",
-  "organizations" : "organizaciones",
-  "contacts" : "Contactos",
-  "contact" : "Contacto",
-  "website" : "Sitio web",
-  "state" : "Estado",
-  "states" : "Estados",
-  "country" : "País",
-  "countries" : "Paises",
-  "search"  : "Buscar",
-  "password_recovery"  : "Recuperar contraseña",
-  "username_email_phone"  : "Usuario, correo o teléfono",
-  "code_example" : "Código de ejemplo: X8EMSP",
-  "change_your_password" : "Cambie su contraseña",
-  "to" : "a",
-  "follow_us" : "Síguenos",
-  "responsibility" : "Responsable",
-  "date" : "Fecha",
-  "setting" : "Configuración",
-  "settings" : "Configuraciones",
-  "option" : "Opción",
-  "options" : "Opciones",
-  "language" : "Idioma",
-  "spanish" : "Español",
-  "english" : "Inglés",
-  "grievance" : "Queja",
-  "grievances" : "Quejas",
-  "comment" : "Comentario",
-  "comments" : "Comentarios",
-  "deposit" : "Depósito",
-  "deposits" : "Depósitos",
+  "unregistered": "No registrado",
+  "test_version": "Versión de Prueba",
+  "register_by_key": "Registro por llave",
+  "key_code": "Código de llave",
+  "code": "Código",
+  "verify": "Verificar",
+  "normal_register": "Registro normal",
+  "i_have_account": "Ya tengo cuenta",
+  "active_account": "Activar cuenta",
+  "activation_code": "Código de activación",
+  "form": "Formulario",
+  "answers": "Respuestas",
+  "answer": "Respuesta",
+  "subject": "Asunto",
+  "message": "Mensaje",
+  "messages": "mensajes",
+  "send": "Enviar",
+  "go_back": "Ir Atrás",
+  "write_another": "Escribir otra",
+  "pending": "Pendiente",
+  "answered": "Respondido",
+  "created_at": "Creado",
+  "updated_at": "Actualizado el",
+  "organization": "Organización",
+  "organizations": "organizaciones",
+  "contacts": "Contactos",
+  "contact": "Contacto",
+  "website": "Sitio web",
+  "state": "Estado",
+  "states": "Estados",
+  "country": "País",
+  "countries": "Paises",
+  "search": "Buscar",
+  "password_recovery": "Recuperar contraseña",
+  "username_email_phone": "Usuario, correo o teléfono",
+  "code_example": "Código de ejemplo: X8EMSP",
+  "change_your_password": "Cambie su contraseña",
+  "to": "a",
+  "follow_us": "Síguenos",
+  "responsibility": "Responsable",
+  "date": "Fecha",
+  "setting": "Configuración",
+  "settings": "Configuraciones",
+  "option": "Opción",
+  "options": "Opciones",
+  "language": "Idioma",
+  "spanish": "Español",
+  "english": "Inglés",
+  "grievance": "Queja",
+  "grievances": "Quejas",
+  "comment": "Comentario",
+  "comments": "Comentarios",
+  "deposit": "Depósito",
+  "deposits": "Depósitos",
   "payments": "Pagos",
-  "refund" : "Reembolso",
-  "refunds" : "Reeembolsos",
-  "payments_refunds" : "Pagos y reembolsos",
-  "authorized_by" : "Autorizado por",
-  "amount" : "Monto",
-  "date_send" : "Fecha de envío",
-  "send_by" : "Enviado por",
-  "mm_fees" : "Tarifa de Mil Mujeres",
-  "payment_method" : "Método de pago",
-  "note_or_service_paid" : "Nota o servicio pagado",
-  "deposit_type" : "Tipo de depósito",
-  "credit_card_person_name" : "Nombre de la persona de la tarjeta de crédito",
-  "staate" : "Estado",
-  "staates" : "Estados",
-  "stage" : "Etapa",
-  "stages" : "Etapas",
-  "application" : "Aplicación",
-  "caases" : "Casos",
-  "caase" : "Caso",
-  "caases_stage" : "Etapa del caso",
-  "activity_log" : "Registro de actividades",
-  "description" : "Descripción",
-  "upload" : "Subir",
-  "uploads" : "Cargas",
-  "upload_file" : "Subir archivo",
-  "upload_files" : "Subir archivos",
-  "remove_account" : "Eliminar cuenta",
-  "account" : "Cuenta",
-  "remove" : "Eliminar",
-  "status" : "Estado",
-  "document_request" : "Solicitud de documento",
-  "confirmed" : "Confirmado",
-  "pending_review" : "Pendiente de revición",
-  "suggestion" : "Sugerencia",
-  "suggestions" : "Sugerencias",
-  "registration_request" : "Solicitud de registro",
-  "accept" : "Aceptar",
-  "rejected" : "Rechazado",
-  "financial_manager" : "Gerente Financiero",
-  "human_resources_manager" : "Gerente Recursos Humanos",
-  "information_technology_coordinator" : "Coordinador Tecnologías de la información",
-  "public_relations_coordinator" : "Coordinadora Relaciones Públicas",
-  "corporate_communications_coordinator" : "Coordinadora de Comunicaciones Corporativas",
+  "refund": "Reembolso",
+  "refunds": "Reeembolsos",
+  "payments_refunds": "Pagos y reembolsos",
+  "authorized_by": "Autorizado por",
+  "amount": "Monto",
+  "date_send": "Fecha de envío",
+  "send_by": "Enviado por",
+  "mm_fees": "Tarifa de Mil Mujeres",
+  "payment_method": "Método de pago",
+  "note_or_service_paid": "Nota o servicio pagado",
+  "deposit_type": "Tipo de depósito",
+  "credit_card_person_name": "Nombre de la persona de la tarjeta de crédito",
+  "staate": "Estado",
+  "staates": "Estados",
+  "stage": "Etapa",
+  "stages": "Etapas",
+  "application": "Aplicación",
+  "caases": "Casos",
+  "caase": "Caso",
+  "caases_stage": "Etapa del caso",
+  "activity_log": "Registro de actividades",
+  "description": "Descripción",
+  "upload": "Subir",
+  "uploads": "Cargas",
+  "upload_file": "Subir archivo",
+  "upload_files": "Subir archivos",
+  "remove_account": "Eliminar cuenta",
+  "account": "Cuenta",
+  "remove": "Eliminar",
+  "status": "Estado",
+  "document_request": "Solicitud de documento",
+  "confirmed": "Confirmado",
+  "pending_review": "Pendiente de revición",
+  "suggestion": "Sugerencia",
+  "suggestions": "Sugerencias",
+  "registration_request": "Solicitud de registro",
+  "accept": "Aceptar",
+  "rejected": "Rechazado",
+  "financial_manager": "Gerente Financiero",
+  "human_resources_manager": "Gerente Recursos Humanos",
+  "information_technology_coordinator": "Coordinador Tecnologías de la información",
+  "public_relations_coordinator": "Coordinadora Relaciones Públicas",
+  "corporate_communications_coordinator": "Coordinadora de Comunicaciones Corporativas",
   "events": "Eventos",
-  "important_events" : "Eventos importantes",
-  "important_blogs" : "Blogs importantes",
+  "important_events": "Eventos importantes",
+  "important_blogs": "Blogs importantes",
   "event_type": "Tipo de evento",
   "news": "Noticias",
   "all": "Todos",
@@ -207,8 +207,6 @@
   "case_details": "Detalles del Caso",
   "see_details": "Ver Detalles",
   "case_type": "Tipo de caso",
-  "status": "Estado",
-  "updated_at": "Actualizado el",
   "progress_chart": "Progreso del caso",
   "state_pending": "Creado",
   "state_reviewed": "Revisado",
@@ -218,7 +216,7 @@
   "state_deleted": "Eliminado",
   "last_state": "Ultimo estado",
   "instructions": "Instrucciones",
-  "view_instructions" : "Ver Instrucciones",
+  "view_instructions": "Ver Instrucciones",
   "document_type": "Tipo de documento",
   "donate_message": "¡Ayudanos a ayudar a mas gente!",
   "error_coordinates": "Error al cargar coordenadas",
@@ -257,107 +255,102 @@
   "grantsDescription": "Consulta nuestras subvenciones",
   "terms_and_conditions": "Términos y Condiciones",
   "accept_terms_and_conditions": "Aceptar Términos y Condiciones",
-  "signature_success": "Los términos y condiciones han sido aceptados correctamente.", 
-
-
-  "@_MESSAGES": {},
-  "error_try_again_later" : "Error inténtelo nuevamente más tarde.",
-  "access_key_txt" : "Si actualmente eres cliente de Mil Mujeres, por favor solicita \n \n tu clave de acceso al 202 808 3311",
-  "contact_to_request" : "Contacta con Mil Mujeres para solicitar tu registro o activar tu cuenta al 202 808 3311.",
-  "have_an_account" : "¿Tiene usted una cuenta?",
-  "forgot_password" : "¿Olvidó su contraseña?",
-  "mm_about_txt" : "Mil Mujeres es una organización sin fines de lucro que se fundó en 2007 para abordar la creciente necesidad de servicios legales bilingües para la comunidad latina en los Estados Unidos con énfasis en ayudar a sobrevivientes de delitos violentos, incluida la violencia doméstica, la agresión sexual y la agresión. \n \n En los últimos años hemos ayudado a más de cinco mil personas con nuestros servicios legales ya más de veinte mil personas con nuestros servicios de información en todo el territorio nacional.",
+  "signature_success": "Los términos y condiciones han sido aceptados correctamente.",
+  "notifications": "Notificaciones",
+  "error_try_again_later": "Error inténtelo nuevamente más tarde.",
+  "access_key_txt": "Si actualmente eres cliente de Mil Mujeres, por favor solicita \n \n tu clave de acceso al 202 808 3311",
+  "contact_to_request": "Contacta con Mil Mujeres para solicitar tu registro o activar tu cuenta al 202 808 3311.",
+  "have_an_account": "¿Tiene usted una cuenta?",
+  "forgot_password": "¿Olvidó su contraseña?",
+  "mm_about_txt": "Mil Mujeres es una organización sin fines de lucro que se fundó en 2007 para abordar la creciente necesidad de servicios legales bilingües para la comunidad latina en los Estados Unidos con énfasis en ayudar a sobrevivientes de delitos violentos, incluida la violencia doméstica, la agresión sexual y la agresión. \n \n En los últimos años hemos ayudado a más de cinco mil personas con nuestros servicios legales ya más de veinte mil personas con nuestros servicios de información en todo el territorio nacional.",
   "mm_description": "Mil Mujeres es una organización sin fines de lucro que se fundó en 2007 para abordar la creciente necesidad de servicios legales bilingües para la comunidad latina en los Estados Unidos con énfasis en ayudar a sobrevivientes de delitos violentos, incluida la violencia doméstica, la agresión sexual y la agresión.",
   "mm_what_we_do": "En los últimos años hemos ayudado a más de cinco mil personas con nuestros servicios legales ya más de veinte mil personas con nuestros servicios de información en todo el territorio nacional.",
-  "already_have_an_account" : "¡Ya tienes una cuenta!",
-  "dont_have_an_account" : "¿No tienes una cuenta?",
-  "please_login_necessary" : "El inicio de sessión es necesario.",
-  "information_updated" : "Información actualizada.",
-  "error_updating_try_in_other_time" : "Error al actualizar inténtelo en otro momento.",
-  "accepted_key_please_update_your_password" : "Clave aceptada, actualice su contraseña.",
-  "error_key_not_found" : "Error llave no encontrada.",
-  "account_updated_go_to_login_page" : "Cuenta actualizada, vaya a la página de inicio de sesión.",
-  "check_your_email_inbox_txt" : "Revisa la bandeja de entrada de tu correo electrónico y activa la cuenta con el código que te enviamos.",
-  "server_error_loading_contacts" : "Error del servidor al cargar contactos.",
-  "your_message_has_been_send" : "Su mensaje ha sido enviado.",
-  "contribute_to_our_cause" : "¡Contribuye a nuestra causa!",
-  "nothing_to_show" : "Nada que mostrar.",
-  "write_username_email_or_recover_password" : "Escriba su nombre de usuario, correo o teléfono para recuperar su contraseña.",
-  "write_the_code_that_we_send_to_your_email" : "Escriba el código que le hemos enviado a su correo electrónico.",
-  "password_updated_successfully" : "Contraseña actualizada satisfactoriamente!",
-  "your_complain_has_been_send" : "Su queja ha sido enviada.",
-  "wrong_activation_code" : "Código de activación incorrecto.",
-  "your_grievance_has_been_send" : "Su queja ha sido enviada.",
-  "are_you_sure_you_want_to_delete_your_account" : "¿Estas seguro que deseas eliminar tu cuenta?",
-  "your_account_has_been_removed" : "Su cuenta ha sido eliminada",
-  "the_answer_is_wrong" : "La respuesta es incorrecta",
-  "username_or_password_incorrect" : "Usuario y/o contraseña incorrecta",
-  "deleting_account" : "Eliminando cuenta",
-  "this_record_already_exist" : "Este registro ya existe",
-  "your_evaluation_request_in_progress" : "Su solicitud de evaluación está en proceso, en las próximas horas será contactado por el correo o  número telefónico suministrado para tomar sus datos y revisar su caso.",
-  "your_case_is_in_evaluation" : "Su caso esta en un proceso de evaluacion, al finalizar esta etapa, lo contactaremos y visualizara mas informacion",
-  "internet_error": "No tiene conexión a internet. Por favor, verifica tu conexión.",
+  "already_have_an_account": "¡Ya tienes una cuenta!",
+  "dont_have_an_account": "¿No tienes una cuenta?",
+  "please_login_necessary": "El inicio de sessión es necesario.",
+  "information_updated": "Información actualizada.",
+  "error_updating_try_in_other_time": "Error al actualizar inténtelo en otro momento.",
+  "accepted_key_please_update_your_password": "Clave aceptada, actualice su contraseña.",
+  "error_key_not_found": "Error llave no encontrada.",
+  "account_updated_go_to_login_page": "Cuenta actualizada, vaya a la página de inicio de sesión.",
+  "check_your_email_inbox_txt": "Revisa la bandeja de entrada de tu correo electrónico y activa la cuenta con el código que te enviamos.",
+  "server_error_loading_contacts": "Error del servidor al cargar contactos.",
+  "your_message_has_been_send": "Su mensaje ha sido enviado.",
+  "contribute_to_our_cause": "¡Contribuye a nuestra causa!",
+  "nothing_to_show": "Nada que mostrar.",
+  "write_username_email_or_recover_password": "Escriba su nombre de usuario, correo o teléfono para recuperar su contraseña.",
+  "write_the_code_that_we_send_to_your_email": "Escriba el código que le hemos enviado a su correo electrónico.",
+  "password_updated_successfully": "Contraseña actualizada satisfactoriamente!",
+  "your_complain_has_been_send": "Su queja ha sido enviada.",
+  "wrong_activation_code": "Código de activación incorrecto.",
+  "your_grievance_has_been_send": "Su queja ha sido enviada.",
+  "are_you_sure_you_want_to_delete_your_account": "¿Estas seguro que deseas eliminar tu cuenta?",
+  "your_account_has_been_removed": "Su cuenta ha sido eliminada",
+  "the_answer_is_wrong": "La respuesta es incorrecta",
+  "username_or_password_incorrect": "Usuario y/o contraseña incorrecta",
+  "deleting_account": "Eliminando cuenta",
+  "this_record_already_exist": "Este registro ya existe",
+  "your_evaluation_request_in_progress": "Su solicitud de evaluación está en proceso, en las próximas horas será contactado por el correo o  número telefónico suministrado para tomar sus datos y revisar su caso.",
+  "your_case_is_in_evaluation": "Su caso esta en un proceso de evaluacion, al finalizar esta etapa, lo contactaremos y visualizara mas informacion",
   "visit_events": "Para mas eventos o detalles, visita la sección de eventos.",
   "mm_donate_txt": "Tus donaciones proveerán un apoyo importante en el propósito de defender los derechos de los inmigrantes y la protección de las víctimas de violencia doméstica y crímenes de género.",
   "terms_and_conditions_text": "1. Los documentos que usted cargue en la aplicación serán utilizados exclusivamente para la revisión, análisis y seguimiento del proceso legal correspondiente a su caso.\n\n2. Usted declara que los documentos que suba son verídicos, completos y de su legítima titularidad, o que cuenta con la autorización necesaria para proporcionarlos. Mil Mujeres no se hace responsable por la veracidad ni autenticidad de la información contenida en los archivos cargados.\n\n3. Todos los documentos serán tratados con estricta confidencialidad y de acuerdo con la normativa vigente en materia de protección de datos personales. Solo el personal autorizado de Mil Mujeres tendrá acceso a su información.\n\n4. Queda prohibido subir documentos que no estén relacionados con el proceso legal correspondiente, que contengan material ofensivo, ilegal, o que infrinja derechos de terceros, o que incluyan virus, malware o cualquier elemento que pueda dañar el sistema.\n\n5. Mil Mujeres no será responsable por errores derivados de la carga de documentos ilegibles, incompletos, falsificados o entregados fuera de los plazos establecidos para el proceso legal.\n\n6. Al cargar documentos en la aplicación, usted otorga su consentimiento expreso para que estos sean revisados, almacenados y utilizados por Mil Mujeres únicamente para los fines legales relacionados con su caso.\n\n7. Mil Mujeres podrá modificar estos términos y condiciones cuando sea necesario, garantizando siempre la protección y confidencialidad de la información. Se notificará oportunamente a los usuarios sobre cualquier cambio.",
   "terms_and_conditions_summary": "Tus documentos se usarán solo para tu caso legal, deben ser verídicos y estarán protegidos con confidencialidad. No subas archivos ilegales, falsos o dañinos. Al subirlos, aceptas su uso para fines legales y que los términos puedan cambiar.",
   "read_full": "Leer completo para aceptar",
-
-  "@_VALIDATIONS": {},
-  "is_required" : "{item} es requerido",
+  "is_required": "{item} es requerido",
   "@is_required": {
-    "description" : "Validating any input",
-    "placeholders" : {
-      "item" : {
-        "type" : "String"
+    "description": "Validating any input",
+    "placeholders": {
+      "item": {
+        "type": "String"
       }
     }
   },
-  "fewest_characters" : "{itemq} es la menor cantidad de caracteres",
-  "@fewest_characters" : {
-    "description" : "Minim length",
-    "placeholders" : {
-      "itemq" : {
-        "type" : "String"
+  "fewest_characters": "{itemq} es la menor cantidad de caracteres",
+  "@fewest_characters": {
+    "description": "Minim length",
+    "placeholders": {
+      "itemq": {
+        "type": "String"
       }
     }
   },
-  "must_have" : "{item_mh1} debe tener {item_mh2} caractéres",
-  "@must_have" : {
-    "description" : "Exact length",
-    "placeholders" : {
-      "item_mh1" : {
-        "type" : "String"
+  "must_have": "{item_mh1} debe tener {item_mh2} caractéres",
+  "@must_have": {
+    "description": "Exact length",
+    "placeholders": {
+      "item_mh1": {
+        "type": "String"
       },
-      "item_mh2" : {
-        "type" : "String"
+      "item_mh2": {
+        "type": "String"
       }
     }
   },
-  "not_match" : "{itemnm} no coincide",
-  "@not_match" : {
-    "description" : "Not match",
-    "placeholders" : {
-      "itemnm" : {
-        "type" : "String"
+  "not_match": "{itemnm} no coincide",
+  "@not_match": {
+    "description": "Not match",
+    "placeholders": {
+      "itemnm": {
+        "type": "String"
       }
     }
   },
-  "enter_valid" : "Introduzca {itemv} válida",
-  "@enter_valid" : {
-    "description" : "Enter valid item",
-    "placeholders" : {
-      "itemv" : {
-        "type" : "String"
+  "enter_valid": "Introduzca {itemv} válida",
+  "@enter_valid": {
+    "description": "Enter valid item",
+    "placeholders": {
+      "itemv": {
+        "type": "String"
       }
     }
   },
-  "are_you_sure_delete" : "Estas seguro que deseas eliminar {iteme}?",
-  "@are_you_sure_delete" : {
-    "description" : "Are you sure to delete item",
-    "placeholders" : {
-      "iteme" : {
-        "type" : "String"
+  "are_you_sure_delete": "Estas seguro que deseas eliminar {iteme}?",
+  "@are_you_sure_delete": {
+    "description": "Are you sure to delete item",
+    "placeholders": {
+      "iteme": {
+        "type": "String"
       }
     }
   },
@@ -368,5 +361,896 @@
         "type": "String"
       }
     }
+  },
+  "@welcome_title": {
+    "description": "Auto-added metadata for \"welcome_title\"."
+  },
+  "@mm": {
+    "description": "Auto-added metadata for \"mm\"."
+  },
+  "@login": {
+    "description": "Auto-added metadata for \"login\"."
+  },
+  "@offices": {
+    "description": "Auto-added metadata for \"offices\"."
+  },
+  "@office": {
+    "description": "Auto-added metadata for \"office\"."
+  },
+  "@consulate": {
+    "description": "Auto-added metadata for \"consulate\"."
+  },
+  "@consulates": {
+    "description": "Auto-added metadata for \"consulates\"."
+  },
+  "@contact_us": {
+    "description": "Auto-added metadata for \"contact_us\"."
+  },
+  "@donate": {
+    "description": "Auto-added metadata for \"donate\"."
+  },
+  "@logout": {
+    "description": "Auto-added metadata for \"logout\"."
+  },
+  "@home": {
+    "description": "Auto-added metadata for \"home\"."
+  },
+  "@profile": {
+    "description": "Auto-added metadata for \"profile\"."
+  },
+  "@dashboard": {
+    "description": "Auto-added metadata for \"dashboard\"."
+  },
+  "@alliances_references": {
+    "description": "Auto-added metadata for \"alliances_references\"."
+  },
+  "@alliances": {
+    "description": "Auto-added metadata for \"alliances\"."
+  },
+  "@reference": {
+    "description": "Auto-added metadata for \"reference\"."
+  },
+  "@references": {
+    "description": "Auto-added metadata for \"references\"."
+  },
+  "@complaint": {
+    "description": "Auto-added metadata for \"complaint\"."
+  },
+  "@complaints": {
+    "description": "Auto-added metadata for \"complaints\"."
+  },
+  "@logout_success": {
+    "description": "Auto-added metadata for \"logout_success\"."
+  },
+  "@access_key": {
+    "description": "Auto-added metadata for \"access_key\"."
+  },
+  "@email_or_phone_number": {
+    "description": "Auto-added metadata for \"email_or_phone_number\"."
+  },
+  "@password": {
+    "description": "Auto-added metadata for \"password\"."
+  },
+  "@new_password": {
+    "description": "Auto-added metadata for \"new_password\"."
+  },
+  "@sign_up": {
+    "description": "Auto-added metadata for \"sign_up\"."
+  },
+  "@sign_in": {
+    "description": "Auto-added metadata for \"sign_in\"."
+  },
+  "@first_name": {
+    "description": "Auto-added metadata for \"first_name\"."
+  },
+  "@name": {
+    "description": "Auto-added metadata for \"name\"."
+  },
+  "@middle_name": {
+    "description": "Auto-added metadata for \"middle_name\"."
+  },
+  "@last_name": {
+    "description": "Auto-added metadata for \"last_name\"."
+  },
+  "@username": {
+    "description": "Auto-added metadata for \"username\"."
+  },
+  "@user": {
+    "description": "Auto-added metadata for \"user\"."
+  },
+  "@email": {
+    "description": "Auto-added metadata for \"email\"."
+  },
+  "@phone": {
+    "description": "Auto-added metadata for \"phone\"."
+  },
+  "@password_confirmation": {
+    "description": "Auto-added metadata for \"password_confirmation\"."
+  },
+  "@register": {
+    "description": "Auto-added metadata for \"register\"."
+  },
+  "@two": {
+    "description": "Auto-added metadata for \"two\"."
+  },
+  "@three": {
+    "description": "Auto-added metadata for \"three\"."
+  },
+  "@four": {
+    "description": "Auto-added metadata for \"four\"."
+  },
+  "@five": {
+    "description": "Auto-added metadata for \"five\"."
+  },
+  "@six": {
+    "description": "Auto-added metadata for \"six\"."
+  },
+  "@seven": {
+    "description": "Auto-added metadata for \"seven\"."
+  },
+  "@eight": {
+    "description": "Auto-added metadata for \"eight\"."
+  },
+  "@nine": {
+    "description": "Auto-added metadata for \"nine\"."
+  },
+  "@ten": {
+    "description": "Auto-added metadata for \"ten\"."
+  },
+  "@about": {
+    "description": "Auto-added metadata for \"about\"."
+  },
+  "@executive_team": {
+    "description": "Auto-added metadata for \"executive_team\"."
+  },
+  "@legal_team": {
+    "description": "Auto-added metadata for \"legal_team\"."
+  },
+  "@loading": {
+    "description": "Auto-added metadata for \"loading\"."
+  },
+  "@executive_director": {
+    "description": "Auto-added metadata for \"executive_director\"."
+  },
+  "@deputy_director": {
+    "description": "Auto-added metadata for \"deputy_director\"."
+  },
+  "@associate_director": {
+    "description": "Auto-added metadata for \"associate_director\"."
+  },
+  "@legal_director": {
+    "description": "Auto-added metadata for \"legal_director\"."
+  },
+  "@national_deputy_director": {
+    "description": "Auto-added metadata for \"national_deputy_director\"."
+  },
+  "@senior_executive": {
+    "description": "Auto-added metadata for \"senior_executive\"."
+  },
+  "@executive_secretary": {
+    "description": "Auto-added metadata for \"executive_secretary\"."
+  },
+  "@senior_attorney": {
+    "description": "Auto-added metadata for \"senior_attorney\"."
+  },
+  "@information": {
+    "description": "Auto-added metadata for \"information\"."
+  },
+  "@emails": {
+    "description": "Auto-added metadata for \"emails\"."
+  },
+  "@addresses": {
+    "description": "Auto-added metadata for \"addresses\"."
+  },
+  "@phones": {
+    "description": "Auto-added metadata for \"phones\"."
+  },
+  "@edit_profile": {
+    "description": "Auto-added metadata for \"edit_profile\"."
+  },
+  "@basic_information": {
+    "description": "Auto-added metadata for \"basic_information\"."
+  },
+  "@date_birth": {
+    "description": "Auto-added metadata for \"date_birth\"."
+  },
+  "@country_birth": {
+    "description": "Auto-added metadata for \"country_birth\"."
+  },
+  "@select_country": {
+    "description": "Auto-added metadata for \"select_country\"."
+  },
+  "@select_citizenship": {
+    "description": "Auto-added metadata for \"select_citizenship\"."
+  },
+  "@select": {
+    "description": "Auto-added metadata for \"select\"."
+  },
+  "@citizenship": {
+    "description": "Auto-added metadata for \"citizenship\"."
+  },
+  "@note": {
+    "description": "Auto-added metadata for \"note\"."
+  },
+  "@delete_confirm": {
+    "description": "Auto-added metadata for \"delete_confirm\"."
+  },
+  "@yes": {
+    "description": "Auto-added metadata for \"yes\"."
+  },
+  "@no": {
+    "description": "Auto-added metadata for \"no\"."
+  },
+  "@edit_email": {
+    "description": "Auto-added metadata for \"edit_email\"."
+  },
+  "@edit_phone": {
+    "description": "Auto-added metadata for \"edit_phone\"."
+  },
+  "@edit_address": {
+    "description": "Auto-added metadata for \"edit_address\"."
+  },
+  "@cancel": {
+    "description": "Auto-added metadata for \"cancel\"."
+  },
+  "@save": {
+    "description": "Auto-added metadata for \"save\"."
+  },
+  "@is_empty": {
+    "description": "Auto-added metadata for \"is_empty\"."
+  },
+  "@add_email": {
+    "description": "Auto-added metadata for \"add_email\"."
+  },
+  "@unsafe": {
+    "description": "Auto-added metadata for \"unsafe\"."
+  },
+  "@mailing_address": {
+    "description": "Auto-added metadata for \"mailing_address\"."
+  },
+  "@physical_address": {
+    "description": "Auto-added metadata for \"physical_address\"."
+  },
+  "@add_address": {
+    "description": "Auto-added metadata for \"add_address\"."
+  },
+  "@add_phone": {
+    "description": "Auto-added metadata for \"add_phone\"."
+  },
+  "@address": {
+    "description": "Auto-added metadata for \"address\"."
+  },
+  "@map": {
+    "description": "Auto-added metadata for \"map\"."
+  },
+  "@city": {
+    "description": "Auto-added metadata for \"city\"."
+  },
+  "@box_for_uscis": {
+    "description": "Auto-added metadata for \"box_for_uscis\"."
+  },
+  "@fax": {
+    "description": "Auto-added metadata for \"fax\"."
+  },
+  "@city_email": {
+    "description": "Auto-added metadata for \"city_email\"."
+  },
+  "@office_director": {
+    "description": "Auto-added metadata for \"office_director\"."
+  },
+  "@office_director_email": {
+    "description": "Auto-added metadata for \"office_director_email\"."
+  },
+  "@see_google_maps": {
+    "description": "Auto-added metadata for \"see_google_maps\"."
+  },
+  "@unregistered": {
+    "description": "Auto-added metadata for \"unregistered\"."
+  },
+  "@test_version": {
+    "description": "Auto-added metadata for \"test_version\"."
+  },
+  "@register_by_key": {
+    "description": "Auto-added metadata for \"register_by_key\"."
+  },
+  "@key_code": {
+    "description": "Auto-added metadata for \"key_code\"."
+  },
+  "@code": {
+    "description": "Auto-added metadata for \"code\"."
+  },
+  "@verify": {
+    "description": "Auto-added metadata for \"verify\"."
+  },
+  "@normal_register": {
+    "description": "Auto-added metadata for \"normal_register\"."
+  },
+  "@i_have_account": {
+    "description": "Auto-added metadata for \"i_have_account\"."
+  },
+  "@active_account": {
+    "description": "Auto-added metadata for \"active_account\"."
+  },
+  "@activation_code": {
+    "description": "Auto-added metadata for \"activation_code\"."
+  },
+  "@form": {
+    "description": "Auto-added metadata for \"form\"."
+  },
+  "@answers": {
+    "description": "Auto-added metadata for \"answers\"."
+  },
+  "@answer": {
+    "description": "Auto-added metadata for \"answer\"."
+  },
+  "@subject": {
+    "description": "Auto-added metadata for \"subject\"."
+  },
+  "@message": {
+    "description": "Auto-added metadata for \"message\"."
+  },
+  "@messages": {
+    "description": "Auto-added metadata for \"messages\"."
+  },
+  "@send": {
+    "description": "Auto-added metadata for \"send\"."
+  },
+  "@go_back": {
+    "description": "Auto-added metadata for \"go_back\"."
+  },
+  "@write_another": {
+    "description": "Auto-added metadata for \"write_another\"."
+  },
+  "@pending": {
+    "description": "Auto-added metadata for \"pending\"."
+  },
+  "@answered": {
+    "description": "Auto-added metadata for \"answered\"."
+  },
+  "@created_at": {
+    "description": "Auto-added metadata for \"created_at\"."
+  },
+  "@updated_at": {
+    "description": "Auto-added metadata for \"updated_at\"."
+  },
+  "@organization": {
+    "description": "Auto-added metadata for \"organization\"."
+  },
+  "@organizations": {
+    "description": "Auto-added metadata for \"organizations\"."
+  },
+  "@contacts": {
+    "description": "Auto-added metadata for \"contacts\"."
+  },
+  "@contact": {
+    "description": "Auto-added metadata for \"contact\"."
+  },
+  "@website": {
+    "description": "Auto-added metadata for \"website\"."
+  },
+  "@state": {
+    "description": "Auto-added metadata for \"state\"."
+  },
+  "@states": {
+    "description": "Auto-added metadata for \"states\"."
+  },
+  "@country": {
+    "description": "Auto-added metadata for \"country\"."
+  },
+  "@countries": {
+    "description": "Auto-added metadata for \"countries\"."
+  },
+  "@search": {
+    "description": "Auto-added metadata for \"search\"."
+  },
+  "@password_recovery": {
+    "description": "Auto-added metadata for \"password_recovery\"."
+  },
+  "@username_email_phone": {
+    "description": "Auto-added metadata for \"username_email_phone\"."
+  },
+  "@code_example": {
+    "description": "Auto-added metadata for \"code_example\"."
+  },
+  "@change_your_password": {
+    "description": "Auto-added metadata for \"change_your_password\"."
+  },
+  "@to": {
+    "description": "Auto-added metadata for \"to\"."
+  },
+  "@follow_us": {
+    "description": "Auto-added metadata for \"follow_us\"."
+  },
+  "@responsibility": {
+    "description": "Auto-added metadata for \"responsibility\"."
+  },
+  "@date": {
+    "description": "Auto-added metadata for \"date\"."
+  },
+  "@setting": {
+    "description": "Auto-added metadata for \"setting\"."
+  },
+  "@settings": {
+    "description": "Auto-added metadata for \"settings\"."
+  },
+  "@option": {
+    "description": "Auto-added metadata for \"option\"."
+  },
+  "@options": {
+    "description": "Auto-added metadata for \"options\"."
+  },
+  "@language": {
+    "description": "Auto-added metadata for \"language\"."
+  },
+  "@spanish": {
+    "description": "Auto-added metadata for \"spanish\"."
+  },
+  "@english": {
+    "description": "Auto-added metadata for \"english\"."
+  },
+  "@grievance": {
+    "description": "Auto-added metadata for \"grievance\"."
+  },
+  "@grievances": {
+    "description": "Auto-added metadata for \"grievances\"."
+  },
+  "@comment": {
+    "description": "Auto-added metadata for \"comment\"."
+  },
+  "@comments": {
+    "description": "Auto-added metadata for \"comments\"."
+  },
+  "@deposit": {
+    "description": "Auto-added metadata for \"deposit\"."
+  },
+  "@deposits": {
+    "description": "Auto-added metadata for \"deposits\"."
+  },
+  "@payments": {
+    "description": "Auto-added metadata for \"payments\"."
+  },
+  "@refund": {
+    "description": "Auto-added metadata for \"refund\"."
+  },
+  "@refunds": {
+    "description": "Auto-added metadata for \"refunds\"."
+  },
+  "@payments_refunds": {
+    "description": "Auto-added metadata for \"payments_refunds\"."
+  },
+  "@authorized_by": {
+    "description": "Auto-added metadata for \"authorized_by\"."
+  },
+  "@amount": {
+    "description": "Auto-added metadata for \"amount\"."
+  },
+  "@date_send": {
+    "description": "Auto-added metadata for \"date_send\"."
+  },
+  "@send_by": {
+    "description": "Auto-added metadata for \"send_by\"."
+  },
+  "@mm_fees": {
+    "description": "Auto-added metadata for \"mm_fees\"."
+  },
+  "@payment_method": {
+    "description": "Auto-added metadata for \"payment_method\"."
+  },
+  "@note_or_service_paid": {
+    "description": "Auto-added metadata for \"note_or_service_paid\"."
+  },
+  "@deposit_type": {
+    "description": "Auto-added metadata for \"deposit_type\"."
+  },
+  "@credit_card_person_name": {
+    "description": "Auto-added metadata for \"credit_card_person_name\"."
+  },
+  "@staate": {
+    "description": "Auto-added metadata for \"staate\"."
+  },
+  "@staates": {
+    "description": "Auto-added metadata for \"staates\"."
+  },
+  "@stage": {
+    "description": "Auto-added metadata for \"stage\"."
+  },
+  "@stages": {
+    "description": "Auto-added metadata for \"stages\"."
+  },
+  "@application": {
+    "description": "Auto-added metadata for \"application\"."
+  },
+  "@caases": {
+    "description": "Auto-added metadata for \"caases\"."
+  },
+  "@caase": {
+    "description": "Auto-added metadata for \"caase\"."
+  },
+  "@caases_stage": {
+    "description": "Auto-added metadata for \"caases_stage\"."
+  },
+  "@activity_log": {
+    "description": "Auto-added metadata for \"activity_log\"."
+  },
+  "@description": {
+    "description": "Auto-added metadata for \"description\"."
+  },
+  "@upload": {
+    "description": "Auto-added metadata for \"upload\"."
+  },
+  "@uploads": {
+    "description": "Auto-added metadata for \"uploads\"."
+  },
+  "@upload_file": {
+    "description": "Auto-added metadata for \"upload_file\"."
+  },
+  "@upload_files": {
+    "description": "Auto-added metadata for \"upload_files\"."
+  },
+  "@remove_account": {
+    "description": "Auto-added metadata for \"remove_account\"."
+  },
+  "@account": {
+    "description": "Auto-added metadata for \"account\"."
+  },
+  "@remove": {
+    "description": "Auto-added metadata for \"remove\"."
+  },
+  "@status": {
+    "description": "Auto-added metadata for \"status\"."
+  },
+  "@document_request": {
+    "description": "Auto-added metadata for \"document_request\"."
+  },
+  "@confirmed": {
+    "description": "Auto-added metadata for \"confirmed\"."
+  },
+  "@pending_review": {
+    "description": "Auto-added metadata for \"pending_review\"."
+  },
+  "@suggestion": {
+    "description": "Auto-added metadata for \"suggestion\"."
+  },
+  "@suggestions": {
+    "description": "Auto-added metadata for \"suggestions\"."
+  },
+  "@registration_request": {
+    "description": "Auto-added metadata for \"registration_request\"."
+  },
+  "@accept": {
+    "description": "Auto-added metadata for \"accept\"."
+  },
+  "@rejected": {
+    "description": "Auto-added metadata for \"rejected\"."
+  },
+  "@financial_manager": {
+    "description": "Auto-added metadata for \"financial_manager\"."
+  },
+  "@human_resources_manager": {
+    "description": "Auto-added metadata for \"human_resources_manager\"."
+  },
+  "@information_technology_coordinator": {
+    "description": "Auto-added metadata for \"information_technology_coordinator\"."
+  },
+  "@public_relations_coordinator": {
+    "description": "Auto-added metadata for \"public_relations_coordinator\"."
+  },
+  "@corporate_communications_coordinator": {
+    "description": "Auto-added metadata for \"corporate_communications_coordinator\"."
+  },
+  "@events": {
+    "description": "Auto-added metadata for \"events\"."
+  },
+  "@important_events": {
+    "description": "Auto-added metadata for \"important_events\"."
+  },
+  "@important_blogs": {
+    "description": "Auto-added metadata for \"important_blogs\"."
+  },
+  "@event_type": {
+    "description": "Auto-added metadata for \"event_type\"."
+  },
+  "@news": {
+    "description": "Auto-added metadata for \"news\"."
+  },
+  "@all": {
+    "description": "Auto-added metadata for \"all\"."
+  },
+  "@upcoming_events": {
+    "description": "Auto-added metadata for \"upcoming_events\"."
+  },
+  "@past_events": {
+    "description": "Auto-added metadata for \"past_events\"."
+  },
+  "@event_date": {
+    "description": "Auto-added metadata for \"event_date\"."
+  },
+  "@close": {
+    "description": "Auto-added metadata for \"close\"."
+  },
+  "@internet_error": {
+    "description": "Auto-added metadata for \"internet_error\"."
+  },
+  "@inmigration_attorney": {
+    "description": "Auto-added metadata for \"inmigration_attorney\"."
+  },
+  "@case_details": {
+    "description": "Auto-added metadata for \"case_details\"."
+  },
+  "@see_details": {
+    "description": "Auto-added metadata for \"see_details\"."
+  },
+  "@case_type": {
+    "description": "Auto-added metadata for \"case_type\"."
+  },
+  "@progress_chart": {
+    "description": "Auto-added metadata for \"progress_chart\"."
+  },
+  "@state_pending": {
+    "description": "Auto-added metadata for \"state_pending\"."
+  },
+  "@state_reviewed": {
+    "description": "Auto-added metadata for \"state_reviewed\"."
+  },
+  "@state_accepted": {
+    "description": "Auto-added metadata for \"state_accepted\"."
+  },
+  "@state_rejected": {
+    "description": "Auto-added metadata for \"state_rejected\"."
+  },
+  "@state_moved_to_drive": {
+    "description": "Auto-added metadata for \"state_moved_to_drive\"."
+  },
+  "@state_deleted": {
+    "description": "Auto-added metadata for \"state_deleted\"."
+  },
+  "@last_state": {
+    "description": "Auto-added metadata for \"last_state\"."
+  },
+  "@instructions": {
+    "description": "Auto-added metadata for \"instructions\"."
+  },
+  "@view_instructions": {
+    "description": "Auto-added metadata for \"view_instructions\"."
+  },
+  "@document_type": {
+    "description": "Auto-added metadata for \"document_type\"."
+  },
+  "@donate_message": {
+    "description": "Auto-added metadata for \"donate_message\"."
+  },
+  "@error_coordinates": {
+    "description": "Auto-added metadata for \"error_coordinates\"."
+  },
+  "@no_elements": {
+    "description": "Auto-added metadata for \"no_elements\"."
+  },
+  "@services": {
+    "description": "Auto-added metadata for \"services\"."
+  },
+  "@location": {
+    "description": "Auto-added metadata for \"location\"."
+  },
+  "@insecure": {
+    "description": "Auto-added metadata for \"insecure\"."
+  },
+  "@at_least_one_required": {
+    "description": "Auto-added metadata for \"at_least_one_required\"."
+  },
+  "@homeDescription": {
+    "description": "Auto-added metadata for \"homeDescription\"."
+  },
+  "@loginDescription": {
+    "description": "Auto-added metadata for \"loginDescription\"."
+  },
+  "@dashboardDescription": {
+    "description": "Auto-added metadata for \"dashboardDescription\"."
+  },
+  "@profileDescription": {
+    "description": "Auto-added metadata for \"profileDescription\"."
+  },
+  "@eventsDescription": {
+    "description": "Auto-added metadata for \"eventsDescription\"."
+  },
+  "@mm_actionsDescription": {
+    "description": "Auto-added metadata for \"mm_actionsDescription\"."
+  },
+  "@upload_fileDescription": {
+    "description": "Auto-added metadata for \"upload_fileDescription\"."
+  },
+  "@officesDescription": {
+    "description": "Auto-added metadata for \"officesDescription\"."
+  },
+  "@consulatesDescription": {
+    "description": "Auto-added metadata for \"consulatesDescription\"."
+  },
+  "@alliances_referencesDescription": {
+    "description": "Auto-added metadata for \"alliances_referencesDescription\"."
+  },
+  "@deposits_refundsDescription": {
+    "description": "Auto-added metadata for \"deposits_refundsDescription\"."
+  },
+  "@caases_stageDescription": {
+    "description": "Auto-added metadata for \"caases_stageDescription\"."
+  },
+  "@donateDescription": {
+    "description": "Auto-added metadata for \"donateDescription\"."
+  },
+  "@contact_usDescription": {
+    "description": "Auto-added metadata for \"contact_usDescription\"."
+  },
+  "@complaintsDescription": {
+    "description": "Auto-added metadata for \"complaintsDescription\"."
+  },
+  "@how_meet": {
+    "description": "Auto-added metadata for \"how_meet\"."
+  },
+  "@complete_information": {
+    "description": "Auto-added metadata for \"complete_information\"."
+  },
+  "@please_complete_information": {
+    "description": "Auto-added metadata for \"please_complete_information\"."
+  },
+  "@rating": {
+    "description": "Auto-added metadata for \"rating\"."
+  },
+  "@ratingDescription": {
+    "description": "Auto-added metadata for \"ratingDescription\"."
+  },
+  "@rating_title": {
+    "description": "Auto-added metadata for \"rating_title\"."
+  },
+  "@rating_text": {
+    "description": "Auto-added metadata for \"rating_text\"."
+  },
+  "@select_rating_first": {
+    "description": "Auto-added metadata for \"select_rating_first\"."
+  },
+  "@has_been_rating": {
+    "description": "Auto-added metadata for \"has_been_rating\"."
+  },
+  "@thanks_for_rating": {
+    "description": "Auto-added metadata for \"thanks_for_rating\"."
+  },
+  "@saved": {
+    "description": "Auto-added metadata for \"saved\"."
+  },
+  "@grants": {
+    "description": "Auto-added metadata for \"grants\"."
+  },
+  "@grantsDescription": {
+    "description": "Auto-added metadata for \"grantsDescription\"."
+  },
+  "@terms_and_conditions": {
+    "description": "Auto-added metadata for \"terms_and_conditions\"."
+  },
+  "@accept_terms_and_conditions": {
+    "description": "Auto-added metadata for \"accept_terms_and_conditions\"."
+  },
+  "@signature_success": {
+    "description": "Auto-added metadata for \"signature_success\"."
+  },
+  "@notifications": {
+    "description": "Auto-added metadata for \"notifications\"."
+  },
+  "@error_try_again_later": {
+    "description": "Auto-added metadata for \"error_try_again_later\"."
+  },
+  "@access_key_txt": {
+    "description": "Auto-added metadata for \"access_key_txt\"."
+  },
+  "@contact_to_request": {
+    "description": "Auto-added metadata for \"contact_to_request\"."
+  },
+  "@have_an_account": {
+    "description": "Auto-added metadata for \"have_an_account\"."
+  },
+  "@forgot_password": {
+    "description": "Auto-added metadata for \"forgot_password\"."
+  },
+  "@mm_about_txt": {
+    "description": "Auto-added metadata for \"mm_about_txt\"."
+  },
+  "@mm_description": {
+    "description": "Auto-added metadata for \"mm_description\"."
+  },
+  "@mm_what_we_do": {
+    "description": "Auto-added metadata for \"mm_what_we_do\"."
+  },
+  "@already_have_an_account": {
+    "description": "Auto-added metadata for \"already_have_an_account\"."
+  },
+  "@dont_have_an_account": {
+    "description": "Auto-added metadata for \"dont_have_an_account\"."
+  },
+  "@please_login_necessary": {
+    "description": "Auto-added metadata for \"please_login_necessary\"."
+  },
+  "@information_updated": {
+    "description": "Auto-added metadata for \"information_updated\"."
+  },
+  "@error_updating_try_in_other_time": {
+    "description": "Auto-added metadata for \"error_updating_try_in_other_time\"."
+  },
+  "@accepted_key_please_update_your_password": {
+    "description": "Auto-added metadata for \"accepted_key_please_update_your_password\"."
+  },
+  "@error_key_not_found": {
+    "description": "Auto-added metadata for \"error_key_not_found\"."
+  },
+  "@account_updated_go_to_login_page": {
+    "description": "Auto-added metadata for \"account_updated_go_to_login_page\"."
+  },
+  "@check_your_email_inbox_txt": {
+    "description": "Auto-added metadata for \"check_your_email_inbox_txt\"."
+  },
+  "@server_error_loading_contacts": {
+    "description": "Auto-added metadata for \"server_error_loading_contacts\"."
+  },
+  "@your_message_has_been_send": {
+    "description": "Auto-added metadata for \"your_message_has_been_send\"."
+  },
+  "@contribute_to_our_cause": {
+    "description": "Auto-added metadata for \"contribute_to_our_cause\"."
+  },
+  "@nothing_to_show": {
+    "description": "Auto-added metadata for \"nothing_to_show\"."
+  },
+  "@write_username_email_or_recover_password": {
+    "description": "Auto-added metadata for \"write_username_email_or_recover_password\"."
+  },
+  "@write_the_code_that_we_send_to_your_email": {
+    "description": "Auto-added metadata for \"write_the_code_that_we_send_to_your_email\"."
+  },
+  "@password_updated_successfully": {
+    "description": "Auto-added metadata for \"password_updated_successfully\"."
+  },
+  "@your_complain_has_been_send": {
+    "description": "Auto-added metadata for \"your_complain_has_been_send\"."
+  },
+  "@wrong_activation_code": {
+    "description": "Auto-added metadata for \"wrong_activation_code\"."
+  },
+  "@your_grievance_has_been_send": {
+    "description": "Auto-added metadata for \"your_grievance_has_been_send\"."
+  },
+  "@are_you_sure_you_want_to_delete_your_account": {
+    "description": "Auto-added metadata for \"are_you_sure_you_want_to_delete_your_account\"."
+  },
+  "@your_account_has_been_removed": {
+    "description": "Auto-added metadata for \"your_account_has_been_removed\"."
+  },
+  "@the_answer_is_wrong": {
+    "description": "Auto-added metadata for \"the_answer_is_wrong\"."
+  },
+  "@username_or_password_incorrect": {
+    "description": "Auto-added metadata for \"username_or_password_incorrect\"."
+  },
+  "@deleting_account": {
+    "description": "Auto-added metadata for \"deleting_account\"."
+  },
+  "@this_record_already_exist": {
+    "description": "Auto-added metadata for \"this_record_already_exist\"."
+  },
+  "@your_evaluation_request_in_progress": {
+    "description": "Auto-added metadata for \"your_evaluation_request_in_progress\"."
+  },
+  "@your_case_is_in_evaluation": {
+    "description": "Auto-added metadata for \"your_case_is_in_evaluation\"."
+  },
+  "@visit_events": {
+    "description": "Auto-added metadata for \"visit_events\"."
+  },
+  "@mm_donate_txt": {
+    "description": "Auto-added metadata for \"mm_donate_txt\"."
+  },
+  "@terms_and_conditions_text": {
+    "description": "Auto-added metadata for \"terms_and_conditions_text\"."
+  },
+  "@terms_and_conditions_summary": {
+    "description": "Auto-added metadata for \"terms_and_conditions_summary\"."
+  },
+  "@read_full": {
+    "description": "Auto-added metadata for \"read_full\"."
   }
 }

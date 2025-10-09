@@ -784,6 +784,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'The terms and conditions have been accepted correctly.';
 
   @override
+  String get notifications => 'Notifications';
+
+  @override
   String get error_try_again_later => 'Error try again later.';
 
   @override

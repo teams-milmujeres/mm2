@@ -787,6 +787,9 @@ class AppLocalizationsEs extends AppLocalizations {
       'Los términos y condiciones han sido aceptados correctamente.';
 
   @override
+  String get notifications => 'Notificaciones';
+
+  @override
   String get error_try_again_later => 'Error inténtelo nuevamente más tarde.';
 
   @override
