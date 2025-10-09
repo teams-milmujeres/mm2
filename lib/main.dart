@@ -55,19 +55,94 @@ class MaterialAppWidget extends StatefulWidget {
 }
 
 class _MaterialAppWidgetState extends State<MaterialAppWidget> {
+  var _messageSubscription;
+
   @override
   void initState() {
     super.initState();
 
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    _messageSubscription = FirebaseMessaging.onMessage.listen((
+      RemoteMessage message,
+    ) {
       final notification = message.notification;
-      rootScaffoldMessengerKey.currentState?.showSnackBar(
-        SnackBar(
-          content: Text(notification?.title ?? "Nueva notificación"),
-          duration: const Duration(seconds: 3),
+
+      context.read<NotificationBloc>().add(NewNotificationEvent(message));
+
+      rootScaffoldMessengerKey.currentState?.showMaterialBanner(
+        MaterialBanner(
+          padding: const EdgeInsets.all(16),
+          backgroundColor: AppTheme().lightTheme.primaryColor,
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  const Icon(Icons.notifications_active, color: Colors.white),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    // child: Text(
+                    //   notification?.title ?? "Nueva notificación",
+                    //   style: const TextStyle(color: Colors.white, fontSize: 16),
+                    // ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          notification?.title ?? "Nueva notificación",
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
+                        ),
+                        Text(
+                          notification?.body ?? "",
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              const LinearProgressIndicator(
+                minHeight: 3,
+                color: Colors.white,
+                backgroundColor: Colors.white24,
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed:
+                  () => rootScaffoldMessengerKey.currentState
+                      ?.hideCurrentMaterialBanner(
+                        reason: MaterialBannerClosedReason.dismiss,
+                      ),
+              child: const Text(
+                'Cerrar',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
         ),
       );
+
+      // Cerrar el banner automáticamente después de 5 segundos
+      Future.delayed(const Duration(seconds: 5), () {
+        rootScaffoldMessengerKey.currentState?.hideCurrentMaterialBanner(
+          reason: MaterialBannerClosedReason.dismiss,
+        );
+      });
     });
+  }
+
+  @override
+  void dispose() {
+    _messageSubscription?.cancel();
+    super.dispose();
   }
 
   @override
@@ -81,7 +156,6 @@ class _MaterialAppWidgetState extends State<MaterialAppWidget> {
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           routerConfig: onBoardingRouter(context),
-          // 🔑 Aquí le pasamos la key global
           scaffoldMessengerKey: rootScaffoldMessengerKey,
           builder:
               (context, widget) => ResponsiveBreakpoints.builder(

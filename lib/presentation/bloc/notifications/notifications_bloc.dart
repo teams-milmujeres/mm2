@@ -4,6 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mm/data/data.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:mm/domain/entities/notification.dart';
 
 part 'notifications_event.dart';
 part 'notifications_state.dart';
@@ -11,11 +12,11 @@ part 'notifications_state.dart';
 class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
   final FirebaseMessaging _messaging = FirebaseMessaging.instance;
 
-  NotificationBloc() : super(NotificationInitial()) {
+  NotificationBloc() : super(const NotificationInitial()) {
     on<InitializeNotificationsEvent>(_onInit);
-    on<NewNotificationEvent>((event, emit) {
-      emit(NotificationReceived(event.message));
-    });
+    on<NewNotificationEvent>(_onNewNotification);
+    on<GetNotificationsEvent>(_onGetNotifications);
+    on<ClearNotificationsEvent>(_onClearNotifications);
   }
 
   Future<void> _onInit(
@@ -57,7 +58,21 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     }
   }
 
-  /// 🔹 Método para enviar el token al backend
+  void _onNewNotification(
+    NewNotificationEvent event,
+    Emitter<NotificationState> emit,
+  ) {
+    emit(NotificationReceived(event.message, hasNewNotification: true));
+  }
+
+  void _onClearNotifications(
+    ClearNotificationsEvent event,
+    Emitter<NotificationState> emit,
+  ) {
+    emit(NotificationUpdated(hasNewNotification: false));
+  }
+
+  // Método para enviar el token al backend
   Future<void> _sendTokenToBackend(int clientId, String token) async {
     try {
       var client = DioClient();
@@ -82,6 +97,34 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       }
     } catch (e) {
       print("Error en conexión con backend: $e");
+    }
+  }
+
+  // Método para obtener las notificaciones del backend
+  Future<void> _onGetNotifications(
+    GetNotificationsEvent event,
+    Emitter<NotificationState> emit,
+  ) async {
+    emit(NotificationLoading(hasNewNotification: state.hasNewNotification));
+    final client = DioClient();
+    final token = await const FlutterSecureStorage().read(key: 'token');
+
+    try {
+      final response = await client.dio.get(
+        '/get-notifications',
+        queryParameters: {'client_id': event.clientId},
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+
+      final notifications = List<Notification>.from(
+        (response.data as List).map((n) => Notification.fromJson(n)),
+      );
+
+      emit(NotificationSuccess(notifications,
+          hasNewNotification: state.hasNewNotification));
+    } catch (e) {
+      emit(NotificationError(e.toString(),
+          hasNewNotification: state.hasNewNotification));
     }
   }
 }

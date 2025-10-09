@@ -17,3 +17,10 @@ class UpdateTokenEvent extends NotificationEvent {
   final String token;
   UpdateTokenEvent(this.clientId, this.token);
 }
+
+class GetNotificationsEvent extends NotificationEvent {
+  final int clientId;
+  GetNotificationsEvent(this.clientId);
+}
+
+class ClearNotificationsEvent extends NotificationEvent {}

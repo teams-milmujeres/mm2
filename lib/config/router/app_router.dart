@@ -131,6 +131,13 @@ GoRouter onBoardingRouter(BuildContext context) => GoRouter(
       pageBuilder:
           (context, state) => buildPageTransition(const RatingScreen()),
     ),
+    GoRoute(
+      path: '/notifications',
+      name: 'notifications',
+      // builder: (context, state) => const NotificationsScreen(),
+      pageBuilder:
+          (context, state) => buildPageTransition(const NotificationsScreen()),
+    ),
   ],
 );
 
