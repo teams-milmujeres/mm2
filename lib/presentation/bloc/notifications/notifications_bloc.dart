@@ -4,6 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mm/data/data.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'dart:convert';
 import 'package:mm/domain/entities/notification.dart';
 
 part 'notifications_event.dart';
@@ -116,15 +117,55 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
         options: Options(headers: {'Authorization': 'Bearer $token'}),
       );
 
+      print(token);
+
+      final data = response.data;
+
+      print('Raw notification data: $data');
+      List<dynamic> notificationList;
+      if (data is String) {
+        try {
+          notificationList = jsonDecode(data);
+        } catch (e) {
+          print('Error parsing notifications JSON: $e');
+          print('Problematic string: $data');
+          emit(
+            NotificationError(
+              'Failed to parse notifications from server.',
+              hasNewNotification: state.hasNewNotification,
+            ),
+          );
+          return;
+        }
+      } else if (data is List) {
+        notificationList = data;
+      } else {
+        emit(
+          NotificationError(
+            'Unexpected notification data type: ${data.runtimeType}',
+            hasNewNotification: state.hasNewNotification,
+          ),
+        );
+        return;
+      }
+
       final notifications = List<Notification>.from(
-        (response.data as List).map((n) => Notification.fromJson(n)),
+        notificationList.map((n) => Notification.fromJson(n)),
       );
 
-      emit(NotificationSuccess(notifications,
-          hasNewNotification: state.hasNewNotification));
+      emit(
+        NotificationSuccess(
+          notifications,
+          hasNewNotification: state.hasNewNotification,
+        ),
+      );
     } catch (e) {
-      emit(NotificationError(e.toString(),
-          hasNewNotification: state.hasNewNotification));
+      emit(
+        NotificationError(
+          e.toString(),
+          hasNewNotification: state.hasNewNotification,
+        ),
+      );
     }
   }
 }
