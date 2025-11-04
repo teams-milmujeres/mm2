@@ -1,0 +1,88 @@
+name: Upload App Mil Mujeres to tester using Composite Action
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Ambiente de despliegue'
+        required: true
+        default: 'test2'
+        type: choice
+        options:
+          - 'test1'
+          - 'test2'
+          - 'city'
+          - 'official'
+
+jobs:
+  # --- Job manual o por inputs
+  deploy-selected:
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Determinar entorno y ruta
+        id: setup
+        run: |
+          case "${{ github.event.inputs.environment }}" in
+            "test1")
+              echo "env_name=testing1" >> $GITHUB_OUTPUT
+              echo "deploy_path=/home/testermm/www/appweb1/" >> $GITHUB_OUTPUT ;;
+            "test2")
+              echo "env_name=testing2" >> $GITHUB_OUTPUT
+              echo "deploy_path=/home/testermm/www/appweb2/" >> $GITHUB_OUTPUT ;;
+            "city")
+              echo "env_name=city" >> $GITHUB_OUTPUT
+              echo "deploy_path=/home/testermm/www/appcity/" >> $GITHUB_OUTPUT ;;
+            "official")
+              echo "env_name=production" >> $GITHUB_OUTPUT
+              echo "deploy_path=/home/testermm/www/appoficial/" >> $GITHUB_OUTPUT ;;
+          esac
+
+      - name: Ejecutar acción de deploy
+        uses: ./.github/actions/deploy-flutter
+        with:
+          env_name: ${{ steps.setup.outputs.env_name }}
+          deploy_path: ${{ steps.setup.outputs.deploy_path }}
+          server_host: ${{ secrets.SERVER_HOST }}
+          server_user: ${{ secrets.SERVER_USER }}
+          server_ssh_key_base64: ${{ secrets.SERVER_SSH_KEY_BASE64 }}
+
+  # --- Jobs automáticos en master
+  deploy-official:
+    if: ${{ github.event_name == 'push' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy official
+        uses: ./.github/actions/deploy-flutter
+        with:
+          env_name: production
+          deploy_path: /home/testermm/www/appoficial/
+          server_host: ${{ secrets.SERVER_HOST }}
+          server_user: ${{ secrets.SERVER_USER }}
+          server_ssh_key_base64: ${{ secrets.SERVER_SSH_KEY_BASE64 }}
+
+  deploy-city:
+    if: ${{ github.event_name == 'push' }}
+    needs: deploy-official
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy city
+        uses: ./.github/actions/deploy-flutter
+        with:
+          env_name: city
+          deploy_path: /home/testermm/www/appcity/
+          server_host: ${{ secrets.SERVER_HOST }}
+          server_user: ${{ secrets.SERVER_USER }}
+          server_ssh_key_base64: ${{ secrets.SERVER_SSH_KEY_BASE64 }}

@@ -1,0 +1,61 @@
+name: "Deploy Flutter Web"
+description: "Compila y despliega Flutter Web a un servidor remoto"
+inputs:
+  env_name:
+    description: "Nombre del entorno (development/testing1/testing2/production/city)"
+    required: true
+  deploy_path:
+    description: "Ruta remota donde se subirá el build"
+    required: true
+  server_host:
+    description: "Host del servidor SSH"
+    required: true
+  server_user:
+    description: "Usuario SSH del servidor"
+    required: true
+  server_ssh_key_base64:
+    description: "Clave SSH codificada en base64"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout del código
+      uses: actions/checkout@v4
+
+    - name: Configurar Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        channel: stable
+        flutter-version: '3.32.0'
+        cache: true
+
+    - name: Actualizar ENV
+      shell: bash
+      run: |
+        echo "Actualizando ENV=${{ inputs.env_name }} en .env"
+        sed -i "s|^ENV=.*|ENV=${{ inputs.env_name }}|" .env
+        cat .env
+
+    - name: Compilar Flutter Web
+      shell: bash
+      run: |
+        echo "🚀 Compilando Flutter Web para ${{ inputs.env_name }}"
+        flutter clean
+        flutter pub get
+        flutter build web --release
+
+    - name: Desplegar al servidor
+      shell: bash
+      run: |
+        mkdir -p .ssh
+        echo "${{ inputs.server_ssh_key_base64 }}" | base64 -d > .ssh/id_ed25519
+        chmod 600 .ssh/id_ed25519
+
+        echo "🧹 Limpiando carpeta remota ${{ inputs.deploy_path }}"
+        ssh -i .ssh/id_ed25519 -o StrictHostKeyChecking=no ${{ inputs.server_user }}@${{ inputs.server_host }} "rm -rf ${{ inputs.deploy_path }}/*"
+
+        echo "📤 Subiendo archivos..."
+        scp -i .ssh/id_ed25519 -r -o StrictHostKeyChecking=no build/web/* ${{ inputs.server_user }}@${{ inputs.server_host }}:${{ inputs.deploy_path }}/
+
+        echo "✅ Despliegue completado para ${{ inputs.env_name }}"
