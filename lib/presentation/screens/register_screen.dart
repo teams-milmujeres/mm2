@@ -99,9 +99,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
               );
             }
             if (state is RegisterError) {
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text(state.message)));
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(translation.error_message)),
+              );
             }
           },
           builder: (context, state) {

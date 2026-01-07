@@ -51,7 +51,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                 ).showSnackBar(SnackBar(content: Text(state.message)));
               } else if (state is DocumentError) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Error: ${state.error}')),
+                  SnackBar(content: Text(translate.error_message)),
                 );
               } else if (state is TermsAndConditionsUploadLoaded) {
                 final authState = context.read<AuthBloc>().state;
@@ -544,9 +544,9 @@ class _SignatureModalState extends State<SignatureModal> {
                 SnackBar(content: Text(translation.signature_success)),
               );
             } else if (state is DocumentError) {
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text(state.error)));
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(translation.error_message)),
+              );
             }
           },
           builder: (context, state) {

@@ -742,6 +742,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'Please complete the following information';
 
   @override
+  String get rating_send => 'Rating sent successfully';
+
+  @override
   String get rating => 'Rate us';
 
   @override
@@ -920,6 +923,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get read_full => 'Read full for accept';
+
+  @override
+  String get error_message =>
+      'An unexpected error occurred. Please try again in a few moments.';
 
   @override
   String is_required(String item) {

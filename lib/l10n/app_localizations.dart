@@ -1556,6 +1556,12 @@ abstract class AppLocalizations {
   /// **'Please complete the following information'**
   String get please_complete_information;
 
+  /// No description provided for @rating_send.
+  ///
+  /// In en, this message translates to:
+  /// **'Rating sent successfully'**
+  String get rating_send;
+
   /// No description provided for @rating.
   ///
   /// In en, this message translates to:
@@ -1873,6 +1879,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Read full for accept'**
   String get read_full;
+
+  /// No description provided for @error_message.
+  ///
+  /// In en, this message translates to:
+  /// **'An unexpected error occurred. Please try again in a few moments.'**
+  String get error_message;
 
   /// Validating any input
   ///

@@ -698,14 +698,13 @@ class _MapTab extends StatelessWidget {
                 onTap: () async {
                   final messenger = ScaffoldMessenger.of(context);
                   final url = Uri.parse(office.urlGoogleMaps ?? '');
+                  final translation = AppLocalizations.of(context)!;
 
                   if (await canLaunchUrl(url)) {
                     await launchUrl(url, mode: LaunchMode.externalApplication);
                   } else {
                     messenger.showSnackBar(
-                      const SnackBar(
-                        content: Text('No se pudo abrir el mapa.'),
-                      ),
+                      SnackBar(content: Text(translation.error_message)),
                     );
                   }
                 },

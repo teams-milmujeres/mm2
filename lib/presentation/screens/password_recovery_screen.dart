@@ -34,7 +34,7 @@ class _PasswordRecoveryScreenState extends State<PasswordRecoveryScreen> {
             if (state is RecoveryFailure) {
               ScaffoldMessenger.of(
                 context,
-              ).showSnackBar(SnackBar(content: Text(state.message)));
+              ).showSnackBar(SnackBar(content: Text(t.error_message)));
             }
           },
           builder: (context, state) {

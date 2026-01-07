@@ -56,11 +56,11 @@ class _RatingScreenState extends State<RatingScreen> {
           if (state is RatingSend) {
             ScaffoldMessenger.of(
               context,
-            ).showSnackBar(SnackBar(content: Text(state.message)));
+            ).showSnackBar(SnackBar(content: Text(translation.rating_send)));
           } else if (state is RatingError) {
             ScaffoldMessenger.of(
               context,
-            ).showSnackBar(SnackBar(content: Text('Error: ${state.message}')));
+            ).showSnackBar(SnackBar(content: Text(translation.error_message)));
           }
         },
         builder: (context, state) {

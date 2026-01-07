@@ -195,9 +195,11 @@ class _EditBasicScreenState extends State<EditBasicScreen> {
                         ),
                       );
                     } else if (state is AuthFailure) {
-                      ScaffoldMessenger.of(
-                        context,
-                      ).showSnackBar(SnackBar(content: Text(state.message)));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(widget.translation.error_message),
+                        ),
+                      );
                     }
                   },
                   child: Scaffold(
@@ -882,7 +884,7 @@ class _GenericEditModalState<T> extends State<GenericEditModal<T>> {
         } else if (state is AuthFailure) {
           ScaffoldMessenger.of(
             context,
-          ).showSnackBar(SnackBar(content: Text(state.message)));
+          ).showSnackBar(SnackBar(content: Text(translation.error_message)));
         }
       },
       child: Padding(

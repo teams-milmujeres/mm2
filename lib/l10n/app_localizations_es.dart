@@ -743,6 +743,9 @@ class AppLocalizationsEs extends AppLocalizations {
       'Por favor completar la siguiente informacion';
 
   @override
+  String get rating_send => 'Calificación enviada con exito';
+
+  @override
   String get rating => 'Calificanos';
 
   @override
@@ -926,6 +929,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get read_full => 'Leer completo para aceptar';
+
+  @override
+  String get error_message =>
+      'Ocurrió un error inesperado. Inténtalo nuevamente en unos momentos.';
 
   @override
   String is_required(String item) {
