@@ -7,6 +7,7 @@ import 'package:mm/presentation/bloc/locale/language_bloc.dart';
 import 'package:mm/presentation/bloc/auth/auth_bloc.dart';
 // Navigation
 import 'package:go_router/go_router.dart';
+import 'package:mm/presentation/bloc/theme/theme_bloc.dart';
 import 'package:mm/presentation/navigation_options.dart';
 // Entities
 import 'package:mm/domain/entities/language_model.dart';
@@ -275,6 +276,18 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       bottom: PreferredSize(preferredSize: Size.zero, child: Container()),
       actions: [
         _CustomDropDownUnderlineWelcome(),
+        BlocBuilder<ThemeBloc, ThemeState>(
+          builder: (context, state) {
+            return IconButton(
+              icon: Icon(
+                state.themeMode == ThemeMode.dark
+                    ? Icons.light_mode
+                    : Icons.dark_mode,
+              ),
+              onPressed: () => context.read<ThemeBloc>().add(ToggleTheme()),
+            );
+          },
+        ),
         IconButton(
           tooltip: AppLocalizations.of(context)!.donate,
           onPressed: () async {
@@ -721,7 +734,7 @@ class ContainerSocialButtons extends StatelessWidget {
         onPressed: () => UrlLauncherHelper.launchURL(url: button.url),
         style: ElevatedButton.styleFrom(
           // foregroundColor: Theme.of(context).colorScheme.primary,
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.transparent,
           shape: const CircleBorder(),
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         ),

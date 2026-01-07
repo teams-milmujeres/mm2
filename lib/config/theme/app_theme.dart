@@ -148,4 +148,133 @@ class AppTheme {
       ),
     );
   }
+
+  ThemeData get darkTheme {
+    final baseTextTheme = ThemeData.dark().textTheme;
+
+    final colorPrimary = Colors.teal;
+
+    final colorScheme = const ColorScheme(
+      brightness: Brightness.dark,
+      primary: Colors.teal,
+      onPrimary: Colors.black,
+      secondary: Colors.teal,
+      onSecondary: Colors.white,
+      error: Colors.redAccent,
+      onError: Colors.black,
+      surface: Color(0xFF121212),
+      onSurface: Colors.white70,
+    );
+
+    final customTextTheme = GoogleFonts.poppinsTextTheme(
+      baseTextTheme,
+    ).copyWith(
+      headlineLarge: GoogleFonts.poppins(
+        fontSize: 24,
+        fontWeight: FontWeight.normal,
+        color: colorPrimary,
+      ),
+      headlineMedium: GoogleFonts.poppins(
+        fontSize: 20,
+        fontWeight: FontWeight.normal,
+        color: colorPrimary,
+      ),
+      titleMedium: GoogleFonts.poppins(
+        fontSize: 14,
+        fontWeight: FontWeight.normal,
+        color: Colors.white70,
+      ),
+      bodyLarge: GoogleFonts.poppins(
+        fontSize: 16,
+        fontWeight: FontWeight.normal,
+        color: Colors.white70,
+      ),
+      bodyMedium: GoogleFonts.poppins(fontSize: 14, color: Colors.white54),
+      labelLarge: GoogleFonts.poppins(
+        fontSize: 14,
+        fontWeight: FontWeight.normal,
+        color: Colors.black,
+      ),
+    );
+
+    return ThemeData(
+      scaffoldBackgroundColor: Color(0xFF121212),
+      useMaterial3: true,
+      colorScheme: colorScheme,
+      textTheme: customTextTheme,
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          foregroundColor: Colors.black,
+          textStyle: customTextTheme.labelLarge,
+          backgroundColor: colorPrimary,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          minimumSize: Size(0, 0),
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 15),
+        ),
+      ),
+      dropdownMenuTheme: DropdownMenuThemeData(
+        textStyle: customTextTheme.bodyMedium,
+      ),
+      iconButtonTheme: IconButtonThemeData(
+        style: IconButton.styleFrom(foregroundColor: colorPrimary),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        labelStyle: customTextTheme.bodyMedium,
+        hintStyle: customTextTheme.bodyMedium,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(color: colorPrimary),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(color: colorPrimary),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(color: colorPrimary),
+        ),
+      ),
+      drawerTheme: DrawerThemeData(
+        backgroundColor: Color(0xFF121212),
+        scrimColor: Colors.black54,
+        elevation: 16,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(16),
+            bottomRight: Radius.circular(16),
+          ),
+        ),
+      ),
+      appBarTheme: AppBarTheme(
+        surfaceTintColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+      ),
+      tabBarTheme: TabBarThemeData(
+        labelColor: colorPrimary,
+        unselectedLabelColor: Colors.white54,
+        indicatorSize: TabBarIndicatorSize.tab,
+        indicatorColor: colorPrimary,
+        labelStyle: customTextTheme.titleMedium,
+        unselectedLabelStyle: customTextTheme.bodyMedium,
+      ),
+      navigationBarTheme: NavigationBarThemeData(
+        backgroundColor: Color(0xFF121212),
+        indicatorColor: colorScheme.primary.withAlpha(25),
+        labelTextStyle: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return customTextTheme.bodyMedium?.copyWith(
+              color: colorScheme.primary,
+            );
+          }
+          return customTextTheme.bodyMedium?.copyWith(color: Colors.white54);
+        }),
+        iconTheme: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return IconThemeData(color: colorScheme.primary);
+          }
+          return const IconThemeData(color: Colors.white54);
+        }),
+      ),
+    );
+  }
 }
