@@ -1,0 +1,13 @@
+{
+  "framework": "Flutter",
+  "carpetas_lib": [
+    "config",
+    "data",
+    "domain",
+    "l10n",
+    "main.dart",
+    "presentation",
+    "widgets"
+  ],
+  "pubspec": "name: mm\ndescription: \"A app for Mil Mujeres\"\npublish_to: 'none'\nversion: 1.0.32+1\n\nenvironment:\n  sdk: ^3.7.0\n\ndependencies:\n  bloc: ^9.0.0\n  carousel_slider: ^5.0.0\n  device_info_plus: ^11.5.0\n  dio: ^5.8.0+1\n  equatable: ^2.0.7\n  flutter:\n    sdk: flutter\n  flutter_bloc: ^9.1.0\n  flutter_dotenv: ^5.2.1\n  flutter_localizations:\n    sdk: flutter\n  flutter_map: ^8.1.1\n  flutter_secure_storage: ^9.2.4\n  font_awesome_flutter: ^10.8.0\n  go_router: ^14.8.1\n  google_fonts: ^6.2.1\n  flutter_html: ^3.0.0\n  intl: any\n  latlong2: ^0.9.1\n  responsive_framework: ^1.5.1\n  responsive_grid: ^2.4.4\n  url_launcher: ^6.3.1\n  file_picker: ^10.2.0\n  location: ^5.0.0\n  shared_preferences: ^2.2.2\n  video_player: ^2.10.0\n  video_player_web: ^2.3.5\n\ndev_dependencies:\n  flutter_lints: ^5.0.0\n  flutter_native_splash: ^2.4.0\n  # Launcher icon\n  flutter_launcher_icons: ^0.14.4\n  flutter_test:\n    sdk: flutter\n\n# Launcher icon config\nflutter_launcher_icons:\n  android: \"launcher_icon\"\n  ios: true\n  image_path: \"assets/icon/icon.png\"\n  min_sdk_android: 18 # android min sdk min:16, default 21\n\nflutter_native_splash:\n  color: \"#ffffff\"\n  image: assets/splash/splash.png\n  #branding: assets/splash/branding.png\n  android: true\n  ios: true\n  web: true\n\n  android_12:\n    image: assets/icon/icon.png\n    icon_background_color: \"#ffffff\"\n    # image_dark: assets/logo-acceptance.png\n    # icon_background_color_dark: \"#121212\"\n\n\nflutter:\n  generate: true\n  uses-material-design: true\n  assets:\n    - assets/images/banners/\n    - assets/images/mm-actions/\n    - assets/images/rating/\n    - assets/images/\n    - assets/icon/\n    - assets/splash/\n    - .env"
+}

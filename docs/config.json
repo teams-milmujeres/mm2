@@ -1,0 +1,19 @@
+{
+  "manuales": [
+    {
+      "nombre": "general",
+      "plantilla": "docs/estructuras/general.md",
+      "salida":  "docs/outputs/manual-general.md"
+    },
+    {
+      "nombre": "tecnico",
+      "plantilla": "docs/estructuras/tecnico.md",
+      "salida": "docs/outputs/manual-tecnico.md"
+    },
+    {
+      "nombre": "usuario",
+      "plantilla": "docs/estructuras/usuario.md",
+      "salida": "docs/outputs/manual-usuario.md"
+    }
+  ]
+}

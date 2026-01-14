@@ -1,0 +1,42 @@
+name: Generar manuales
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  docs:
+    runs-on: self-hosted
+
+    services:
+      ollama:
+        image: ollama/ollama
+        ports:
+          - 11434:11434
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: Instalar dependencias
+        run: flutter pub get
+
+      - name: Instalar Node 
+        run: npm i -D puppeteer
+
+      - name: Analizar proyecto
+        run: node .github/scripts/analyze-flutter.js
+
+      - name: Generar documentación
+        run: node .github/scripts/generate-docs.js
+
+      - name: Publicar manuales
+        uses: actions/upload-artifact@v4
+        with:
+          name: manuales
+          path: docs/outputs/
