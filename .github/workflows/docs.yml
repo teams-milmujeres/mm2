@@ -27,7 +27,7 @@ jobs:
         run: flutter pub get
 
       - name: Instalar Node 
-        run: npm i -D puppeteer
+        run: npm i -D puppeteer marked
 
       - name: Analizar proyecto
         run: node .github/scripts/analyze-flutter.js

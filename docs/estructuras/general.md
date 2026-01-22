@@ -75,7 +75,7 @@
         
         Si tienes problemas con la instalación o crees que falta algo, puede ejecutar el comando Flutter doctor para tener más información.
 
-## Como esta organizado el codigo
+## Como esta organizado el codigo (estructura de carpetas de lib)
 
-    {{ organizacion_codigo }}
+    {{ organizacion_codigo: describe la estructura de lib }}
 
