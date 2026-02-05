@@ -32,6 +32,11 @@ class StaffBloc extends Bloc<StaffEvent, StaffState> {
     StaffFetchEvent event,
     Emitter<StaffState> emit,
   ) async {
+    // Evitar múltiples peticiones simultáneas
+    if (state is StaffLoading) {
+      return;
+    }
+
     emit(StaffLoading());
     try {
       var client = DioClient();
@@ -40,8 +45,17 @@ class StaffBloc extends Bloc<StaffEvent, StaffState> {
       if (response.statusCode == 200 && response.data != null) {
         final data = response.data;
 
+        // Validar que executive_team y legal_team existan y sean listas
+        final executiveTeamData = data['executive_team'];
+        final legalTeamData = data['legal_team'];
+
+        if (executiveTeamData is! List || legalTeamData is! List) {
+          emit(StaffError(errorMessage: 'Formato de datos inválido'));
+          return;
+        }
+
         final executiveTeam = await Future.wait(
-          (data['executive_team'] as List).map((item) async {
+          executiveTeamData.map((item) async {
             final member = StaffMember.fromJson(item);
             final imageUrl = await _checkImage(member.userId);
             return member.copyWith(imageUrl: imageUrl);
@@ -49,7 +63,7 @@ class StaffBloc extends Bloc<StaffEvent, StaffState> {
         );
 
         final legalTeam = await Future.wait(
-          (data['legal_team'] as List).map((item) async {
+          legalTeamData.map((item) async {
             final member = StaffMember.fromJson(item);
             final imageUrl = await _checkImage(member.userId);
             return member.copyWith(imageUrl: imageUrl);

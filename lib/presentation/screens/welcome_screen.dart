@@ -29,11 +29,24 @@ class WelcomeScreen extends StatefulWidget {
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
   int currentPageIndex = 0;
+  late final StaffBloc _staffBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _staffBloc = StaffBloc()..add(StaffFetchEvent());
+  }
+
+  @override
+  void dispose() {
+    _staffBloc.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => StaffBloc()..add(StaffFetchEvent()),
+    return BlocProvider.value(
+      value: _staffBloc,
       child: Scaffold(
         appBar: const CustomAppBar(),
         bottomNavigationBar: BlocBuilder<AuthBloc, AuthState>(
@@ -372,10 +385,11 @@ class _CustomDropDownUnderlineWelcomeState
   }
 
   List<DropdownMenuItem<String>> _buildLanguageItems() {
+    final client = DioClient();
+
     return Language.values.map((lang) {
       final languageCode = lang.value.languageCode.toUpperCase();
       final flagUrl = 'country_flag/$languageCode';
-      final client = DioClient();
 
       return DropdownMenuItem(
         value: lang.value.languageCode,
