@@ -206,6 +206,10 @@ class _MMActionsScreenState extends State<MMActionsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Detectar si estamos en modo oscuro
+    final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final String darkSuffix = isDarkMode ? '-dark' : '';
+
     // Mock data: URLs de tus imágenes de fotos
     final List<String> photoUrls = [
       'assets/images/mm-actions/image-1.jpg',
@@ -221,33 +225,41 @@ class _MMActionsScreenState extends State<MMActionsScreen> {
         onTap:
             () => _showZoomableImage(
               context,
-              'assets/images/mm-actions/modulo-0-es.jpg',
+              'assets/images/mm-actions/modulo-0-es$darkSuffix.jpg',
             ),
-        child: Image.asset('assets/images/mm-actions/modulo-0-es.jpg'),
+        child: Image.asset(
+          'assets/images/mm-actions/modulo-0-es$darkSuffix.jpg',
+        ),
       ),
       GestureDetector(
         onTap:
             () => _showZoomableImage(
               context,
-              'assets/images/mm-actions/modulo-1-es.jpg',
+              'assets/images/mm-actions/modulo-1-es$darkSuffix.jpg',
             ),
-        child: Image.asset('assets/images/mm-actions/modulo-1-es.jpg'),
+        child: Image.asset(
+          'assets/images/mm-actions/modulo-1-es$darkSuffix.jpg',
+        ),
       ),
       GestureDetector(
         onTap:
             () => _showZoomableImage(
               context,
-              'assets/images/mm-actions/modulo-2-es.jpg',
+              'assets/images/mm-actions/modulo-2-es$darkSuffix.jpg',
             ),
-        child: Image.asset('assets/images/mm-actions/modulo-2-es.jpg'),
+        child: Image.asset(
+          'assets/images/mm-actions/modulo-2-es$darkSuffix.jpg',
+        ),
       ),
       GestureDetector(
         onTap:
             () => _showZoomableImage(
               context,
-              'assets/images/mm-actions/modulo-3-es.jpg',
+              'assets/images/mm-actions/modulo-3-es$darkSuffix.jpg',
             ),
-        child: Image.asset('assets/images/mm-actions/modulo-3-es.jpg'),
+        child: Image.asset(
+          'assets/images/mm-actions/modulo-3-es$darkSuffix.jpg',
+        ),
       ),
       testimonialCard(),
     ];
@@ -257,33 +269,41 @@ class _MMActionsScreenState extends State<MMActionsScreen> {
         onTap:
             () => _showZoomableImage(
               context,
-              'assets/images/mm-actions/modulo-0-en.jpg',
+              'assets/images/mm-actions/modulo-0-en$darkSuffix.jpg',
             ),
-        child: Image.asset('assets/images/mm-actions/modulo-0-en.jpg'),
+        child: Image.asset(
+          'assets/images/mm-actions/modulo-0-en$darkSuffix.jpg',
+        ),
       ),
       GestureDetector(
         onTap:
             () => _showZoomableImage(
               context,
-              'assets/images/mm-actions/modulo-1-en.jpg',
+              'assets/images/mm-actions/modulo-1-en$darkSuffix.jpg',
             ),
-        child: Image.asset('assets/images/mm-actions/modulo-1-en.jpg'),
+        child: Image.asset(
+          'assets/images/mm-actions/modulo-1-en$darkSuffix.jpg',
+        ),
       ),
       GestureDetector(
         onTap:
             () => _showZoomableImage(
               context,
-              'assets/images/mm-actions/modulo-2-en.jpg',
+              'assets/images/mm-actions/modulo-2-en$darkSuffix.jpg',
             ),
-        child: Image.asset('assets/images/mm-actions/modulo-2-en.jpg'),
+        child: Image.asset(
+          'assets/images/mm-actions/modulo-2-en$darkSuffix.jpg',
+        ),
       ),
       GestureDetector(
         onTap:
             () => _showZoomableImage(
               context,
-              'assets/images/mm-actions/modulo-3-en.jpg',
+              'assets/images/mm-actions/modulo-3-en$darkSuffix.jpg',
             ),
-        child: Image.asset('assets/images/mm-actions/modulo-3-en.jpg'),
+        child: Image.asset(
+          'assets/images/mm-actions/modulo-3-en$darkSuffix.jpg',
+        ),
       ),
       testimonialCard(),
     ];
@@ -296,13 +316,13 @@ class _MMActionsScreenState extends State<MMActionsScreen> {
 
     final String logo =
         Localizations.localeOf(context).languageCode == 'es'
-            ? 'assets/images/mm-actions/logo-es.jpg'
-            : 'assets/images/mm-actions/logo-en.jpg';
+            ? 'assets/images/mm-actions/logo-es$darkSuffix.jpg'
+            : 'assets/images/mm-actions/logo-en$darkSuffix.jpg';
 
     final String inscriptionsInfo =
         Localizations.localeOf(context).languageCode == 'es'
-            ? 'assets/images/mm-actions/inscriptions-info-es.jpg'
-            : 'assets/images/mm-actions/inscriptions-info-en.jpg';
+            ? 'assets/images/mm-actions/inscriptions-info-es$darkSuffix.jpg'
+            : 'assets/images/mm-actions/inscriptions-info-en$darkSuffix.jpg';
 
     return Scaffold(
       appBar: AppBar(title: const Text('MM en Acción'), centerTitle: true),
@@ -399,7 +419,7 @@ class _MMActionsScreenState extends State<MMActionsScreen> {
                                 child: IconButton(
                                   iconSize: iconSize,
                                   icon: Image.asset(
-                                    'assets/images/mm-actions/arrow-left.png',
+                                    'assets/images/mm-actions/arrow-left$darkSuffix.png',
                                     width: buttonSize,
                                     height: buttonSize,
                                   ),
@@ -418,7 +438,7 @@ class _MMActionsScreenState extends State<MMActionsScreen> {
                                 child: IconButton(
                                   iconSize: iconSize,
                                   icon: Image.asset(
-                                    'assets/images/mm-actions/arrow-right.png',
+                                    'assets/images/mm-actions/arrow-right$darkSuffix.png',
                                     width: buttonSize,
                                     height: buttonSize,
                                   ),
