@@ -17,6 +17,7 @@ class AppTheme {
       onError: Colors.white, // Texto sobre errores
       surface: Colors.white, // Cards, Sheets, etc.
       onSurface: Colors.black87, // Texto sobre surface
+      tertiary: Color(0xFFEDEDED),
     );
 
     final customTextTheme = GoogleFonts.poppinsTextTheme(
@@ -162,8 +163,9 @@ class AppTheme {
       onSecondary: Colors.white,
       error: Colors.redAccent,
       onError: Colors.black,
-      surface: Color(0xFF121212),
+      surface: Colors.black87,
       onSurface: Colors.white70,
+      tertiary: Color(0xFF282a2c),
     );
 
     final customTextTheme = GoogleFonts.poppinsTextTheme(
@@ -198,7 +200,7 @@ class AppTheme {
     );
 
     return ThemeData(
-      scaffoldBackgroundColor: Color(0xFF121212),
+      scaffoldBackgroundColor: Color(0xFF282a2c),
       useMaterial3: true,
       colorScheme: colorScheme,
       textTheme: customTextTheme,
@@ -235,7 +237,7 @@ class AppTheme {
         ),
       ),
       drawerTheme: DrawerThemeData(
-        backgroundColor: Color(0xFF121212),
+        backgroundColor: Color(0xFF282a2c),
         scrimColor: Colors.black54,
         elevation: 16,
         shape: RoundedRectangleBorder(
@@ -258,7 +260,7 @@ class AppTheme {
         unselectedLabelStyle: customTextTheme.bodyMedium,
       ),
       navigationBarTheme: NavigationBarThemeData(
-        backgroundColor: Color(0xFF121212),
+        backgroundColor: Color(0xFF282a2c),
         indicatorColor: colorScheme.primary.withAlpha(25),
         labelTextStyle: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {

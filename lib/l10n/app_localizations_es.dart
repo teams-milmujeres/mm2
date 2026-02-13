@@ -787,6 +787,9 @@ class AppLocalizationsEs extends AppLocalizations {
       'Los términos y condiciones han sido aceptados correctamente.';
 
   @override
+  String get mm_welcome => 'Somos Mil Mujeres';
+
+  @override
   String get error_try_again_later => 'Error inténtelo nuevamente más tarde.';
 
   @override
@@ -809,7 +812,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get mm_description =>
-      'Mil Mujeres es una organización sin fines de lucro que se fundó en 2007 para abordar la creciente necesidad de servicios legales bilingües para la comunidad latina en los Estados Unidos con énfasis en ayudar a sobrevivientes de delitos violentos, incluida la violencia doméstica, la agresión sexual y la agresión.';
+      'Una organización sin fines de lucro que presta servicios legales bilingües a la comunidad latina en Estados Unidos. \nNos especializamos en brindar acompañamiento a los sobrevivientes de delitos violentos, violencia domestica y egresión sexual.';
 
   @override
   String get mm_what_we_do =>

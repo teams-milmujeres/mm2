@@ -258,6 +258,7 @@
   "terms_and_conditions": "Terms and Conditions",
   "accept_terms_and_conditions": "Accept Terms and Conditions",
   "signature_success": "The terms and conditions have been accepted correctly.", 
+  "mm_welcome": "We are Mil Mujeres",
 
   "@_MESSAGES": {},
   "error_try_again_later" : "Error try again later.",
@@ -266,7 +267,7 @@
   "have_an_account" : "Do you have an account?",
   "forgot_password" : "Forgot password?",
   "mm_about_txt" : "Mil Mujeres is a non-profit organization that was founded in 2007 to address the growing need for bilingual legal services for the Latino community in the United States with an emphasis on helping survivors of violent crime, including domestic violence, sexual assault, and assault, \n \n In the last years, we have helped more than five thousand people with our legal services and more than twenty thousand people with our information services throughout the national territory.",
-  "mm_description": "Mil Mujeres is a non-profit organization that was founded in 2007 to address the growing need for bilingual legal services for the Latino community in the United States with an emphasis on helping survivors of violent crime, including domestic violence, sexual assault, and assault.",
+  "mm_description": "A nonprofit organization that provides bilingual legal services to the Latino community in the United States.\nWe specialize in supporting survivors of violent crimes, domestic violence, and sexual assault.",
   "mm_what_we_do": "In the last years, we have helped more than five thousand people with our legal services and more than twenty thousand people with our information services throughout the national territory",
   "already_have_an_account" : "Already have an account!",
   "dont_have_an_account" : "Don't have an account?",

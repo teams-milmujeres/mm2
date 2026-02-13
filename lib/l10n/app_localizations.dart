@@ -1634,6 +1634,12 @@ abstract class AppLocalizations {
   /// **'The terms and conditions have been accepted correctly.'**
   String get signature_success;
 
+  /// No description provided for @mm_welcome.
+  ///
+  /// In en, this message translates to:
+  /// **'We are Mil Mujeres'**
+  String get mm_welcome;
+
   /// No description provided for @error_try_again_later.
   ///
   /// In en, this message translates to:
@@ -1673,7 +1679,7 @@ abstract class AppLocalizations {
   /// No description provided for @mm_description.
   ///
   /// In en, this message translates to:
-  /// **'Mil Mujeres is a non-profit organization that was founded in 2007 to address the growing need for bilingual legal services for the Latino community in the United States with an emphasis on helping survivors of violent crime, including domestic violence, sexual assault, and assault.'**
+  /// **'A nonprofit organization that provides bilingual legal services to the Latino community in the United States.\nWe specialize in supporting survivors of violent crimes, domestic violence, and sexual assault.'**
   String get mm_description;
 
   /// No description provided for @mm_what_we_do.

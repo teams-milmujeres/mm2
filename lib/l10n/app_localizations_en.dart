@@ -784,6 +784,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'The terms and conditions have been accepted correctly.';
 
   @override
+  String get mm_welcome => 'We are Mil Mujeres';
+
+  @override
   String get error_try_again_later => 'Error try again later.';
 
   @override
@@ -806,7 +809,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mm_description =>
-      'Mil Mujeres is a non-profit organization that was founded in 2007 to address the growing need for bilingual legal services for the Latino community in the United States with an emphasis on helping survivors of violent crime, including domestic violence, sexual assault, and assault.';
+      'A nonprofit organization that provides bilingual legal services to the Latino community in the United States.\nWe specialize in supporting survivors of violent crimes, domestic violence, and sexual assault.';
 
   @override
   String get mm_what_we_do =>

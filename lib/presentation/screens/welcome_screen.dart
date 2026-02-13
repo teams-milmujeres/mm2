@@ -112,21 +112,20 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return SingleChildScrollView(
-          child: Column(
-            children: [
-              ContainerAbout(),
-              const SizedBox(height: 20),
-              ContainerStaff(),
-              const SizedBox(height: 20),
-              ContainerSocialButtons(),
-              const SizedBox(height: 20),
-            ],
-          ),
-        );
-      },
+    return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.tertiary,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            ContainerAbout(),
+            const SizedBox(height: 20),
+            ContainerStaff(),
+            const SizedBox(height: 20),
+            ContainerSocialButtons(),
+            const SizedBox(height: 20),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -414,29 +413,70 @@ class ContainerAbout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(100.0),
-      child: Center(
-        child: Column(
-          children: [
-            CircleAvatar(
-              backgroundImage: const AssetImage('assets/icon/icon.png'),
-              radius: 80,
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        // Imagen fondo full width
+        SizedBox(
+          width: double.infinity,
+          height: 400, // Ajusta altura según diseño
+          child: DecoratedBox(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/banner.png'),
+                fit: BoxFit.cover,
+              ),
             ),
-            Text(
-              AppLocalizations.of(context)!.mm_description,
-              style: Theme.of(context).textTheme.bodyLarge,
-              textAlign: TextAlign.center,
+          ),
+        ),
+
+        // Contenido alineado a la izquierda (mitad)
+        SizedBox(
+          width: double.infinity,
+          height: 400,
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.5,
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  Text(
+                    AppLocalizations.of(context)!.mm_welcome,
+                    style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    AppLocalizations.of(context)!.mm_description,
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodySmall?.copyWith(color: Colors.white),
+                    textAlign: TextAlign.left,
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(height: 30),
-            CircularButton(
+          ),
+        ),
+
+        // Botón flotante centrado abajo
+        Positioned(
+          bottom: -30,
+          left: 0,
+          right: 0,
+          child: Center(
+            child: CircularButton(
               icon: Icons.info_outline,
               text: AppLocalizations.of(context)!.contact_us,
               press: () => context.push('/contact_us'),
             ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }
@@ -546,47 +586,57 @@ class _ContainerStaffState extends State<ContainerStaff> {
     final isSmallScreen = MediaQuery.of(context).size.width < 400;
     final double avatarRadius = isSmallScreen ? 40 : 60;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-          child: Text(
-            title,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-              color: Theme.of(context).colorScheme.primary,
-            ),
-          ),
-        ),
-        ResponsiveGridRow(
-          children: [
-            for (int i = 0; i < team.length; i++) ...[
-              ResponsiveGridCol(
-                xs:
-                    team[i].staffOrder == 0
-                        ? 12
-                        : (i == (team.length - 1) && i % 2 != 0)
-                        ? 12
-                        : 6,
-                sm:
-                    team[i].staffOrder == 0
-                        ? 12
-                        : (i == (team.length - 1) && i % 2 != 0)
-                        ? 12
-                        : 6,
-                md:
-                    team[i].staffOrder == 0
-                        ? 12
-                        : (i == (team.length - 1) && i % 2 != 0)
-                        ? 12
-                        : 6,
-                child: _buildStaffItem(context, team[i], avatarRadius),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+      child: Card(
+        color: Theme.of(context).colorScheme.surface,
+        elevation: 6,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
+              const SizedBox(height: 20),
+
+              ResponsiveGridRow(
+                children: [
+                  for (int i = 0; i < team.length; i++) ...[
+                    ResponsiveGridCol(
+                      xs:
+                          team[i].staffOrder == 0
+                              ? 12
+                              : (i == (team.length - 1) && i % 2 != 0)
+                              ? 12
+                              : 6,
+                      sm:
+                          team[i].staffOrder == 0
+                              ? 12
+                              : (i == (team.length - 1) && i % 2 != 0)
+                              ? 12
+                              : 6,
+                      md:
+                          team[i].staffOrder == 0
+                              ? 12
+                              : (i == (team.length - 1) && i % 2 != 0)
+                              ? 12
+                              : 6,
+                      child: _buildStaffItem(context, team[i], avatarRadius),
+                    ),
+                  ],
+                ],
               ),
             ],
-          ],
+          ),
         ),
-      ],
+      ),
     );
   }
 
@@ -697,26 +747,34 @@ class ContainerSocialButtons extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              translation.follow_us,
-              style: Theme.of(
-                context,
-              ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-            Row(
+      child: Card(
+        color: Theme.of(context).colorScheme.surface,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Center(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children:
-                  socialButtons
-                      .map((button) => _buildSocialButton(context, button))
-                      .toList(),
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  translation.follow_us,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children:
+                      socialButtons
+                          .map((button) => _buildSocialButton(context, button))
+                          .toList(),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
@@ -725,18 +783,17 @@ class ContainerSocialButtons extends StatelessWidget {
   Widget _buildSocialButton(BuildContext context, _SocialButtonData button) {
     return Expanded(
       flex: 1,
-      child: IconButton(
-        icon: FaIcon(
-          button.icon,
-          color: Theme.of(context).colorScheme.primary,
-          size: 25,
-        ),
-        onPressed: () => UrlLauncherHelper.launchURL(url: button.url),
-        style: ElevatedButton.styleFrom(
-          // foregroundColor: Theme.of(context).colorScheme.primary,
-          backgroundColor: Colors.transparent,
-          shape: const CircleBorder(),
-          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      child: CircleAvatar(
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        child: IconButton(
+          icon: FaIcon(button.icon, color: Colors.white, size: 25),
+          onPressed: () => UrlLauncherHelper.launchURL(url: button.url),
+          style: ElevatedButton.styleFrom(
+            foregroundColor: Theme.of(context).colorScheme.onPrimary,
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            shape: const CircleBorder(),
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
         ),
       ),
     );
