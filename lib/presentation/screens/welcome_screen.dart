@@ -413,70 +413,76 @@ class ContainerAbout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      clipBehavior: Clip.none,
-      children: [
-        // Imagen fondo full width
-        SizedBox(
-          width: double.infinity,
-          height: 400, // Ajusta altura según diseño
-          child: DecoratedBox(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/banner.png'),
-                fit: BoxFit.cover,
+    return SizedBox(
+      height: 430, // 👈 400 del banner + 30 de flotación
+      child: Stack(
+        clipBehavior: Clip.none,
+        alignment: Alignment.bottomCenter,
+        children: [
+          // Banner
+          SizedBox(
+            height: 400,
+            width: double.infinity,
+            child: DecoratedBox(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/banner.png'),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),
-        ),
 
-        // Contenido alineado a la izquierda (mitad)
-        SizedBox(
-          width: double.infinity,
-          height: 400,
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Container(
-              width: MediaQuery.of(context).size.width * 0.5,
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  Text(
-                    AppLocalizations.of(context)!.mm_welcome,
-                    style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+          // Texto
+          SizedBox(
+            height: 400,
+            width: double.infinity,
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.5,
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      AppLocalizations.of(context)!.mm_welcome,
+                      style: Theme.of(
+                        context,
+                      ).textTheme.headlineLarge?.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                    textAlign: TextAlign.left,
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    AppLocalizations.of(context)!.mm_description,
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodySmall?.copyWith(color: Colors.white),
-                    textAlign: TextAlign.left,
-                  ),
-                ],
+                    const SizedBox(height: 10),
+                    Text(
+                      AppLocalizations.of(context)!.mm_description,
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodySmall?.copyWith(color: Colors.white),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
 
-        // Botón flotante centrado abajo
-        Positioned(
-          bottom: -30,
-          left: 0,
-          right: 0,
-          child: Center(
-            child: CircularButton(
-              icon: Icons.info_outline,
-              text: AppLocalizations.of(context)!.contact_us,
-              press: () => context.push('/contact_us'),
+          // Botón flotante REAL
+          Positioned(
+            bottom: 0,
+            child: Transform.translate(
+              offset: const Offset(0, 15), // efecto flotante
+              child: CircularButton(
+                text: AppLocalizations.of(context)!.contact_us,
+                icon: Icons.info_outline,
+                press: () => context.push('/contact_us'),
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -557,6 +563,7 @@ class _ContainerStaffState extends State<ContainerStaff> {
                     context,
                     translation.executive_team,
                     staff.executiveTeam,
+                    isExecutive: true,
                   ),
                   _buildTeamSection(
                     context,
@@ -581,57 +588,63 @@ class _ContainerStaffState extends State<ContainerStaff> {
   Widget _buildTeamSection(
     BuildContext context,
     String title,
-    List<StaffMember> team,
-  ) {
+    List<StaffMember> team, {
+    bool isExecutive = false,
+  }) {
     final isSmallScreen = MediaQuery.of(context).size.width < 400;
     final double avatarRadius = isSmallScreen ? 40 : 60;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
       child: Card(
-        color: Theme.of(context).colorScheme.surface,
         elevation: 6,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 title,
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                  color: Theme.of(context).colorScheme.primary,
-                ),
+                style: Theme.of(context).textTheme.headlineLarge,
               ),
               const SizedBox(height: 20),
 
-              ResponsiveGridRow(
-                children: [
-                  for (int i = 0; i < team.length; i++) ...[
-                    ResponsiveGridCol(
-                      xs:
-                          team[i].staffOrder == 0
-                              ? 12
-                              : (i == (team.length - 1) && i % 2 != 0)
-                              ? 12
-                              : 6,
-                      sm:
-                          team[i].staffOrder == 0
-                              ? 12
-                              : (i == (team.length - 1) && i % 2 != 0)
-                              ? 12
-                              : 6,
-                      md:
-                          team[i].staffOrder == 0
-                              ? 12
-                              : (i == (team.length - 1) && i % 2 != 0)
-                              ? 12
-                              : 6,
-                      child: _buildStaffItem(context, team[i], avatarRadius),
-                    ),
-                  ],
-                ],
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  final double maxWidth = constraints.maxWidth;
+
+                  // Espaciado horizontal entre tarjetas
+                  const double spacing = 24;
+
+                  // Ancho para 2 por fila
+                  final double twoPerRowWidth = (maxWidth - spacing) / 2;
+
+                  return Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: spacing,
+                    runSpacing: spacing,
+                    children: List.generate(team.length, (index) {
+                      double itemWidth;
+
+                      // Executive: primer elemento ocupa todo
+                      if (isExecutive && index == 0) {
+                        itemWidth = maxWidth;
+                      } else {
+                        itemWidth = twoPerRowWidth;
+                      }
+
+                      return SizedBox(
+                        width: itemWidth,
+                        child: _buildStaffItem(
+                          context,
+                          team[index],
+                          avatarRadius,
+                        ),
+                      );
+                    }),
+                  );
+                },
               ),
             ],
           ),
