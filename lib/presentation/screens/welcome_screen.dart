@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 // Bloc
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mm/presentation/bloc/notifications/notifications_bloc.dart';
 import 'package:mm/presentation/bloc/staff/staff_bloc.dart';
 import 'package:mm/presentation/bloc/locale/language_bloc.dart';
 import 'package:mm/presentation/bloc/auth/auth_bloc.dart';
@@ -18,7 +19,7 @@ import 'package:mm/l10n/app_localizations.dart';
 import 'package:mm/presentation/screens.dart';
 // Other imports
 import 'package:mm/data/data.dart';
-import 'package:responsive_grid/responsive_grid.dart';
+
 import 'package:mm/widgets/circular_buitton.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -288,14 +289,36 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           },
         ),
         IconButton(
-          tooltip: AppLocalizations.of(context)!.donate,
-          onPressed: () async {
-            await UrlLauncherHelper.launchURL(
-              url: 'https://givebutter.com/KI0Y2G',
-            );
+          tooltip: AppLocalizations.of(context)!.notifications,
+          onPressed: () {
+            context.read<NotificationBloc>().add(ClearNotificationsEvent());
+            context.pushNamed('notifications');
           },
-          icon: const Icon(Icons.favorite),
+          icon: BlocBuilder<NotificationBloc, NotificationState>(
+            builder: (context, state) {
+              return Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  const Icon(Icons.notifications),
+                  if (state.hasNewNotification)
+                    Positioned(
+                      right: 4,
+                      top: 4,
+                      child: Container(
+                        width: 10,
+                        height: 10,
+                        decoration: const BoxDecoration(
+                          color: Colors.red,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    ),
+                ],
+              );
+            },
+          ),
         ),
+
         BlocBuilder<AuthBloc, AuthState>(
           builder: (context, state) {
             if (state is AuthAuthenticated) {

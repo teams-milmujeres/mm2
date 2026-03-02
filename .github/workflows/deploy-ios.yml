@@ -114,6 +114,14 @@ jobs:
       - name: Generate iOS splash screen
         run: flutter pub run flutter_native_splash:create
 
+      - name: Debug iOS config (print Podfile and deployment targets)
+        working-directory: ios
+        run: |
+          echo "--- Podfile ---"
+          sed -n '1,120p' Podfile || true
+          echo "--- project.pbxproj IPHONEOS_DEPLOYMENT_TARGET lines ---"
+          grep -n "IPHONEOS_DEPLOYMENT_TARGET" Runner.xcodeproj/project.pbxproj || true
+
       - name: Install CocoaPods dependencies
         working-directory: ios
         run: |

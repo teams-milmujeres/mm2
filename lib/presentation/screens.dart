@@ -18,3 +18,4 @@ export 'package:mm/presentation/screens/event_screen.dart';
 export 'package:mm/presentation/screens/upload_document_screen.dart';
 export 'package:mm/presentation/screens/mm_actions_screen.dart';
 export 'package:mm/presentation/screens/rating_screen.dart';
+export 'package:mm/presentation/screens/notifications_screen.dart';

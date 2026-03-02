@@ -151,41 +151,43 @@ class _ComplaintsScreenState extends State<ComplaintsScreen> {
           builder: (context, state) {
             final isLoading = state is ComplaintsLoading;
 
-            return Padding(
-              padding: const EdgeInsets.all(25.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Image(
-                    image: AssetImage('assets/images/milmujeres-logo.png'),
-                    height: 80,
-                  ),
-                  const SizedBox(height: 10),
-                  if (userEmail != null) Text(userEmail!),
-                  const Text("(202) 808-3311"),
-                  const SizedBox(height: 30),
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Image(
+                      image: AssetImage('assets/images/milmujeres-logo.png'),
+                      height: 80,
+                    ),
+                    const SizedBox(height: 10),
+                    if (userEmail != null) Text(userEmail!),
+                    const Text("(202) 808-3311"),
+                    const SizedBox(height: 30),
 
-                  _buildTextField(
-                    label: translation.subject,
-                    controller: subjectController,
-                    errorText: subjectError,
-                  ),
-                  _buildTextField(
-                    label: translation.message,
-                    controller: messageController,
-                    errorText: messageError,
-                    maxLines: 5,
-                    maxLength: 250,
-                  ),
-                  const SizedBox(height: 20),
-                  isLoading
-                      ? const CircularProgressIndicator()
-                      : RoundedButtonLarge(
-                        text: translation.send,
-                        press: () => _validateAndSubmit(context),
-                        icon: Icons.send,
-                      ),
-                ],
+                    _buildTextField(
+                      label: translation.subject,
+                      controller: subjectController,
+                      errorText: subjectError,
+                    ),
+                    _buildTextField(
+                      label: translation.message,
+                      controller: messageController,
+                      errorText: messageError,
+                      maxLines: 5,
+                      maxLength: 250,
+                    ),
+                    const SizedBox(height: 20),
+                    isLoading
+                        ? const CircularProgressIndicator()
+                        : RoundedButtonLarge(
+                          text: translation.send,
+                          press: () => _validateAndSubmit(context),
+                          icon: Icons.send,
+                        ),
+                  ],
+                ),
               ),
             );
           },

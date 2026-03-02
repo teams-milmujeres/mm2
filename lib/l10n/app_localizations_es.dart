@@ -790,6 +790,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get mm_welcome => 'Somos Mil Mujeres';
 
   @override
+  String get notifications => 'Notificaciones';
+
+  @override
   String get error_try_again_later => 'Error inténtelo nuevamente más tarde.';
 
   @override

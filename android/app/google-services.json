@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "340479106342",
+    "project_id": "milmujeres-notifications-25ed8",
+    "storage_bucket": "milmujeres-notifications-25ed8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:340479106342:android:be554865bd94aeb83c75e7",
+        "android_client_info": {
+          "package_name": "org.milmujeres.appMilMujeres"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDR-v40q6AiOELH8mP6W5v2O-WBR67Xn-c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:340479106342:android:927a4cf0d7125a153c75e7",
+        "android_client_info": {
+          "package_name": "org.milmujeres.mm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDR-v40q6AiOELH8mP6W5v2O-WBR67Xn-c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

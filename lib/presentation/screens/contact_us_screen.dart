@@ -182,54 +182,56 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
           builder: (context, state) {
             final isLoading = state is ContactUsLoading;
 
-            return Padding(
-              padding: const EdgeInsets.all(25.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Image(
-                    image: AssetImage('assets/images/milmujeres-logo.png'),
-                    height: 80,
-                  ),
-                  const SizedBox(height: 10),
-                  const Text("questions@milmujeres.org"),
-                  const Text("(202) 808-3311"),
-                  const SizedBox(height: 30),
-
-                  if (!isAuthenticated)
-                    _buildTextField(
-                      label: translation.name,
-                      controller: nameController,
-                      errorText: nameError,
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Image(
+                      image: AssetImage('assets/images/milmujeres-logo.png'),
+                      height: 80,
                     ),
-                  if (!isAuthenticated)
-                    _buildTextField(
-                      label: translation.email,
-                      controller: emailController,
-                      errorText: emailError,
-                    ),
+                    const SizedBox(height: 10),
+                    const Text("questions@milmujeres.org"),
+                    const Text("(202) 808-3311"),
+                    const SizedBox(height: 30),
 
-                  _buildTextField(
-                    label: translation.subject,
-                    controller: subjectController,
-                    errorText: subjectError,
-                  ),
-                  _buildTextField(
-                    label: translation.message,
-                    controller: messageController,
-                    errorText: messageError,
-                    maxLines: 5,
-                    maxLength: 250,
-                  ),
-                  const SizedBox(height: 20),
-                  isLoading
-                      ? const CircularProgressIndicator()
-                      : RoundedButtonLarge(
-                        text: translation.send,
-                        press: () => _validateAndSubmit(context),
-                        icon: Icons.send,
+                    if (!isAuthenticated)
+                      _buildTextField(
+                        label: translation.name,
+                        controller: nameController,
+                        errorText: nameError,
                       ),
-                ],
+                    if (!isAuthenticated)
+                      _buildTextField(
+                        label: translation.email,
+                        controller: emailController,
+                        errorText: emailError,
+                      ),
+
+                    _buildTextField(
+                      label: translation.subject,
+                      controller: subjectController,
+                      errorText: subjectError,
+                    ),
+                    _buildTextField(
+                      label: translation.message,
+                      controller: messageController,
+                      errorText: messageError,
+                      maxLines: 5,
+                      maxLength: 250,
+                    ),
+                    const SizedBox(height: 20),
+                    isLoading
+                        ? const CircularProgressIndicator()
+                        : RoundedButtonLarge(
+                          text: translation.send,
+                          press: () => _validateAndSubmit(context),
+                          icon: Icons.send,
+                        ),
+                  ],
+                ),
               ),
             );
           },
