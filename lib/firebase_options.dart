@@ -47,29 +47,29 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyD1GaxWVS2AydYe3NdVvC2VXFm5x7SWt0M',
-    appId: '1:602641968223:web:9231bcd4ee34bb43417fea',
-    messagingSenderId: '602641968223',
-    projectId: 'milmujeres-notifications',
-    authDomain: 'milmujeres-notifications.firebaseapp.com',
-    storageBucket: 'milmujeres-notifications.firebasestorage.app',
-    measurementId: 'G-N0162XTX5E',
+    apiKey: 'AIzaSyDxgMbYJKPdDkggl122vnnm71GfiiHSf3A',
+    appId: '1:340479106342:web:5004474dafb5c9df3c75e7',
+    messagingSenderId: '340479106342',
+    projectId: 'milmujeres-notifications-25ed8',
+    authDomain: 'milmujeres-notifications-25ed8.firebaseapp.com',
+    storageBucket: 'milmujeres-notifications-25ed8.firebasestorage.app',
+    measurementId: 'G-CMQ8WQPE9R',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyA03dP3KXEfgvGqqghdNgNZLp_w92J5n_s',
-    appId: '1:602641968223:android:b89354d7e004322d417fea',
-    messagingSenderId: '602641968223',
-    projectId: 'milmujeres-notifications',
-    storageBucket: 'milmujeres-notifications.firebasestorage.app',
+    apiKey: 'AIzaSyDR-v40q6AiOELH8mP6W5v2O-WBR67Xn-c',
+    appId: '1:340479106342:android:927a4cf0d7125a153c75e7',
+    messagingSenderId: '340479106342',
+    projectId: 'milmujeres-notifications-25ed8',
+    storageBucket: 'milmujeres-notifications-25ed8.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyC4ZVIBeZgZdC8ghkgNsf3e_YxTtM4e-SU',
-    appId: '1:602641968223:ios:7454698de0b65b46417fea',
-    messagingSenderId: '602641968223',
-    projectId: 'milmujeres-notifications',
-    storageBucket: 'milmujeres-notifications.firebasestorage.app',
+    apiKey: 'AIzaSyAFpNFgfV_Qha4md1IMdnxsgVeo0EUnzgA',
+    appId: '1:340479106342:ios:8eb79dd2de0d47ca3c75e7',
+    messagingSenderId: '340479106342',
+    projectId: 'milmujeres-notifications-25ed8',
+    storageBucket: 'milmujeres-notifications-25ed8.firebasestorage.app',
     iosBundleId: 'org.milmujeres.appMilMujeres',
   );
 
