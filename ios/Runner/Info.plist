@@ -56,7 +56,7 @@
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>FirebaseAppDelegateProxyEnabled</key>
-	<false/>
+	<true/>
 	<key>UIBackgroundModes</key>
 	<array>
 	<string>fetch</string>
