@@ -30,7 +30,7 @@ import FirebaseMessaging
   }
 
   // Mostrar notificaciones en foreground
-  func userNotificationCenter(_ center: UNUserNotificationCenter,
+  override func userNotificationCenter(_ center: UNUserNotificationCenter,
                               willPresent notification: UNNotification,
                               withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
     completionHandler([.alert, .badge, .sound])
