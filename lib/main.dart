@@ -19,6 +19,11 @@ final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey =
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   print("Handling a background message: ${message.messageId}");
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
 }
 
 void main() async {
