@@ -24,60 +24,89 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     InitializeNotificationsEvent event,
     Emitter<NotificationState> emit,
   ) async {
+    try {
+      /// 1️⃣ Solicitar permisos
+      NotificationSettings settings = await _messaging.requestPermission(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
 
-    /// 1️⃣ Solicitar permisos
-    NotificationSettings settings = await _messaging.requestPermission(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
+      print("Permiso notificaciones: ${settings.authorizationStatus}");
 
-    print("Permiso notificaciones: ${settings.authorizationStatus}");
-
-    /// 2️⃣ En iOS esperar APNS token
-    if (Platform.isIOS) {
-      String? apnsToken;
-
-      for (int i = 0; i < 10; i++) {
-        apnsToken = await _messaging.getAPNSToken();
-        if (apnsToken != null) break;
-
-        print("Esperando APNS token...");
-        await Future.delayed(const Duration(seconds: 1));
+      // Validar que el permiso fue concedido
+      if (settings.authorizationStatus != AuthorizationStatus.authorized &&
+          settings.authorizationStatus != AuthorizationStatus.provisional) {
+        print("❌ Permiso de notificaciones rechazado o no disponible");
+        return;
       }
 
-      print("APNS TOKEN: $apnsToken");
-    }
+      /// 2️⃣ En iOS esperar APNS token
+      if (Platform.isIOS) {
+        String? apnsToken;
+        int attempts = 0;
+        const maxAttempts = 15;
 
-    /// 3️⃣ Obtener token FCM
-    final token = await _messaging.getToken();
-    print("FCM TOKEN: $token");
+        // Intentar obtener el APNS token con más intentos y mejor logging
+        while (apnsToken == null && attempts < maxAttempts) {
+          apnsToken = await _messaging.getAPNSToken();
+          if (apnsToken != null) {
+            print("✅ APNS TOKEN obtenido: $apnsToken");
+            break;
+          }
 
-    if (token != null) {
-      await _sendTokenToBackend(event.clientId, token);
-    }
+          attempts++;
+          if (attempts < maxAttempts) {
+            print("⏳ Esperando APNS token... (intento $attempts/$maxAttempts)");
+            await Future.delayed(const Duration(milliseconds: 500));
+          }
+        }
 
-    /// 4️⃣ Escuchar renovación de token
-    FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
-      print("Token refreshed: $newToken");
-      _sendTokenToBackend(event.clientId, newToken);
-    });
+        if (apnsToken == null) {
+          print("⚠️ ADVERTENCIA: APNS token NO disponible después de $maxAttempts intentos");
+          print("   Verifica que:");
+          print("   • Push Notifications esté habilitado en Xcode (Signing & Capabilities)");
+          print("   • El Provisioning Profile incluya 'Push Notifications'");
+          print("   • El certificado APNs esté configurado en Firebase Console");
+          print("   • La app se ejecute en un dispositivo real (no en simulador)");
+        }
+      }
 
-    /// 5️⃣ Listener foreground
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print("Foreground message: ${message.data}");
-      add(NewNotificationEvent(message));
-    });
+      /// 3️⃣ Obtener token FCM
+      final token = await _messaging.getToken();
+      if (token != null) {
+        print("✅ FCM TOKEN: $token");
+        await _sendTokenToBackend(event.clientId, token);
+      } else {
+        print("⚠️ No se pudo obtener token FCM");
+      }
 
-    /// 6️⃣ Usuario abre notificación
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      add(NewNotificationEvent(message));
-    });
+      /// 4️⃣ Escuchar renovación de token
+      FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
+        print("📲 Token refreshed: $newToken");
+        _sendTokenToBackend(event.clientId, newToken);
+      });
 
-    /// 7️⃣ App abierta desde notificación cerrada
-    final initialMessage = await _messaging.getInitialMessage();
-    if (initialMessage != null) {
-      add(NewNotificationEvent(initialMessage));
+      /// 5️⃣ Listener foreground
+      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+        print("📨 Foreground message received: ${message.notification?.title}");
+        add(NewNotificationEvent(message));
+      });
+
+      /// 6️⃣ Usuario abre notificación
+      FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+        print("👆 Notification opened: ${message.notification?.title}");
+        add(NewNotificationEvent(message));
+      });
+
+      /// 7️⃣ App abierta desde notificación cerrada
+      final initialMessage = await _messaging.getInitialMessage();
+      if (initialMessage != null) {
+        print("🚀 App opened from closed state via notification");
+        add(NewNotificationEvent(initialMessage));
+      }
+    } catch (e) {
+      print("❌ Error initializing notifications: $e");
     }
   }
 
