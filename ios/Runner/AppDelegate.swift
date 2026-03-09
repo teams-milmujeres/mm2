@@ -18,19 +18,6 @@ import FirebaseMessaging
     // Configurar Firebase Messaging delegate
     Messaging.messaging().delegate = self
 
-    // Solicitar autorización para notificaciones
-    let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-    UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { granted, error in
-      if granted {
-        DispatchQueue.main.async {
-          application.registerForRemoteNotifications()
-          print("✅ Push notifications authorized")
-        }
-      } else if let error = error {
-        print("❌ Failed to request notification authorization: \(error)")
-      }
-    }
-    
     // Configurar delegado para notificaciones
     UNUserNotificationCenter.current().delegate = self
 
@@ -46,7 +33,6 @@ import FirebaseMessaging
   ) {
     print("✅ APNs registration successful")
     Messaging.messaging().apnsToken = deviceToken
-    super.application(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
   }
   
   // Manejar error en registro de APNs
@@ -55,7 +41,6 @@ import FirebaseMessaging
     didFailToRegisterForRemoteNotificationsWithError error: Error
   ) {
     print("❌ Failed to register for remote notifications: \(error)")
-    super.application(application, didFailToRegisterForRemoteNotificationsWithError: error)
   }
 
   // Mostrar notificaciones cuando la app está en foreground
