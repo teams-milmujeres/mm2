@@ -87,7 +87,7 @@ class _DashboardCardState extends State<DashboardCard> {
                 color:
                     isPressed
                         ? theme.colorScheme.onPrimary
-                        : theme.primaryColor,
+                        : theme.colorScheme.primary,
               ),
               const SizedBox(height: 10),
               Flexible(

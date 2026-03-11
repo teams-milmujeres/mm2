@@ -288,35 +288,44 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             );
           },
         ),
-        IconButton(
-          tooltip: AppLocalizations.of(context)!.notifications,
-          onPressed: () {
-            context.read<NotificationBloc>().add(ClearNotificationsEvent());
-            context.pushNamed('notifications');
-          },
-          icon: BlocBuilder<NotificationBloc, NotificationState>(
-            builder: (context, state) {
-              return Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  const Icon(Icons.notifications),
-                  if (state.hasNewNotification)
-                    Positioned(
-                      right: 4,
-                      top: 4,
-                      child: Container(
-                        width: 10,
-                        height: 10,
-                        decoration: const BoxDecoration(
-                          color: Colors.red,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                    ),
-                ],
+        BlocBuilder<AuthBloc, AuthState>(
+          builder: (context, authState) {
+            if (authState is AuthAuthenticated) {
+              return IconButton(
+                tooltip: AppLocalizations.of(context)!.notifications,
+                onPressed: () {
+                  context.read<NotificationBloc>().add(
+                    ClearNotificationsEvent(),
+                  );
+                  context.pushNamed('notifications');
+                },
+                icon: BlocBuilder<NotificationBloc, NotificationState>(
+                  builder: (context, state) {
+                    return Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        const Icon(Icons.notifications),
+                        if (state.hasNewNotification)
+                          Positioned(
+                            right: 4,
+                            top: 4,
+                            child: Container(
+                              width: 10,
+                              height: 10,
+                              decoration: const BoxDecoration(
+                                color: Colors.red,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                          ),
+                      ],
+                    );
+                  },
+                ),
               );
-            },
-          ),
+            }
+            return const SizedBox.shrink();
+          },
         ),
 
         BlocBuilder<AuthBloc, AuthState>(

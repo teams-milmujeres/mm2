@@ -164,6 +164,7 @@ class _MaterialAppWidgetState extends State<MaterialAppWidget> {
           return BlocBuilder<LanguageBloc, LanguageState>(
             builder: (context, languageState) {
               return MaterialApp.router(
+                scaffoldMessengerKey: rootScaffoldMessengerKey,
                 debugShowCheckedModeBanner: false,
                 theme: AppTheme().lightTheme,
                 darkTheme: AppTheme().darkTheme,

@@ -95,9 +95,9 @@ class EditProfileScreen extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       elevation: 2,
       child: ListTile(
-        leading: Icon(icon, color: theme.primaryColor),
+        leading: Icon(icon, color: theme.colorScheme.primary),
         title: Text(title),
-        trailing: Icon(Icons.edit_outlined, color: theme.primaryColor),
+        trailing: Icon(Icons.edit_outlined, color: theme.colorScheme.primary),
         onTap: onTap,
       ),
     );
