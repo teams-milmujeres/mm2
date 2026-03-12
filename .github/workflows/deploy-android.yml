@@ -76,7 +76,7 @@ jobs:
         with:
           channel: stable
           cache: true
-          flutter-version: '3.32.0'
+          flutter-version: '3.41.4'
       
       - name: Clean Gradle cache
         run: rm -rf ~/.gradle/caches
