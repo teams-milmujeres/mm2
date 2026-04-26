@@ -5,11 +5,11 @@ class AppTheme {
   ThemeData get lightTheme {
     final baseTextTheme = ThemeData.light().textTheme;
 
-    final colorPrimary = Colors.teal;
+    final colorPrimary = Colors.blue[700]!;
 
-    final colorScheme = const ColorScheme(
+    final colorScheme = ColorScheme(
       brightness: Brightness.light,
-      primary: Colors.teal, // Color principal (botones, etc.)
+      primary: colorPrimary, // Color principal (botones, etc.)
       onPrimary: Colors.white, // Texto sobre el color primario
       secondary: Colors.tealAccent, // Color secundario (chips, switches)
       onSecondary: Colors.black, // Texto sobre el secundario
@@ -153,11 +153,11 @@ class AppTheme {
   ThemeData get darkTheme {
     final baseTextTheme = ThemeData.dark().textTheme;
 
-    final colorPrimary = Colors.teal;
+    final colorPrimary = Colors.blueAccent;
 
-    final colorScheme = const ColorScheme(
+    final colorScheme = ColorScheme(
       brightness: Brightness.dark,
-      primary: Colors.teal,
+      primary: colorPrimary,
       onPrimary: Colors.black,
       secondary: Colors.teal,
       onSecondary: Colors.white,

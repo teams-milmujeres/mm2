@@ -262,7 +262,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       surfaceTintColor: Colors.transparent,
       shadowColor: Colors.transparent,
-      title: const Text('Mil Mujeres'),
+      // title: const Text('Mil Mujeres'),
+      title: Image.asset('assets/images/milmujeres-logo.png', height: 40),
       // leading: Builder(
       //   builder: (context) {
       //     return IconButton(
@@ -336,7 +337,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             }
 
             return IconButton(
-              icon: const Icon(Icons.person),
+              icon: const Icon(FontAwesomeIcons.circleUser),
               onPressed: () {
                 context.pushNamed('login');
               },
