@@ -147,16 +147,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                     ),
                     const SizedBox(height: 16),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton.icon(
-                        onPressed: () {
-                          context.pushNamed('register');
-                        },
-                        icon: const Icon(Icons.person_add),
-                        label: Text(translation.register),
-                      ),
-                    ),
+                    // SizedBox(
+                    //   width: double.infinity,
+                    //   child: ElevatedButton.icon(
+                    //     onPressed: () {
+                    //       context.pushNamed('register');
+                    //     },
+                    //     icon: const Icon(Icons.person_add),
+                    //     label: Text(translation.register),
+                    //   ),
+                    // ),
                     const SizedBox(height: 16),
                     TextButton(
                       onPressed: () {
