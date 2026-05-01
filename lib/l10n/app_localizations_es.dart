@@ -787,7 +787,7 @@ class AppLocalizationsEs extends AppLocalizations {
       'Los términos y condiciones han sido aceptados correctamente.';
 
   @override
-  String get mm_welcome => 'Somos Mil Mujeres';
+  String get mm_welcome => 'Somos';
 
   @override
   String get notifications => 'Notificaciones';

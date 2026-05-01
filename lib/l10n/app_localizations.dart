@@ -1637,7 +1637,7 @@ abstract class AppLocalizations {
   /// No description provided for @mm_welcome.
   ///
   /// In en, this message translates to:
-  /// **'We are Mil Mujeres'**
+  /// **'We are'**
   String get mm_welcome;
 
   /// Auto-added metadata for "notifications".

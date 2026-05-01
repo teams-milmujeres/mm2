@@ -18,6 +18,8 @@ class AppTheme {
       surface: Colors.white, // Cards, Sheets, etc.
       onSurface: Colors.black87, // Texto sobre surface
       tertiary: Color(0xFFEDEDED),
+      secondaryContainer: colorPrimary,
+      onSecondaryContainer: Colors.white,
     );
 
     final customTextTheme = GoogleFonts.poppinsTextTheme(
@@ -159,13 +161,15 @@ class AppTheme {
       brightness: Brightness.dark,
       primary: colorPrimary,
       onPrimary: Colors.black,
-      secondary: Colors.teal,
+      secondary: colorPrimary,
       onSecondary: Colors.white,
       error: Colors.redAccent,
       onError: Colors.black,
       surface: Colors.black87,
       onSurface: Colors.white70,
       tertiary: Color(0xFF282a2c),
+      secondaryContainer: Colors.black,
+      onSecondaryContainer: colorPrimary,
     );
 
     final customTextTheme = GoogleFonts.poppinsTextTheme(
@@ -260,7 +264,7 @@ class AppTheme {
         unselectedLabelStyle: customTextTheme.bodyMedium,
       ),
       navigationBarTheme: NavigationBarThemeData(
-        backgroundColor: Color(0xFF282a2c),
+        backgroundColor: Colors.black,
         indicatorColor: colorScheme.primary.withAlpha(25),
         labelTextStyle: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
