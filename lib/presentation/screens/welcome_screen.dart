@@ -125,6 +125,7 @@ class _HomePageState extends State<HomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            ContainerBanner(),
             ContainerAbout(),
             const SizedBox(height: 20),
             ContainerTestimonials(),
@@ -451,6 +452,25 @@ class _CustomDropDownUnderlineWelcomeState
   }
 }
 
+class ContainerBanner extends StatelessWidget {
+  const ContainerBanner({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(20),
+      child: AspectRatio(
+        aspectRatio: 16 / 9,
+        child: Image.asset(
+          'assets/images/banner.png',
+          width: double.infinity,
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
+}
+
 class ContainerAbout extends StatelessWidget {
   const ContainerAbout({super.key});
 
@@ -472,7 +492,6 @@ class ContainerAbout extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 50),
                         RichText(
                           text: TextSpan(
                             children: [
