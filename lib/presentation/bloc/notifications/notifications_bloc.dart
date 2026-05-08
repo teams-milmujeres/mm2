@@ -6,17 +6,22 @@ import 'package:mm/data/data.dart';
 import 'package:dio/dio.dart';
 import 'package:mm/domain/entities/notification.dart';
 import 'dart:convert';
+import 'dart:async';
 
 part 'notifications_event.dart';
 part 'notifications_state.dart';
 
 class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
   final FirebaseMessaging _messaging = FirebaseMessaging.instance;
+  StreamSubscription<String>? _tokenRefreshSubscription;
+  StreamSubscription<RemoteMessage>? _onMessageSubscription;
+  StreamSubscription<RemoteMessage>? _onMessageOpenedAppSubscription;
 
   NotificationBloc() : super(const NotificationInitial()) {
     on<InitializeNotificationsEvent>(_onInit);
     on<NewNotificationEvent>(_onNewNotification);
     on<GetNotificationsEvent>(_onGetNotifications);
+    on<StopNotificationsEvent>(_onStopNotifications);
     on<ClearNotificationsEvent>(_onClearNotifications);
   }
 
@@ -63,12 +68,20 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
         }
 
         if (apnsToken == null) {
-          print("⚠️ ADVERTENCIA: APNS token NO disponible después de $maxAttempts intentos");
+          print(
+            "⚠️ ADVERTENCIA: APNS token NO disponible después de $maxAttempts intentos",
+          );
           print("   Verifica que:");
-          print("   • Push Notifications esté habilitado en Xcode (Signing & Capabilities)");
+          print(
+            "   • Push Notifications esté habilitado en Xcode (Signing & Capabilities)",
+          );
           print("   • El Provisioning Profile incluya 'Push Notifications'");
-          print("   • El certificado APNs esté configurado en Firebase Console");
-          print("   • La app se ejecute en un dispositivo real (no en simulador)");
+          print(
+            "   • El certificado APNs esté configurado en Firebase Console",
+          );
+          print(
+            "   • La app se ejecute en un dispositivo real (no en simulador)",
+          );
         }
       }
 
@@ -82,22 +95,26 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       }
 
       /// 4️⃣ Escuchar renovación de token
-      FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
-        print("📲 Token refreshed: $newToken");
-        _sendTokenToBackend(event.clientId, newToken);
-      });
+      _tokenRefreshSubscription = FirebaseMessaging.instance.onTokenRefresh
+          .listen((newToken) {
+            print("📲 Token refreshed: $newToken");
+            _sendTokenToBackend(event.clientId, newToken);
+          });
 
       /// 5️⃣ Listener foreground
-      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      _onMessageSubscription = FirebaseMessaging.onMessage.listen((
+        RemoteMessage message,
+      ) {
         print("📨 Foreground message received: ${message.notification?.title}");
         add(NewNotificationEvent(message));
       });
 
       /// 6️⃣ Usuario abre notificación
-      FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-        print("👆 Notification opened: ${message.notification?.title}");
-        add(NewNotificationEvent(message));
-      });
+      _onMessageOpenedAppSubscription = FirebaseMessaging.onMessageOpenedApp
+          .listen((RemoteMessage message) {
+            print("👆 Notification opened: ${message.notification?.title}");
+            add(NewNotificationEvent(message));
+          });
 
       /// 7️⃣ App abierta desde notificación cerrada
       final initialMessage = await _messaging.getInitialMessage();
@@ -117,11 +134,34 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     emit(NotificationReceived(event.message, hasNewNotification: true));
   }
 
+  Future<void> _onStopNotifications(
+    StopNotificationsEvent event,
+    Emitter<NotificationState> emit,
+  ) async {
+    await _cancelFirebaseListeners();
+    emit(NotificationUpdated(hasNewNotification: false));
+  }
+
   void _onClearNotifications(
     ClearNotificationsEvent event,
     Emitter<NotificationState> emit,
   ) {
     emit(NotificationUpdated(hasNewNotification: false));
+  }
+
+  Future<void> _cancelFirebaseListeners() async {
+    await _tokenRefreshSubscription?.cancel();
+    await _onMessageSubscription?.cancel();
+    await _onMessageOpenedAppSubscription?.cancel();
+    _tokenRefreshSubscription = null;
+    _onMessageSubscription = null;
+    _onMessageOpenedAppSubscription = null;
+  }
+
+  @override
+  Future<void> close() async {
+    await _cancelFirebaseListeners();
+    return super.close();
   }
 
   Future<void> _sendTokenToBackend(int clientId, String token) async {
@@ -137,13 +177,8 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
 
       final response = await client.dio.put(
         '/update-device-token',
-        data: {
-          "client_id": clientId,
-          "fcm_token": token
-        },
-        options: Options(
-          headers: {'Authorization': 'Bearer $authToken'},
-        ),
+        data: {"client_id": clientId, "fcm_token": token},
+        options: Options(headers: {'Authorization': 'Bearer $authToken'}),
       );
 
       if (response.statusCode == 200) {
@@ -160,7 +195,6 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     GetNotificationsEvent event,
     Emitter<NotificationState> emit,
   ) async {
-
     emit(NotificationLoading(hasNewNotification: state.hasNewNotification));
 
     final client = DioClient();
@@ -182,10 +216,12 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       } else if (data is List) {
         notificationList = data;
       } else {
-        emit(NotificationError(
-          'Unexpected notification data type',
-          hasNewNotification: state.hasNewNotification,
-        ));
+        emit(
+          NotificationError(
+            'Unexpected notification data type',
+            hasNewNotification: state.hasNewNotification,
+          ),
+        );
         return;
       }
 
@@ -193,16 +229,19 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
         notificationList.map((n) => Notification.fromJson(n)),
       );
 
-      emit(NotificationSuccess(
-        notifications,
-        hasNewNotification: state.hasNewNotification,
-      ));
-
+      emit(
+        NotificationSuccess(
+          notifications,
+          hasNewNotification: state.hasNewNotification,
+        ),
+      );
     } catch (e) {
-      emit(NotificationError(
-        e.toString(),
-        hasNewNotification: state.hasNewNotification,
-      ));
+      emit(
+        NotificationError(
+          e.toString(),
+          hasNewNotification: state.hasNewNotification,
+        ),
+      );
     }
   }
 }

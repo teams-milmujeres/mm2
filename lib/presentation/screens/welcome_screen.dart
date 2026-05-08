@@ -366,6 +366,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         if (value == 'profile') {
           context.pushNamed('profile');
         } else if (value == 'logout') {
+          context.read<NotificationBloc>().add(StopNotificationsEvent());
           context.read<AuthBloc>().add(LogoutRequested());
         }
       },

@@ -23,4 +23,6 @@ class GetNotificationsEvent extends NotificationEvent {
   GetNotificationsEvent(this.clientId);
 }
 
+class StopNotificationsEvent extends NotificationEvent {}
+
 class ClearNotificationsEvent extends NotificationEvent {}

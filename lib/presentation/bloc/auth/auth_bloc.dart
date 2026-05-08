@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mm/data/data.dart';
 import 'package:mm/domain/entities/user.dart';
@@ -128,17 +129,48 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     emit(AuthLoading());
+
+    final storedToken = await _secureStorage.read(key: 'token');
+    final storedClientId = await _secureStorage.read(key: 'client_id');
+
+    if (storedClientId != null) {
+      final clientId = int.tryParse(storedClientId);
+      if (clientId != null) {
+        await _unregisterDeviceToken(clientId, storedToken);
+      }
+    }
+
     try {
       await client.dio.get(
         '/user/revoke',
-        options: Options(headers: {'Authorization': 'Bearer $_token'}),
+        options: Options(
+          headers: {'Authorization': 'Bearer ${storedToken ?? _token}'},
+        ),
       );
     } catch (_) {}
+
+    try {
+      await FirebaseMessaging.instance.deleteToken();
+    } catch (_) {}
+
     await _secureStorage.delete(key: 'token');
     await _secureStorage.delete(key: 'client_id');
     await _secureStorage.delete(key: 'b');
 
     emit(AuthUnauthenticated());
+  }
+
+  Future<void> _unregisterDeviceToken(int clientId, String? authToken) async {
+    try {
+      if (authToken == null || authToken.isEmpty) return;
+      await client.dio.put(
+        '/update-device-token',
+        data: {'client_id': clientId, 'fcm_token': null},
+        options: Options(headers: {'Authorization': 'Bearer $authToken'}),
+      );
+    } catch (_) {
+      // Ignore unregister errors, logout should proceed anyway.
+    }
   }
 
   Future<void> _onReadPreferencesRequested(

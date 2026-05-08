@@ -72,8 +72,10 @@ class _MaterialAppWidgetState extends State<MaterialAppWidget> {
       RemoteMessage message,
     ) {
       final notification = message.notification;
-
-      context.read<NotificationBloc>().add(NewNotificationEvent(message));
+      final authState = context.read<AuthBloc>().state;
+      if (authState is! AuthAuthenticated) {
+        return;
+      }
 
       rootScaffoldMessengerKey.currentState?.showMaterialBanner(
         MaterialBanner(
