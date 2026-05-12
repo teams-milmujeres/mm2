@@ -458,12 +458,18 @@ class ContainerBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Obtener el idioma actual para mostrar el banner correcto
+    final locale = Localizations.localeOf(context);
+    final isSpanish = locale.languageCode == 'es';
+
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
       child: AspectRatio(
         aspectRatio: 16 / 9,
         child: Image.asset(
-          'assets/images/banner.png',
+          isSpanish
+              ? 'assets/images/banner-es.png'
+              : 'assets/images/banner-en.png',
           width: double.infinity,
           fit: BoxFit.cover,
         ),
