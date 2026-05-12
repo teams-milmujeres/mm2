@@ -59,8 +59,11 @@ class CaseStageScreen extends StatelessWidget {
                         Text(
                           translation.your_case_is_in_evaluation,
                           textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.bodyLarge
-                              ?.copyWith(color: Colors.black87),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodyLarge?.copyWith(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
                         ),
                       ],
                     ),
@@ -172,7 +175,7 @@ class CaseStageItemCard extends StatelessWidget {
               DateFormat('MM/dd/yyyy').format(date),
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: Colors.black,
+                color: Theme.of(context).colorScheme.primary,
               ),
             ),
           ],
@@ -192,9 +195,9 @@ class CaseStageItemCard extends StatelessWidget {
         ),
         TextSpan(
           text: value,
-          style: Theme.of(
-            context,
-          ).textTheme.bodyMedium?.copyWith(color: Colors.black87),
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+            color: Theme.of(context).colorScheme.primary,
+          ),
         ),
       ],
     );
@@ -244,9 +247,9 @@ class ApplicationItem extends StatelessWidget {
                 DateFormat(
                   'MM/dd/yyyy',
                 ).format(DateTime.parse(application['date'])),
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyMedium?.copyWith(color: Colors.black87),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               ),
             ],
           ),
@@ -277,15 +280,16 @@ class ApplicationItem extends StatelessWidget {
       children: [
         TextSpan(
           text: '$label: ',
-          style: Theme.of(
-            context,
-          ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).colorScheme.primary,
+          ),
         ),
         TextSpan(
           text: value,
-          style: Theme.of(
-            context,
-          ).textTheme.bodyMedium?.copyWith(color: Colors.black87),
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+            color: Theme.of(context).colorScheme.primary,
+          ),
         ),
       ],
     );
