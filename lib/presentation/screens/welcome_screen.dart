@@ -530,10 +530,25 @@ class ContainerAbout extends StatelessWidget {
                         //   icon: Icons.info_outline,
                         //   press: () => context.push('/contact_us'),
                         // ),
-                        RoundedButton(
-                          text: AppLocalizations.of(context)!.login,
-                          press: () => context.pushNamed('login'),
+                        // RoundedButton(
+                        //   text: AppLocalizations.of(context)!.login,
+                        //   press: () => context.pushNamed('login'),
+                        // ),
+                        BlocBuilder<AuthBloc, AuthState>(
+                          builder: (context, state) {
+                            if (state is! AuthAuthenticated) {
+                              return RoundedButton(
+                                text: AppLocalizations.of(context)!.login,
+                                press: () => context.pushNamed('login'),
+                              );
+                            }
+                            return RoundedButton(
+                              text: AppLocalizations.of(context)!.donate,
+                              press: () => context.pushNamed('donate'),
+                            );
+                          },
                         ),
+                        const SizedBox(height: 30),
                       ],
                     ),
                   ),
