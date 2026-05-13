@@ -177,18 +177,29 @@ class _PendingDocumentCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
 
-                    _rowText('${t.created_at}: ', formattedDate, Colors.grey),
+                    _rowText(
+                      context,
+                      '${t.created_at}: ',
+                      formattedDate,
+                      Colors.grey,
+                    ),
                     if (!document.uploaded)
                       _rowText(
+                        context,
                         '${t.last_state}: ',
                         _translatedState(lastState, t),
-                        isRejected ? Colors.red : Colors.black87,
+                        isRejected
+                            ? Colors.red
+                            : Theme.of(context).colorScheme.primary,
                       ),
                     if (lastStateNote.isNotEmpty && !document.uploaded)
                       _rowText(
+                        context,
                         '${t.note}: ',
                         lastStateNote,
-                        isRejected ? Colors.red : Colors.black87,
+                        isRejected
+                            ? Colors.red
+                            : Theme.of(context).colorScheme.primary,
                       ),
                   ],
                 ),
@@ -336,10 +347,14 @@ Widget _buildConfirmedList(List<Document> confirmedDocs, AppLocalizations t) {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _rowText('${t.created_at}: ', formattedDate),
-                  _rowText('${t.last_state}: ', _translatedState(lastState, t)),
+                  _rowText(context, '${t.created_at}: ', formattedDate),
+                  _rowText(
+                    context,
+                    '${t.last_state}: ',
+                    _translatedState(lastState, t),
+                  ),
                   if (lastStateNote.isNotEmpty && !isMovedToDrive)
-                    _rowText('${t.note}: ', lastStateNote),
+                    _rowText(context, '${t.note}: ', lastStateNote),
                   SizedBox(height: 8),
                 ],
               ),
@@ -371,6 +386,7 @@ String _translatedState(String state, AppLocalizations loc) {
 }
 
 Widget _rowText(
+  BuildContext context,
   String title,
   String value, [
   Color? color,
@@ -381,13 +397,16 @@ Widget _rowText(
       title,
       style: TextStyle(
         fontWeight: FontWeight.bold,
-        color: color ?? Colors.black87,
+        color: color ?? Theme.of(context).colorScheme.primary,
         fontSize: fontSize,
       ),
     ),
     Text(
       value,
-      style: TextStyle(color: color ?? Colors.black87, fontSize: fontSize),
+      style: TextStyle(
+        color: color ?? Theme.of(context).colorScheme.primary,
+        fontSize: fontSize,
+      ),
     ),
   ],
 );

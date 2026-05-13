@@ -506,36 +506,53 @@ class EventsDetailsScreen extends StatelessWidget {
           const SizedBox(height: 20),
           if (event.eventDate != null)
             ListTile(
-              title: Text(AppLocalizations.of(context)!.event_date),
+              title: Text(
+                AppLocalizations.of(context)!.event_date,
+                style: TextStyle(color: Theme.of(context).colorScheme.primary),
+              ),
               subtitle: Text(
                 DateFormat('dd/MM/yyyy HH:mm a').format(event.eventDate!),
               ),
-              subtitleTextStyle: const TextStyle(
-                color: Colors.black,
+              subtitleTextStyle: TextStyle(
+                color: Theme.of(context).colorScheme.onSecondary,
                 fontSize: 18,
               ),
             ),
           if (event.eventTypeId != null)
             ListTile(
-              title: Text(AppLocalizations.of(context)!.event_type),
+              title: Text(
+                AppLocalizations.of(context)!.event_type,
+                style: TextStyle(color: Theme.of(context).colorScheme.primary),
+              ),
               subtitle: Text(checkTypeEvent(event.eventTypeId.toString())),
-              subtitleTextStyle: const TextStyle(
-                color: Colors.black,
+              subtitleTextStyle: TextStyle(
+                color: Theme.of(context).colorScheme.onSecondary,
                 fontSize: 18,
               ),
             ),
           ListTile(
-            title: Text(AppLocalizations.of(context)!.description),
+            title: Text(
+              AppLocalizations.of(context)!.description,
+              style: TextStyle(color: Theme.of(context).colorScheme.primary),
+            ),
             subtitle: Html(
               data: getLocalizedField('body'), // Usar el body localizado
-              style: {"*": Style(color: Colors.black, fontSize: FontSize(18))},
+              style: {
+                "*": Style(
+                  color: Theme.of(context).colorScheme.onSecondary,
+                  fontSize: FontSize(18),
+                ),
+              },
             ),
           ),
           ListTile(
-            title: Text(AppLocalizations.of(context)!.city),
+            title: Text(
+              AppLocalizations.of(context)!.city,
+              style: TextStyle(color: Theme.of(context).colorScheme.primary),
+            ),
             subtitle: Text(event.city),
-            subtitleTextStyle: const TextStyle(
-              color: Colors.black,
+            subtitleTextStyle: TextStyle(
+              color: Theme.of(context).colorScheme.onSecondary,
               fontSize: 18,
             ),
           ),
